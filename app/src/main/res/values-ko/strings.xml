@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="app_name">QuickMem</string>
-    <string name="quickmem">QuickMem</string>
-    <string name="terms_and_conditions">By signing up, I accept QuickMem\'s \n Terms of service and Privacy policy</string>
+    <string name="app_name">SUN</string>
+    <string name="terms_and_conditions">By signing up, I accept SUN\'s \n Terms of service and Privacy policy</string>
     <string name="sign_up">Sign up for free</string>
     <string name="sign_in">Or sign in</string>
-    <string name="onboarding_title">Start Your Learning Journey with QuickMem!</string>
-    <string name="onboarding_title_1">Start Your Learning Journey with QuickMem!</string>
-    <string name="onboarding_title_2">Create and Conquer Your Own Flashcards with QuickMem!</string>
+    <string name="onboarding_title">Start Your Learning Journey with SUN!</string>
+    <string name="onboarding_title_1">Start Your Learning Journey with SUN!</string>
+    <string name="onboarding_title_2">Create and Conquer Your Own Flashcards with SUN!</string>
     <string name="onboarding_title_3">A Simple and Effective Flashcard Learning Method!</string>
     <string name="onboarding_title_4">Your Companion in the Journey of Knowledge Discovery!</string>
     <string name="quick_sign_up">Quickly signup with</string>
@@ -25,7 +24,7 @@
     <string name="are_you_a_teacher">Are you a teacher?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="agree_to_terms_and_conditions">By signing up, I accept QuickMem\'s \n Term of Service and Privacy Policy</string>
+    <string name="agree_to_terms_and_conditions">By signing up, I accept SUN\'s \n Term of Service and Privacy Policy</string>
     <string name="date_picker_title">Please enter your date of birth</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -42,9 +41,9 @@
     <string name="forgot">Forgot</string>
     <string name="username">username</string>
     <string name="password_lowcase">password</string>
-    <string name="terms_and_conditions_login">By logging up, I accept QuickMem\'s \n Terms of service and Privacy policy</string>
+    <string name="terms_and_conditions_login">By logging up, I accept SUN\'s \n Terms of service and Privacy policy</string>
     <string name="reset_password">Reset your password</string>
-    <string name="reset_password_description">Enter your QuickMem username of the \nemail address you signed up with. We\'ll \nemail you a link to sign in and reset your \npassword.</string>
+    <string name="reset_password_description">Enter your SUN username of the \nemail address you signed up with. We\'ll \nemail you a link to sign in and reset your \npassword.</string>
     <string name="username_or_email">Username or email address</string>
     <string name="forgot_username">Forgot your username</string>
     <string name="enter_your_email">Enter email address</string>
@@ -92,7 +91,7 @@
     <string name="number_memeber">number member</string>
     <string name="flashcards">Flashcards</string>
     <string name="flashcards_description">Review terms and definitions</string>
-    <string name="learn">Learning</string>
+    <string name="learn">Quiz</string>
     <string name="review">You\'re doing great!\n Keep focusing on \n your tough terms</string>
     <string name="know">Know</string>
     <string name="still_learning">Still learning</string>
@@ -141,8 +140,8 @@
     <string name="edit_error">No permisson</string>
     <string name="here_s_how_to_get_started">Here\'s how to get started</string>
     <string name="create_your_own_set">Create your own set</string>
-    <string name="finish">Coragetion!</string>
-    <string name="finish_quiz">You was done</string>
+    <string name="finish">Congratulations!</string>
+    <string name="finish_quiz">You are done</string>
     <string name="reset_error">Reset error!</string>
     <string name="enter_a_topic_or_keywords_n_tips_the_more_specific_the_better">Enter a topic or keywords \n Tips: The more specific, the better!</string>
     <string name="no_result_for_your_search_n_please_try_again">No result for your search, \n please try again.</string>

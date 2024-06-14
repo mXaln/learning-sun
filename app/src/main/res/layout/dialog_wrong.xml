@@ -60,18 +60,19 @@
             android:id="@+id/correct_answer_tv"
             app:layout_constraintTop_toBottomOf="@+id/question_tv"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+            android:layout_margin="@dimen/_10dp" />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/explanation"
             android:textColor="@color/black"
-            android:textSize="@dimen/_16sp"
+            android:textSize="@dimen/_24sp"
             android:textStyle="bold"
             android:id="@+id/explanation_tv"
             app:layout_constraintTop_toBottomOf="@+id/correct_answer_tv"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+            android:layout_margin="@dimen/_10dp"
+            android:fontFamily="@font/sun" />
 
     <View
             android:layout_width="match_parent"
@@ -98,12 +99,13 @@
             android:layout_height="wrap_content"
             android:text="@string/explanation"
             android:textColor="@color/black"
-            android:textSize="@dimen/_16sp"
+            android:textSize="@dimen/_24sp"
             android:textStyle="bold"
             android:id="@+id/your_explanation_tv"
             app:layout_constraintTop_toBottomOf="@+id/your_answer_tv"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+            android:layout_margin="@dimen/_10dp"
+            android:fontFamily="@font/sun" />
 
     <TextView
             android:layout_width="wrap_content"

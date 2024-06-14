@@ -1,91 +1,10 @@
-## Quick - quick memory
+## Learning SUN
 
-It's an app learning by flashcard using Kotlin, Java, and SQLite.
-I use a lot of libraries to make it easy to use and make it more beautiful.
-I hope you like it.
+It's an app learning SUN by flashcard.
 
 ## Support Platform
 
 - Android 7.0 (API 24) or higher
-
-## Todo
-
-- improve learning by flashcard
-- improve searching
-- add login with Google and Facebook to easy to use
-- add notification
-- add firebase
-- add learning by matching
-- add learning by filling in the blank
-- clean ui
-
-## Features
-
-- [x] Create a new deck which can contain many cards
-- [x] Create a new card in a deck
-- [x] Edit a deck
-- [x] Edit a card
-- [x] Delete a deck
-- [x] Delete a card
-- [x] Learn by flashcard
-- [x] Learn by quiz
-- [x] Learn by true/false
-- [x] Learn by multiple choice
-- [x] Add to folder
-- [x] Add to class
-- [x] Decode password
-- [x] Encode password
-- [x] And more...
-
-## Technologies Used
-
-- [x] Kotlin
-- [x] Java
-- [x] SQLite
-- [x] AndroidX
-- [x] Material Design
-- [x] Navigation Component
-- [x] Library
-- [x] And more...
-
-## Screenshots
-
-<table>
-  <tr>
-    <td><img src="./screenshorts/welcomescreen.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/signin.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/signup.png" width="200" alt=""></td>
-</tr>
-<tr>
-<td>Welcome</td>
-<td>Sign In</td>
-<td>Sign Up</td>
-</tr>
-<tr>
-    <td><img src="./screenshorts/home2.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/search.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/viewflashcard.png" width="200" alt=""></td>
-</tr>
-<tr>
-<td>Home</td>
-<td>Search</td>
-<td>View Flashcard</td>
-</tr>
-<tr>
-    <td><img src="./screenshorts/flipcard.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/mutiplechoice.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/truefalse.png" width="200" alt=""></td>
-</tr>
-<tr>
-<td>Flip Card</td>
-<td>Mutiple Choice</td>
-<td>True False</td>
-
-</table>
-<p>Will add soon</p>
-
-## Video
-[![Demo Video](http://img.youtube.com/vi/BdAxVovGtYc/2.jpg)](https://www.youtube.com/watch?v=BdAxVovGtYc "Demo Video")
 
 ## Contributing
 
@@ -98,17 +17,16 @@ guidelines https://initialcommit.com/blog/git-commit-messages-best-practices
 Clone this repository and import into **Android Studio**
 
 ```bash
-git clone https://github.com/daominh-studio/quickmem.git
+git clone https://github.com/mxaln/learning-sun.git
 ```
 
-####  Download and install from [Release](https://github.com/daominh-studio/quick-mem/releases)
+####  Download and install from [Release](https://github.com/mxaln/learning-sun/releases)
 
 ## Maintainers
 
-This project is mantained by:
+This project is maintained by:
 
-* [nqmgaming](https://github.com/nqmgaming)
-* [Daocon](https://github.com/Daocon)
+* [Max Allen](https://github.com/mxaln)
 
 ## License
 
@@ -129,3 +47,4 @@ This project is licensed under the GPL-3.0 license - see the [LICENSE.md](LICENS
 ## Authors
 
 Nguyen Quang Minh
+Max Allen

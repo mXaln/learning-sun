@@ -58,7 +58,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="start|top"
-                    android:inputType="text|textMultiLine"/>
+                    android:inputType="text|textMultiLine"
+                    android:fontFamily="@font/sun"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

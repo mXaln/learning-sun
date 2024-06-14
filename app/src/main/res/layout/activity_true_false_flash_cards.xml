@@ -51,16 +51,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Question"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_write"
+                    android:id="@+id/item_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
                     android:id="@+id/question_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:gravity="center"
+                    android:paddingVertical="@dimen/_10ssp"
+                    android:layout_marginBottom="@dimen/_20ssp"
+                    android:background="@color/azure_blue"
+                    android:text="Question"
                     style="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold"
                     android:textSize="@dimen/_20ssp"
                     android:textColor="#FFFFFF"/>
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -90,8 +106,9 @@
                     android:textStyle="bold"
                     android:id="@+id/answer_tv"
                     android:gravity="center"
-                    android:textSize="@dimen/_20ssp"
-                    android:textColor="#FFFFFF"/>
+                    android:textSize="@dimen/_40ssp"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/sun" />
 
         </LinearLayout>
 

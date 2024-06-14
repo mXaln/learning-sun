@@ -8,13 +8,6 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="8dp">
 
-
-        <ImageView
-                android:id="@+id/item_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
-
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -47,28 +40,41 @@
                             android:layout_height="match_parent"
                             android:text="@string/culminate"
                             android:textStyle="bold"
-                            android:textSize="@dimen/_20ssp"
+                            android:textSize="@dimen/_40ssp"
                             android:gravity="center"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@android:color/black"
+                            android:fontFamily="@font/sun" />
                 </LinearLayout>
 
 
-                <LinearLayout
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:orientation="vertical"
-                        android:background="@drawable/flash_card_bg"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom|center"
+                        android:background="@drawable/flash_card_bg">
+
+                    <ImageView
+                        android:src="@drawable/ic_write"
+                        android:id="@+id/item_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"/>
 
                     <TextView
-                            android:id="@+id/back_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="@string/culminate"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_20ssp"
-                            android:gravity="center"
-                            android:textColor="@android:color/black"/>
-                </LinearLayout>
+                        android:id="@+id/back_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:paddingVertical="@dimen/_10ssp"
+                        android:layout_marginBottom="@dimen/_20ssp"
+                        android:background="@color/azure_blue"
+                        android:text="@string/culminate"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_20ssp"
+                        android:textStyle="bold" />
+                </FrameLayout>
 
             </com.wajahatkarim3.easyflipview.EasyFlipView>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -79,7 +85,6 @@
                 android:background="@drawable/overlay_orange"
                 android:layout_height="match_parent">
 
-
         </FrameLayout>
 
         <FrameLayout
@@ -87,7 +92,6 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/overlay_green"
                 android:layout_height="match_parent">
-
 
         </FrameLayout>
 

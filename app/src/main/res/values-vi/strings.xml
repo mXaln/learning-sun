@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="app_name">QuickMem</string>
-    <string name="quickmem">QuickMem</string>
-    <string name="terms_and_conditions">Bằng việc đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của QuickMem</string>
+    <string name="app_name">SUN</string>
+    <string name="terms_and_conditions">Bằng việc đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của SUN</string>
     <string name="sign_up">Đăng kí miễn phí</string>
     <string name="sign_in">Hoặc đăng nhập</string>
-    <string name="onboarding_title">Bắt đầu hành trình học tập của bạn với QuickMem!</string>
-    <string name="onboarding_title_1">Bắt đầu hành trình học tập của bạn với QuickMem!</string>
-    <string name="onboarding_title_2">Tạo và chinh phục Flashcards của riêng bạn với QuickMem!</string>
+    <string name="onboarding_title">Bắt đầu hành trình học tập của bạn với SUN!</string>
+    <string name="onboarding_title_1">Bắt đầu hành trình học tập của bạn với SUN!</string>
+    <string name="onboarding_title_2">Tạo và chinh phục Flashcards của riêng bạn với SUN!</string>
     <string name="onboarding_title_3">Phương pháp học Flashcard đơn giản và hiệu quả!</string>
     <string name="onboarding_title_4">Người bạn đồng hành của bạn trong Hành trình khám phá tri thức!</string>
     <string name="quick_sign_up">Đăng ký nhanh chóng với</string>
@@ -25,7 +24,7 @@
     <string name="are_you_a_teacher">Bạn có phải là giáo viên?</string>
     <string name="yes">Đúng</string>
     <string name="no">KHÔNG</string>
-    <string name="agree_to_terms_and_conditions">Bằng việc đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của QuickMem</string>
+    <string name="agree_to_terms_and_conditions">Bằng việc đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của SUN</string>
     <string name="date_picker_title">Xin vui lòng nhập ngày sinh của bạn</string>
     <string name="ok">ĐƯỢC RỒI</string>
     <string name="cancel">Hủy bỏ</string>
@@ -42,9 +41,9 @@
     <string name="forgot">Quên</string>
     <string name="username">tên tài khoản</string>
     <string name="password_lowcase">mật khẩu</string>
-    <string name="terms_and_conditions_login">Bằng việc đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của QuickMem</string>
+    <string name="terms_and_conditions_login">Bằng việc đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của SUN</string>
     <string name="reset_password">Đặt lại mật khẩu của bạn</string>
-    <string name="reset_password_description">Nhập tên người dùng QuickMem của địa chỉ \nemail mà bạn đã đăng ký. Chúng tôi sẽ gửi cho bạn một liên kết qua email để đăng nhập và đặt lại mật khẩu \ncủa bạn.</string>
+    <string name="reset_password_description">Nhập tên người dùng SUN của địa chỉ \nemail mà bạn đã đăng ký. Chúng tôi sẽ gửi cho bạn một liên kết qua email để đăng nhập và đặt lại mật khẩu \ncủa bạn.</string>
     <string name="username_or_email">Tên người dùng hoặc địa chỉ email</string>
     <string name="forgot_username">Quên tên đăng nhập của bạn</string>
     <string name="enter_your_email">Nhập địa chỉ email</string>

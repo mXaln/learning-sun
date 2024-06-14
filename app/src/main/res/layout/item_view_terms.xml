@@ -33,18 +33,20 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/definition_tv"
                 android:text="@string/terms"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_24sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/terms_tv"
                 android:layout_marginTop="@dimen/_5dp"
                 android:layout_marginBottom="@dimen/_5dp"
                 android:layout_marginHorizontal="@dimen/_5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="@font/sun" />
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_volum"
+                android:src="@drawable/ic_volume"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_margin="@dimen/_5dp"

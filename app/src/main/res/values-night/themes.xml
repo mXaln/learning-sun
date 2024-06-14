@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.QuickMem" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.SUN" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/celestial_blue</item>
         <item name="colorPrimaryDark">@color/celestial_blue</item>
@@ -18,7 +18,7 @@
         <!--        <item name="android:windowSharedElementReturnTransition" tools:targetApi="m">@android:transition/move</item>-->
     </style>
 
-    <style name="Theme.QuickMem" parent="Base.Theme.QuickMem"/>
+    <style name="Theme.SUN" parent="Base.Theme.SUN"/>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Các thuộc tính tối ở đây -->
