@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Lesson 1",
+    "description": "This is a lesson 1",
+    "cards": [
+      {
+        "symbol": "\uE29C",
+        "image": "Pen_Write.jpg",
+        "variations": ["pen", "write"]
+      },
+      {
+        "symbol": "\uE22A",
+        "image": "Book.jpg",
+        "variations": ["book", "learn", "read"]
+      },
+      {
+        "symbol": "\uE247",
+        "image": "Water.jpg",
+        "variations": ["water", "wet"]
+      },
+      {
+        "symbol": "\uE274",
+        "image": "Person_Drink.jpeg",
+        "variations": ["cup", "drink"]
+      }
+    ]
+  }
+]

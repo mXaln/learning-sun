@@ -46,19 +46,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.SwitchCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/private_switch"
-            app:layout_constraintTop_toBottomOf="@id/subject_til"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"
-            android:text="Private"
-            android:padding="@dimen/_8ssp"
-            android:textColor="@color/celestial_blue"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="bold"/>
-
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,9 +53,8 @@
             android:id="@+id/total_cards_tv"
             android:textSize="@dimen/_16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/private_switch"
-            app:layout_constraintTop_toTopOf="@id/private_switch"
-            app:layout_constraintBottom_toBottomOf="@id/private_switch"
+            app:layout_constraintTop_toBottomOf="@id/subject_til"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/_10dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
