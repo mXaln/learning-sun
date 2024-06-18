@@ -14,7 +14,6 @@ import org.bibletranslationtools.sun.adapter.flashcard.SetsAdapter
 import org.bibletranslationtools.sun.data.dao.FlashCardDAO
 import org.bibletranslationtools.sun.data.model.FlashCard
 import org.bibletranslationtools.sun.databinding.FragmentHomeBinding
-import org.bibletranslationtools.sun.ui.activities.create.CreateSetActivity
 import org.bibletranslationtools.sun.ui.activities.search.ViewSearchActivity
 
 class HomeFragment : Fragment() {
@@ -37,7 +36,6 @@ class HomeFragment : Fragment() {
         setupVisibility()
         setupSwipeRefreshLayout()
         setupSearchBar()
-        setupCreateSetsButton()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             refreshData()
@@ -77,16 +75,6 @@ class HomeFragment : Fragment() {
         binding.searchBar.setOnClickListener {
             val intent = Intent(requireActivity(), ViewSearchActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-    private fun setupCreateSetsButton() {
-        binding.createSetsCl.setOnClickListener {
-            startActivity(
-                Intent(
-                    activity, CreateSetActivity::class.java
-                )
-            )
         }
     }
 

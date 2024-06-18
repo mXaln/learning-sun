@@ -21,28 +21,10 @@
                 android:name=".ui.activities.learn.TrueFalseFlashCardsActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.learn.QuizFolderActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.set.EditFlashCardActivity"
-                android:exported="false"/>
-        <activity
                 android:name=".ui.activities.set.ViewSetActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.search.ViewSearchActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.set.AddFlashCardActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.folder.ViewFolderActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.learn.SelectDefineActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.folder.AddToFolderActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.learn.QuizActivity"
@@ -51,17 +33,7 @@
                 android:name=".ui.activities.learn.LearnActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.create.CreateFolderActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.create.CreateSetActivity"
-                android:exported="false"/>
-        <activity
                 android:name=".ui.activities.MainActivity"
-                android:exported="false"
-                android:windowSoftInputMode="adjustNothing"/>
-        <activity
-                android:name=".ui.activities.auth.AuthenticationActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

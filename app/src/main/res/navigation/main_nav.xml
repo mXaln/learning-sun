@@ -12,16 +12,4 @@
             tools:layout="@layout/fragment_home">
     </fragment>
 
-    <fragment
-            android:id="@+id/libraryFragment"
-            android:name="org.bibletranslationtools.sun.ui.fragments.home.LibraryFragment"
-            android:label="fragment_library"
-            tools:layout="@layout/fragment_library"/>
-
-    <dialog
-            android:id="@+id/createFragment"
-            android:name="org.bibletranslationtools.sun.ui.fragments.home.CreateFragment"
-            android:label="fragment_create"
-            tools:layout="@layout/fragment_create">
-    </dialog>
 </navigation>

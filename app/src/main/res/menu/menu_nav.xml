@@ -5,14 +5,4 @@
             android:title="@string/home"
             android:icon="@drawable/ic_home"
             />
-    <item
-            android:id="@+id/createFragment"
-            android:title=""
-            android:icon="@drawable/ic_add"
-            />
-    <item
-            android:id="@+id/libraryFragment"
-            android:title="@string/library"
-            android:icon="@drawable/ic_library"
-            />
 </menu>

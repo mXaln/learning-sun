@@ -200,7 +200,6 @@ class ViewSetActivity : AppCompatActivity() {
                     ) {
                         val id = intent.getStringExtra("id")
                         when (item.itemId) {
-                            R.id.edit -> handleEditOption(id)
                             R.id.delete_set -> handleDeleteSetOption(id)
                             else -> handleResetOption(id)
                         }
@@ -224,12 +223,6 @@ class ViewSetActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun handleEditOption(id: String?) {
-        val intent = Intent(this@ViewSetActivity, EditFlashCardActivity::class.java)
-        intent.putExtra("flashcard_id", id)
-        startActivity(intent)
     }
 
     private fun handleDeleteSetOption(id: String?) {
