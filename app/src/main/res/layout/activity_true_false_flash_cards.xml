@@ -61,21 +61,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"/>
-
-                <TextView
-                    android:id="@+id/question_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="center"
-                    android:paddingVertical="@dimen/_10ssp"
-                    android:layout_marginBottom="@dimen/_20ssp"
-                    android:background="@color/azure_blue"
-                    android:text="Question"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_20ssp"
-                    android:textColor="#FFFFFF"/>
             </FrameLayout>
 
         </LinearLayout>
@@ -102,11 +87,11 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Answer"
+                    android:text=""
                     android:textStyle="bold"
                     android:id="@+id/answer_tv"
                     android:gravity="center"
-                    android:textSize="@dimen/_40ssp"
+                    android:textSize="@dimen/_100sp"
                     android:textColor="#FFFFFF"
                     android:fontFamily="@font/sun" />
 
@@ -121,7 +106,7 @@
             android:id="@+id/true_false_btn_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="@dimen/_30ssp"
+            android:layout_marginBottom="@dimen/_30sp"
             app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
@@ -130,7 +115,7 @@
                 android:text="True"
                 android:id="@+id/true_btn"
                 android:background="@drawable/button_sign_in"
-                android:layout_marginHorizontal="@dimen/_30ssp"
+                android:layout_marginHorizontal="@dimen/_30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -142,7 +127,7 @@
                 android:layout_marginTop="@dimen/_16dp"
                 android:id="@+id/false_btn"
                 android:background="@drawable/button_sign_in"
-                android:layout_marginHorizontal="@dimen/_30ssp"
+                android:layout_marginHorizontal="@dimen/_30sp"
                 app:layout_constraintTop_toBottomOf="@id/true_btn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

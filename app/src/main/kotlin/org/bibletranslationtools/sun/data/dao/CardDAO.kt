@@ -14,19 +14,17 @@ class CardDAO(context: Context) {
     private val qmDatabaseHelper = QMDatabaseHelper(context)
     private val database = qmDatabaseHelper.writableDatabase
 
-    fun close() {
-        qmDatabaseHelper.close()
-    }
-
     fun insertCard(card: Card): Long {
         val contentValues = ContentValues()
 
-        contentValues.put("id", card.id)
-        contentValues.put("front", card.front)
-        contentValues.put("back", card.back)
-        contentValues.put("status", card.status.value)
-        contentValues.put("is_learned", card.isLearned)
-        contentValues.put("flashcard_id", card.flashcardId)
+        val learned = if (card.isLearned) 1 else 0
+
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_ID, card.id)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_SYMBOL, card.symbol)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_STATUS, card.status.value)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_IS_LEARNED, learned)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_VARIATIONS, card.variations.joinToString(","))
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_PARENT_FK, card.lessonId)
 
         return try {
             database.insert(
@@ -40,140 +38,165 @@ class CardDAO(context: Context) {
         }
     }
 
-    fun countCardByFlashCardId(flashcardId: String): Int {
-        val query = "SELECT * FROM ${QMDatabaseHelper.TABLE_CARDS} WHERE flashcard_id='$flashcardId'"
-
+    fun countLessonCards(lessonId: String): Int {
         return try {
-            database.rawQuery(query, null).use { cursor ->
+            database.query(
+                QMDatabaseHelper.TABLE_CARDS,
+                null,
+                "${QMDatabaseHelper.TABLE_CARDS_PARENT_FK}=?",
+                arrayOf(lessonId),
+                null,
+                null,
+                null
+            ).use { cursor ->
                 cursor.count
             }
         } catch (e: SQLException) {
-            Log.e("CardDAO", "countCardByFlashCardId: $e")
+            Log.e("CardDAO", "countLessonCards: $e")
         }
     }
 
-    fun getCardsByFlashCardId(flashcardId: String): ArrayList<Card> {
-        val query =
-            "SELECT * FROM ${QMDatabaseHelper.TABLE_CARDS} WHERE flashcard_id='$flashcardId'"
-
+    fun getLessonCards(lessonId: String): ArrayList<Card> {
         return try {
-            database.rawQuery(query, null).use { cursor ->
+            database.query(
+                QMDatabaseHelper.TABLE_CARDS,
+                null,
+                "${QMDatabaseHelper.TABLE_CARDS_PARENT_FK}=?",
+                arrayOf(lessonId),
+                null,
+                null,
+                null
+            ).use { cursor ->
                 getCardsFromCursor(cursor)
             }
         } catch (e: SQLException) {
-            Log.e("CardDAO", "getCardsByFlashCardId: $e")
+            Log.e("CardDAO", "getLessonCards: $e")
             arrayListOf()
         }
     }
 
-    fun getAllCardByStatus(flashcardId: String): ArrayList<Card> {
-        val query =
-            "SELECT * FROM ${QMDatabaseHelper.TABLE_CARDS} WHERE flashcard_id='$flashcardId' AND status != 1"
-
+    fun getLessonCardByStatus(lessonId: String): ArrayList<Card> {
         return try {
-            database.rawQuery(query, null).use { cursor ->
+            database.query(
+                QMDatabaseHelper.TABLE_CARDS,
+                null,
+                "${QMDatabaseHelper.TABLE_CARDS_PARENT_FK}=? AND ${QMDatabaseHelper.TABLE_CARDS_STATUS}!=?",
+                arrayOf(lessonId, Status.NOT_LEARNED.value.toString()),
+                null,
+                null,
+                null
+            ).use { cursor ->
                 getCardsFromCursor(cursor)
             }
         } catch (e: SQLException) {
-            Log.e("CardDAO", "getAllCardByStatus: $e")
+            Log.e("CardDAO", "getLessonCardByStatus: $e")
             arrayListOf()
         }
     }
 
-    //delete card by id
-    fun deleteCardById(id: String): Int {
-        return try {
-            database.delete(QMDatabaseHelper.TABLE_CARDS, "id = ?", arrayOf(id))
-        } catch (e: SQLException) {
-            Log.e("CardDAO", "deleteCardById: $e")
-            0
-        }
-    }
-
-    //update card status by id
-    fun updateCardStatusById(id: String, status: Status): Int {
+    fun updateCardStatus(id: String, status: Status): Int {
         val contentValues = ContentValues()
 
-        contentValues.put("status", status.value)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_STATUS, status.value)
 
         return try {
             database.update(
                 QMDatabaseHelper.TABLE_CARDS,
                 contentValues,
-                "id = ?",
+                "${QMDatabaseHelper.TABLE_CARDS_ID}=?",
                 arrayOf(id)
             )
         } catch (e: SQLException) {
-            Log.e("CardDAO", "updateCardStatusById: $e")
+            Log.e("CardDAO", "updateCardStatus: $e")
             0
         }
     }
 
-    fun countCardsWithStatus(flashcardId: String, status: Int): Int {
-        val query = "SELECT * FROM ${QMDatabaseHelper.TABLE_CARDS} WHERE flashcard_id='$flashcardId' AND status=$status"
-
+    fun countCardsWithStatus(lessonId: String, status: Status): Int {
         return try {
-            database.rawQuery(query, null).use { cursor ->
+            database.query(
+                QMDatabaseHelper.TABLE_CARDS,
+                null,
+                "${QMDatabaseHelper.TABLE_CARDS_PARENT_FK}=? AND ${QMDatabaseHelper.TABLE_CARDS_STATUS}=?",
+                arrayOf(lessonId, status.value.toString()),
+                null,
+                null,
+                null
+            ).use { cursor ->
                 getCardsFromCursor(cursor).size
             }
         } catch (e: SQLException) {
-            Log.e("CardDAO", "getCardByStatus: $e")
+            Log.e("CardDAO", "countCardsWithStatus: $e")
             0
         }
     }
 
-    fun resetStatusCardByFlashCardId(flashcardId: String): Int {
+    fun resetLessonCardsStatus(lessonId: String): Int {
         val contentValues = ContentValues()
 
-        contentValues.put("status", 2)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_STATUS, Status.NOT_LEARNED.value)
 
         return try {
             database.update(
                 QMDatabaseHelper.TABLE_CARDS,
                 contentValues,
-                "flashcard_id = ?",
-                arrayOf(flashcardId)
+                "${QMDatabaseHelper.TABLE_CARDS_PARENT_FK}=?",
+                arrayOf(lessonId)
             )
         } catch (e: SQLException) {
-            Log.e("CardDAO", "resetStatusCardByFlashCardId: $e")
+            Log.e("CardDAO", "resetLessonCardsStatus: $e")
         }
     }
 
-    fun updateIsLearnedCardById(id: String, isLearned: Int): Int {
+    fun updateCardIsLearned(id: String, isLearned: Int): Int {
         val contentValues = ContentValues()
 
-        contentValues.put("is_learned", isLearned)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_IS_LEARNED, isLearned)
 
         return try {
             database.update(
                 QMDatabaseHelper.TABLE_CARDS,
                 contentValues,
-                "id = ?",
+                "${QMDatabaseHelper.TABLE_CARDS_ID}=?",
                 arrayOf(id)
             )
         } catch (e: SQLException) {
-            Log.e("CardDAO", "updateIsLearnedCardById: $e")
+            Log.e("CardDAO", "updateCardIsLearned: $e")
         }
     }
 
-    fun getCardByIsLearned(flashcardId: String, isLearned: Int): ArrayList<Card> {
-        val query = "SELECT * FROM ${QMDatabaseHelper.TABLE_CARDS} WHERE flashcard_id='$flashcardId' AND is_learned=$isLearned"
+    fun getIsLearnedCards(lessonId: String, isLearned: Boolean): ArrayList<Card> {
+        val learned = if (isLearned) 1 else 0
 
         return try {
-            database.rawQuery(query, null).use { cursor ->
+            database.query(
+                QMDatabaseHelper.TABLE_CARDS,
+                null,
+                "${QMDatabaseHelper.TABLE_CARDS_PARENT_FK}=? AND ${QMDatabaseHelper.TABLE_CARDS_IS_LEARNED}=?",
+                arrayOf(lessonId, learned.toString()),
+                null,
+                null,
+                null
+            ).use { cursor ->
                 getCardsFromCursor(cursor)
             }
         } catch (e: SQLException) {
-            Log.e("CardDAO", "getCardByIsLearned: $e")
+            Log.e("CardDAO", "getIsLearnedCards: $e")
             arrayListOf()
         }
     }
 
-    fun checkCardExist(cardId: String): Boolean {
-        val query = "SELECT * FROM ${QMDatabaseHelper.TABLE_CARDS} WHERE id='$cardId'"
-
+    fun checkCardExist(id: String): Boolean {
         return try {
-            database.rawQuery(query, null).use { cursor ->
+            database.query(
+                QMDatabaseHelper.TABLE_CARDS,
+                null,
+                "${QMDatabaseHelper.TABLE_CARDS_ID}=?",
+                arrayOf(id),
+                null,
+                null,
+                null
+            ).use { cursor ->
                 cursor.moveToFirst()
             }
         } catch (e: SQLException) {
@@ -182,55 +205,45 @@ class CardDAO(context: Context) {
         }
     }
 
-    fun updateCardById(card: Card): Int {
+    fun updateCard(card: Card): Int {
         val contentValues = ContentValues()
 
-        contentValues.put("front", card.front)
-        contentValues.put("back", card.back)
-        contentValues.put("flashcard_id", card.flashcardId)
+        val isLearned = if (card.isLearned) 1 else 0
+
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_SYMBOL, card.symbol)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_STATUS, card.status.value)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_IS_LEARNED, isLearned)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_VARIATIONS, card.variations.joinToString(","))
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_PARENT_FK, card.lessonId)
 
         return try {
             database.update(
                 QMDatabaseHelper.TABLE_CARDS,
                 contentValues,
-                "id = ?",
+                "${QMDatabaseHelper.TABLE_CARDS_ID}=?",
                 arrayOf(card.id)
             )
         } catch (e: SQLException) {
-            Log.e("CardDAO", "updateCardById: $e")
+            Log.e("CardDAO", "updateCard: $e")
             0
         }
     }
 
-
-    fun getAllCardByFlashCardId(flashcardId: String): ArrayList<Card> {
-        val query = "SELECT * FROM ${QMDatabaseHelper.TABLE_CARDS} WHERE flashcard_id='$flashcardId'"
-
-        return try {
-            database.rawQuery(query, null).use { cursor ->
-                getCardsFromCursor(cursor)
-            }
-        } catch (e: SQLException) {
-            Log.e("CardDAO", "getAllCardByFlashCardId: $e")
-            arrayListOf()
-        }
-    }
-
-    fun resetIsLearnedAndStatusCardByFlashCardId(flashcardId: String): Int {
+    fun resetCard(lessonId: String): Int {
         val contentValues = ContentValues()
 
-        contentValues.put("is_learned", 0)
-        contentValues.put("status", 0)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_IS_LEARNED, 0)
+        contentValues.put(QMDatabaseHelper.TABLE_CARDS_STATUS, Status.IDLE.value)
 
         return try {
             database.update(
                 QMDatabaseHelper.TABLE_CARDS,
                 contentValues,
-                "flashcard_id = ?",
-                arrayOf(flashcardId)
+                "${QMDatabaseHelper.TABLE_CARDS_PARENT_FK}=?",
+                arrayOf(lessonId)
             )
         } catch (e: SQLException) {
-            Log.e("CardDAO", "resetIsLearnedAndStatusCardByFlashCardId: $e")
+            Log.e("CardDAO", "resetCard: $e")
             0
         }
     }
@@ -238,16 +251,16 @@ class CardDAO(context: Context) {
     private fun getCardsFromCursor(cursor: Cursor): ArrayList<Card> {
         val cards = arrayListOf<Card>()
 
-        if (database.isOpen) { // Check if the database is open
+        if (database.isOpen) {
             if (cursor.moveToFirst()) {
                 do {
                     val card = Card(
                         id = cursor.getString(0),
-                        front = cursor.getString(1),
-                        back = cursor.getString(2),
-                        flashcardId = cursor.getString(3),
-                        status = Status.of(cursor.getInt(4)),
-                        isLearned = cursor.getInt(5) == 1
+                        lessonId = cursor.getString(1),
+                        symbol = cursor.getString(2),
+                        status = Status.of(cursor.getInt(3)),
+                        isLearned = cursor.getInt(4) == 1,
+                        variations = cursor.getString(5).split(",")
                     )
                     cards.add(card)
                 } while (cursor.moveToNext())
@@ -256,5 +269,9 @@ class CardDAO(context: Context) {
             Log.d("CardDAO", "Database is closed.")
         }
         return cards
+    }
+
+    fun close() {
+        qmDatabaseHelper.close()
     }
 }

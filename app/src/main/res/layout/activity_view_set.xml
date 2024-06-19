@@ -18,80 +18,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white_gray"
-                android:elevation="@dimen/_8ssp"
+                android:elevation="@dimen/_8sp"
                 app:title="Set"
                 android:overScrollMode="never"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 android:id="@+id/toolbar"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_set"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginStart="@dimen/_16dp"
-                android:layout_marginTop="16dp"
-                android:paddingVertical="@dimen/_20ssp"
-                android:layout_marginBottom="16dp"/>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_10dp"
-                    android:src="@drawable/previous"
-                    android:id="@+id/previous_iv"
-                    android:contentDescription="@string/app_name"/>
-
-            <TextView
-                    android:id="@+id/previous_tv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_16sp"
-                    android:text="@string/_1"
-                    android:layout_marginHorizontal="@dimen/_8ssp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/bold"/>
-
-            <TextView
-                    android:id="@+id/center_tv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_16sp"
-                    android:text="@string/_2"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/bold_gray"/>
-
-            <TextView
-                    android:id="@+id/next_tv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_16sp"
-                    android:text="@string/_3"
-                    android:layout_marginHorizontal="@dimen/_8ssp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/bold_light"/>
-
-            <ImageView
-                    android:layout_marginHorizontal="@dimen/_10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/next"
-                    android:id="@+id/next_iv"
-                    android:contentDescription="@string/app_name"/>
-
-
-        </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -107,8 +38,8 @@
                         android:id="@+id/set_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/set_name"
-                        android:textSize="@dimen/_25ssp"
+                        android:text="@string/lesson_name"
+                        android:textSize="@dimen/_25sp"
                         android:gravity="start"
                         android:textStyle="bold"
                         android:layout_marginHorizontal="@dimen/_16dp"
@@ -116,23 +47,11 @@
                         app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/_16ssp"
-                        android:textColor="@color/gray"
-                        android:gravity="start"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/set_name_tv"
-                        app:layout_constraintStart_toStartOf="@id/set_name_tv"
-                        android:id="@+id/description_tv"/>
-
-
-                <TextView
                         android:id="@+id/term_count_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/_8ssp"
-                        android:text="@string/_1_term"
+                        android:layout_marginVertical="@dimen/_8sp"
+                        android:text="@string/terms_count"
                         android:textColor="@color/gray"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/set_name_tv"
@@ -145,8 +64,8 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_16ssp"
-                android:layout_marginHorizontal="@dimen/_16ssp"
+                android:layout_marginVertical="@dimen/_16sp"
+                android:layout_marginHorizontal="@dimen/_16sp"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -163,8 +82,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_12ssp"
-                        android:elevation="@dimen/_8ssp"
+                        android:padding="@dimen/_12sp"
+                        android:elevation="@dimen/_8sp"
                         android:background="@drawable/radius"
                         android:id="@+id/review_cl">
 
@@ -183,9 +102,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/flashcards"
-                            android:textSize="@dimen/_16ssp"
+                            android:textSize="@dimen/_16sp"
                             android:textStyle="bold"
-                            android:layout_marginStart="@dimen/_8ssp"
+                            android:layout_marginStart="@dimen/_8sp"
                             app:layout_constraintTop_toTopOf="@id/flashcards_iv"
                             app:layout_constraintStart_toEndOf="@id/flashcards_iv"
                             android:id="@+id/flashcards_tv"/>
@@ -194,8 +113,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/flashcards_description"
-                            android:textSize="@dimen/_12ssp"
-                            android:layout_marginStart="@dimen/_8ssp"
+                            android:textSize="@dimen/_12sp"
+                            android:layout_marginStart="@dimen/_8sp"
                             app:layout_constraintTop_toBottomOf="@id/flashcards_tv"
                             app:layout_constraintStart_toEndOf="@id/flashcards_iv"
                             android:id="@+id/flashcards_description_tv"/>
@@ -216,8 +135,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_12ssp"
-                        android:elevation="@dimen/_8ssp"
+                        android:padding="@dimen/_12sp"
+                        android:elevation="@dimen/_8sp"
                         android:background="@drawable/radius"
                         android:id="@+id/learn_cl">
 
@@ -236,9 +155,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/learn"
-                            android:textSize="@dimen/_16ssp"
+                            android:textSize="@dimen/_16sp"
                             android:textStyle="bold"
-                            android:layout_marginStart="@dimen/_8ssp"
+                            android:layout_marginStart="@dimen/_8sp"
                             app:layout_constraintTop_toTopOf="@id/learn_iv"
                             app:layout_constraintStart_toEndOf="@id/learn_iv"
                             android:id="@+id/learn_tv"/>
@@ -247,8 +166,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/focus_on_learning"
-                            android:textSize="@dimen/_12ssp"
-                            android:layout_marginStart="@dimen/_8ssp"
+                            android:textSize="@dimen/_12sp"
+                            android:layout_marginStart="@dimen/_8sp"
                             app:layout_constraintTop_toBottomOf="@id/learn_tv"
                             app:layout_constraintStart_toEndOf="@id/learn_iv"
                             android:id="@+id/learn_description_tv"/>
@@ -269,8 +188,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_12ssp"
-                        android:elevation="@dimen/_8ssp"
+                        android:padding="@dimen/_12sp"
+                        android:elevation="@dimen/_8sp"
                         android:background="@drawable/radius"
                         android:id="@+id/true_false_cl">
 
@@ -289,9 +208,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/true_false"
-                            android:textSize="@dimen/_16ssp"
+                            android:textSize="@dimen/_16sp"
                             android:textStyle="bold"
-                            android:layout_marginStart="@dimen/_8ssp"
+                            android:layout_marginStart="@dimen/_8sp"
                             app:layout_constraintTop_toTopOf="@id/true_false_iv"
                             app:layout_constraintStart_toEndOf="@id/true_false_iv"
                             android:id="@+id/true_false_tv"/>
@@ -300,8 +219,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/true_false_description"
-                            android:textSize="@dimen/_12ssp"
-                            android:layout_marginStart="@dimen/_8ssp"
+                            android:textSize="@dimen/_12sp"
+                            android:layout_marginStart="@dimen/_8sp"
                             app:layout_constraintTop_toBottomOf="@id/true_false_tv"
                             app:layout_constraintStart_toEndOf="@id/true_false_iv"
                             android:id="@+id/true_false_description_tv"/>
@@ -320,22 +239,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/your_progress"
-                    android:textSize="@dimen/_20ssp"
+                    android:textSize="@dimen/_20sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/_10ssp"/>
+                    android:layout_marginBottom="@dimen/_10sp"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/review_your_progress_and_see_how_much_you_ve_learned"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="@dimen/_16sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/_10ssp"
+                    android:layout_marginBottom="@dimen/_10sp"
                     android:id="@+id/progress_tv"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50ssp"
+                    android:layout_height="@dimen/_50sp"
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:layout_marginBottom="@dimen/_10dp"
@@ -354,7 +273,7 @@
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50ssp"
+                    android:layout_height="@dimen/_50sp"
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:layout_marginBottom="@dimen/_10dp"
@@ -373,7 +292,7 @@
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50ssp"
+                    android:layout_height="@dimen/_50sp"
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:background="@drawable/is_learned"

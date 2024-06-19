@@ -61,7 +61,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         }
 
         binding.resetLearnBtn.setOnClickListener {
-            cardDAO.resetStatusCardByFlashCardId(intent.getStringExtra("id")!!)
+            cardDAO.resetLessonCardsStatus(intent.getStringExtra("id")!!)
             showContainer()
             adapter.setCards(createCards())
             adapter.notifyDataSetChanged()
@@ -78,17 +78,17 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     override fun onCardSwiped(direction: Direction?) {
         val card = adapter.getCards()[manager.topPosition - 1]
         if (direction == Direction.Right) {
-            card.status = Status.RIGHT
+            card.status = Status.LEARNED
             val learnValue = binding.learnTv.text.toString().toInt() + 1
             binding.learnTv.text = learnValue.toString()
-            cardDAO.updateCardStatusById(card.id, card.status)
+            cardDAO.updateCardStatus(card.id, card.status)
             size = size.toInt().minus(1).toString()
             binding.cardsLeftTv.text = "Cards left: ${size.toInt()}"
         } else if (direction == Direction.Left) {
-            card.status = Status.LEFT
+            card.status = Status.NOT_LEARNED
             val learnValue = binding.studyTv.text.toString().toInt() + 1
             binding.studyTv.text = learnValue.toString()
-            cardDAO.updateCardStatusById(card.id, card.status)
+            cardDAO.updateCardStatus(card.id, card.status)
             size = size.toInt().minus(1).toString()
             binding.cardsLeftTv.text = "Cards left: ${size.toInt()}"
         }
@@ -102,15 +102,15 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         Log.d("CardStackView", "onCardRewound: ${manager.topPosition}")
         if (manager.topPosition < adapter.itemCount) {
             val card = adapter.getCards()[manager.topPosition]
-            if (card.status == Status.RIGHT) {
-                card.status = Status.INITIAL
-                cardDAO.updateCardStatusById(card.id, Status.INITIAL)
+            if (card.status == Status.LEARNED) {
+                card.status = Status.IDLE
+                cardDAO.updateCardStatus(card.id, Status.IDLE)
                 if (binding.learnTv.text.toString().toInt() > 0) {
                     binding.learnTv.text = (binding.learnTv.text.toString().toInt() - 1).toString()
                 }
-            } else if (card.status == Status.LEFT) {
-                card.status = Status.INITIAL
-                cardDAO.updateCardStatusById(card.id, Status.INITIAL)
+            } else if (card.status == Status.NOT_LEARNED) {
+                card.status = Status.IDLE
+                cardDAO.updateCardStatus(card.id, Status.IDLE)
                 if (binding.studyTv.text.toString().toInt() > 0) {
                     binding.studyTv.text = (binding.studyTv.text.toString().toInt() - 1).toString()
                 }
@@ -171,7 +171,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
 
     private fun createCards(): List<Card> {
         val id: String? = intent.getStringExtra("id")
-        return id?.let { cardDAO.getAllCardByStatus(it) } ?: emptyList()
+        return id?.let { cardDAO.getLessonCardByStatus(it) } ?: emptyList()
     }
 
 
@@ -224,11 +224,14 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun preview() {
-        binding.knowNumberTv.text = getCardStatus(1).toString()
-        binding.stillLearnNumberTv.text = getCardStatus(2).toString()
-        binding.termsLeftNumberTv.text = getCardStatus(0).toString()
-        val sum =
-            (getCardStatus(1).toFloat() / (getCardStatus(0).toFloat() + getCardStatus(1).toFloat() + getCardStatus(2))) * 100
+        val rightStatusCount = getCardStatus(Status.LEARNED)
+        val leftStatusCount = getCardStatus(Status.NOT_LEARNED)
+        val initialStatusCount = getCardStatus(Status.IDLE)
+
+        binding.knowNumberTv.text = rightStatusCount.toString()
+        binding.stillLearnNumberTv.text = leftStatusCount.toString()
+        binding.termsLeftNumberTv.text = initialStatusCount.toString()
+        val sum = (rightStatusCount.toFloat() / (initialStatusCount.toFloat() + rightStatusCount.toFloat() + leftStatusCount)) * 100
         binding.reviewProgress.setSpinningBarLength(sum)
         binding.reviewProgress.isEnabled = false
         binding.reviewProgress.isFocusableInTouchMode = false
@@ -240,9 +243,9 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         return size.toInt()
     }
 
-    private fun getCardStatus(status: Int): Int {
-        val id = intent.getStringExtra("id")
-        return cardDAO.countCardsWithStatus(id!!, status)
+    private fun getCardStatus(status: Status): Int {
+        val id = intent.getStringExtra("id")!!
+        return cardDAO.countCardsWithStatus(id, status)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

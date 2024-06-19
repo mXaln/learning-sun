@@ -13,12 +13,14 @@ class QMDatabaseHelper(context: Context?) : SQLiteOpenHelper(
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_TABLE_LESSONS)
         db.execSQL(CREATE_TABLE_CARDS)
+        db.execSQL(CREATE_TABLE_SETTINGS)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         //drop table if exists
         db.execSQL(COMMAND_DROP_TABLE + TABLE_LESSONS)
         db.execSQL(COMMAND_DROP_TABLE + TABLE_CARDS)
+        db.execSQL(COMMAND_DROP_TABLE + TABLE_SETTINGS)
 
         //create table again
         onCreate(db)
@@ -37,6 +39,18 @@ class QMDatabaseHelper(context: Context?) : SQLiteOpenHelper(
         //create table name
         const val TABLE_LESSONS: String = "lessons"
         const val TABLE_CARDS: String = "cards"
+        const val TABLE_SETTINGS: String = "settings"
+
+        //fields
+        const val TABLE_LESSONS_ID: String = "id"
+        const val TABLE_CARDS_ID: String = "id"
+        const val TABLE_CARDS_PARENT_FK: String = "parent_fk"
+        const val TABLE_CARDS_SYMBOL: String = "symbol"
+        const val TABLE_CARDS_STATUS: String = "status"
+        const val TABLE_CARDS_IS_LEARNED: String = "is_learned"
+        const val TABLE_CARDS_VARIATIONS: String = "variations"
+        const val TABLE_SETTINGS_NAME: String = "name"
+        const val TABLE_SETTINGS_VALUE: String = "value"
 
         //command
         const val COMMAND_CREATE_TABLE: String = "CREATE TABLE "
@@ -45,18 +59,19 @@ class QMDatabaseHelper(context: Context?) : SQLiteOpenHelper(
         //create sql query
 
         const val CREATE_TABLE_LESSONS: String = COMMAND_CREATE_TABLE + TABLE_LESSONS + " (" +
-                "id TEXT PRIMARY KEY , " +
-                "name TEXT NOT NULL, " +
-                "description TEXT);"
+                "id TEXT PRIMARY KEY);"
 
         const val CREATE_TABLE_CARDS: String = COMMAND_CREATE_TABLE + TABLE_CARDS + " (" +
                 "id TEXT PRIMARY KEY , " +
-                "front TEXT NOT NULL, " +
-                "back TEXT NOT NULL, " +
-                "flashcard_id TEXT NOT NULL, " +
+                "parent_fk TEXT NOT NULL, " +
+                "symbol TEXT NOT NULL, " +
                 "status INTEGER NOT NULL," +  //0: not yet, 1 done, 2 studying
                 "is_learned INTEGER NOT NULL, " +
+                "variations TEXT NOT NULL" +
                 ");"
 
+        const val CREATE_TABLE_SETTINGS: String = COMMAND_CREATE_TABLE + TABLE_SETTINGS + " (" +
+                "name TEXT PRIMARY KEY," +
+                "value TEXT NOT NULL);"
     }
 }

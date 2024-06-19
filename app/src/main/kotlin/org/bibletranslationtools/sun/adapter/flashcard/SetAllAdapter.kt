@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.dao.CardDAO
-import org.bibletranslationtools.sun.data.model.FlashCard
+import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.databinding.ItemSetAllBinding
 import org.bibletranslationtools.sun.ui.activities.set.ViewSetActivity
 
 class SetAllAdapter(
     private val context: Context,
-    private val sets: List<FlashCard>
+    private val sets: List<Lesson>
 ) : RecyclerView.Adapter<SetAllAdapter.SetAllViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetAllViewHolder {
@@ -29,10 +30,10 @@ class SetAllAdapter(
     override fun onBindViewHolder(holder: SetAllViewHolder, position: Int) {
         val set = sets[position]
         val cardDAO = CardDAO(context)
-        val count = cardDAO.countCardByFlashCardId(set.id)
+        val count = cardDAO.countLessonCards(set.id)
 
-        holder.binding.setNameTv.text = set.name
-        holder.binding.termCountTv.text = "$count terms"
+        holder.binding.setNameTv.text = context.getString(R.string.lesson_name, set.id)
+        holder.binding.termCountTv.text = context.getString(R.string.terms_count, count)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ViewSetActivity::class.java)

@@ -5,7 +5,7 @@
             <solid
                 android:color="#8AF7F5F5"/>
             <corners
-                android:radius="@dimen/_25ssp"/>
+                android:radius="@dimen/_25sp"/>
             <padding
                 android:bottom="0dp"
                 android:left="0dp"
@@ -18,7 +18,7 @@
             <solid
                 android:color="#F7F5F5"/>
             <corners
-                android:radius="@dimen/_25ssp"/>
+                android:radius="@dimen/_25sp"/>
             <padding
                 android:bottom="0dp"
                 android:left="0dp"

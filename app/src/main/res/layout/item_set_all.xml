@@ -7,8 +7,8 @@
     android:layout_marginHorizontal="@dimen/_10dp"
     android:layout_marginVertical="@dimen/_10dp"
     android:background="@color/white_gray"
-    android:elevation="@dimen/_8ssp"
-    app:cardCornerRadius="@dimen/_15ssp"
+    android:elevation="@dimen/_8sp"
+    app:cardCornerRadius="@dimen/_15sp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_16dp"
             android:gravity="start"
-            android:text="@string/set_name"
+            android:text="@string/unknown"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_24sp"
             android:textStyle="bold"
@@ -35,10 +35,10 @@
             android:id="@+id/term_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8ssp"
-            android:text="@string/_1_term"
+            android:layout_marginTop="@dimen/_8sp"
+            android:text="@string/unknown"
             android:textColor="@color/gray"
-            android:textSize="@dimen/_18ssp"
+            android:textSize="@dimen/_18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/set_name_tv"
             app:layout_constraintTop_toBottomOf="@id/set_name_tv" />

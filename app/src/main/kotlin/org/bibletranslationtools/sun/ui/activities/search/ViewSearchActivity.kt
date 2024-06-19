@@ -6,15 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.bibletranslationtools.sun.adapter.flashcard.SetAllAdapter
-import org.bibletranslationtools.sun.data.dao.FlashCardDAO
-import org.bibletranslationtools.sun.data.model.FlashCard
+import org.bibletranslationtools.sun.data.dao.LessonDAO
+import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.databinding.ActivityViewSearchBinding
 import java.util.Locale
 
 class ViewSearchActivity : AppCompatActivity() {
     private val binding by lazy { ActivityViewSearchBinding.inflate(layoutInflater) }
-    private val flashCards = arrayListOf<FlashCard>()
-    private val flashCardDAO by lazy { FlashCardDAO(this) }
+    private val flashCards = arrayListOf<Lesson>()
+    private val flashCardDAO by lazy { LessonDAO(this) }
     private val setAllAdapter by lazy { SetAllAdapter(this, flashCards) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class ViewSearchActivity : AppCompatActivity() {
 
     private fun setupSets() {
         flashCards.clear()
-        flashCards.addAll(flashCardDAO.getAllFlashCards())
+        flashCards.addAll(flashCardDAO.getLessons())
 
         binding.setsRv.layoutManager = LinearLayoutManager(this)
         binding.setsRv.adapter = setAllAdapter
@@ -57,10 +57,10 @@ class ViewSearchActivity : AppCompatActivity() {
     }
 
     private fun handleSearchQuery(newText: String) {
-        val filteredFlashCards = ArrayList<FlashCard>()
+        val filteredFlashCards = ArrayList<Lesson>()
         for (flashCard in flashCards) {
-            if (flashCard.name?.lowercase(Locale.getDefault())
-                    ?.contains(newText.lowercase(Locale.getDefault())) == true
+            if (flashCard.id.lowercase(Locale.getDefault())
+                    .contains(newText.lowercase(Locale.getDefault()))
             ) {
                 filteredFlashCards.add(flashCard)
             }
@@ -69,11 +69,11 @@ class ViewSearchActivity : AppCompatActivity() {
         updateVisibility(newText, filteredFlashCards)
     }
 
-    private fun updateAdapters(flashCards: ArrayList<FlashCard>) {
+    private fun updateAdapters(flashCards: ArrayList<Lesson>) {
         binding.setsRv.adapter = setAllAdapter
     }
 
-    private fun updateVisibility(newText: String, flashCards: ArrayList<FlashCard>) {
+    private fun updateVisibility(newText: String, flashCards: ArrayList<Lesson>) {
         val isSearchEmpty = newText.isEmpty()
         val isFlashCardsEmpty = flashCards.isEmpty()
 

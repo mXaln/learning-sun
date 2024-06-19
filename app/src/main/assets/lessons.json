@@ -1,28 +1,115 @@
-[
-  {
-    "name": "Lesson 1",
-    "description": "This is a lesson 1",
-    "cards": [
-      {
-        "symbol": "\uE29C",
-        "image": "Pen_Write.jpg",
-        "variations": ["pen", "write"]
-      },
-      {
-        "symbol": "\uE22A",
-        "image": "Book.jpg",
-        "variations": ["book", "learn", "read"]
-      },
-      {
-        "symbol": "\uE247",
-        "image": "Water.jpg",
-        "variations": ["water", "wet"]
-      },
-      {
-        "symbol": "\uE274",
-        "image": "Person_Drink.jpeg",
-        "variations": ["cup", "drink"]
-      }
-    ]
-  }
-]
+{
+  "version": "1",
+  "lessons": [
+    {
+      "id": "1",
+      "cards": [
+        {
+          "id": "1a",
+          "symbol": "\uE29C",
+          "variations": ["pen", "write"]
+        },
+        {
+          "id": "1b",
+          "symbol": "\uE22A",
+          "variations": ["book", "learn", "read"]
+        },
+        {
+          "id": "1c",
+          "symbol": "\uE247",
+          "variations": ["water", "wet"]
+        },
+        {
+          "id": "1d",
+          "symbol": "\uE274",
+          "variations": ["cup", "drink"]
+        },
+        {
+          "id": "1e",
+          "symbol": "\uE298",
+          "variations": ["chair", "seat"]
+        },
+        {
+          "id": "1f",
+          "symbol": "\uE23E",
+          "variations": ["door"]
+        },
+        {
+          "id": "1g",
+          "symbol": "\uE311",
+          "variations": ["window"]
+        },
+        {
+          "id": "1h",
+          "symbol": "\uE11F",
+          "variations": ["person"]
+        },
+        {
+          "id": "1i",
+          "symbol": "\uE071",
+          "variations": ["hand"]
+        },
+        {
+          "id": "1j",
+          "symbol": "\uE263",
+          "variations": ["fish"]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "cards": [
+        {
+          "id": "2a",
+          "symbol": "\uE299",
+          "variations": ["ear", "hear"]
+        },
+        {
+          "id": "2b",
+          "symbol": "\uE309",
+          "variations": ["nose", "smell"]
+        },
+        {
+          "id": "2c",
+          "symbol": "\uE238",
+          "variations": ["eye", "see"]
+        },
+        {
+          "id": "2d",
+          "symbol": "\uE03F",
+          "variations": ["mouth", "said", "speak", "confess"]
+        },
+        {
+          "id": "2e",
+          "symbol": "\uE000",
+          "variations": ["man"]
+        },
+        {
+          "id": "2f",
+          "symbol": "\uE272",
+          "variations": ["moon", "night"]
+        },
+        {
+          "id": "2g",
+          "symbol": "\uE15F",
+          "variations": ["sun", "day"]
+        },
+        {
+          "id": "2h",
+          "symbol": "\uE384",
+          "variations": ["bowl", "dish"]
+        },
+        {
+          "id": "2i",
+          "symbol": "\uE23C",
+          "variations": ["road", "path", "way"]
+        },
+        {
+          "id": "2j",
+          "symbol": "\uE315",
+          "variations": ["up"]
+        }
+      ]
+    }
+  ]
+}

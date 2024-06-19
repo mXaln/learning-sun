@@ -11,15 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.adapter.flashcard.SetsAdapter
-import org.bibletranslationtools.sun.data.dao.FlashCardDAO
-import org.bibletranslationtools.sun.data.model.FlashCard
+import org.bibletranslationtools.sun.data.dao.LessonDAO
+import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.databinding.FragmentHomeBinding
 import org.bibletranslationtools.sun.ui.activities.search.ViewSearchActivity
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val flashCards = arrayListOf<FlashCard>()
-    private val flashCardDAO by lazy { FlashCardDAO(requireActivity()) }
+    private val flashCards = arrayListOf<Lesson>()
+    private val flashCardDAO by lazy { LessonDAO(requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun setupFlashCards() {
         flashCards.clear()
-        flashCards.addAll(flashCardDAO.getAllFlashCards())
+        flashCards.addAll(flashCardDAO.getLessons())
         val linearLayoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
         binding.setsRv.layoutManager = linearLayoutManager

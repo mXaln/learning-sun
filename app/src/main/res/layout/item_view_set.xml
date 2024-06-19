@@ -4,7 +4,7 @@
                                    android:layout_width="match_parent"
                                    android:layout_height="match_parent"
                                    android:id="@+id/card_view"
-                                   android:layout_marginHorizontal="@dimen/_30ssp"
+                                   android:layout_marginHorizontal="@dimen/_30sp"
                                    android:layout_marginEnd="@dimen/_16dp">
 
 
@@ -36,7 +36,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/culminate"
                     android:textStyle="bold"
-                    android:textSize="@dimen/_40ssp"
+                    android:textSize="@dimen/_40sp"
                     android:layout_margin="@dimen/_16dp"
                     android:gravity="center"
                     android:textColor="@android:color/black"
@@ -79,11 +79,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="center"
-                    android:paddingVertical="@dimen/_10ssp"
+                    android:paddingVertical="@dimen/_10sp"
                     android:background="@color/azure_blue"
                     android:text="@string/culminate"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/_20ssp"
+                    android:textSize="@dimen/_20sp"
                     android:textStyle="bold" />
             </FrameLayout>
         </FrameLayout>

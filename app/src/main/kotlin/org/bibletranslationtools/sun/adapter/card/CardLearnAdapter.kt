@@ -1,5 +1,6 @@
 package org.bibletranslationtools.sun.adapter.card
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -45,16 +46,16 @@ class CardLearnAdapter(
     inner class ViewHolder(private val binding: ItemLearnSetBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(card: Card) {
-            binding.backTv.text = card.front
-            binding.frontTv.text = card.back
+            binding.frontTv.text = card.symbol
             binding.cardViewFlip.setFlipTypeFromRight()
             binding.cardViewFlip.setFlipDuration(500)
             binding.cardViewFlip.setToHorizontalType()
             binding.cardViewFlip.setOnClickListener {
                 binding.cardViewFlip.flipTheView()
             }
-            Glide.with(binding.backTv.context)
-                .load("https://raw.githubusercontent.com/mXaln/test_images/main/" + card.front + ".jpg")
+
+            Glide.with(binding.frontTv.context)
+                .load(Uri.parse("file:///android_asset/images/${card.id}.jpg"))
                 .into(binding.itemImage)
         }
     }

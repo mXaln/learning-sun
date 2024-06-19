@@ -56,21 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:scaleType="centerCrop"/>
-
-            <TextView
-                android:id="@+id/tvQuestion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:paddingVertical="@dimen/_10ssp"
-                android:layout_marginBottom="@dimen/_20ssp"
-                android:background="@color/azure_blue"
-                tools:text="What does country this flag belongs to?"
-                android:textSize="28sp"
-                android:paddingHorizontal="20dp"
-                android:textColor="@android:color/white"
-                />
         </FrameLayout>
 
         <LinearLayout
@@ -80,42 +65,42 @@
                 android:layout_marginHorizontal="@dimen/_16dp">
 
             <TextView
-                    android:layout_margin="@dimen/_8ssp"
+                    android:layout_margin="@dimen/_8sp"
                     android:id="@+id/optionOne"
                     style="@style/toggleButton"
                     tools:text="Argentina"
                     android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30ssp"
+                    android:textSize="@dimen/_30sp"
                     android:textStyle="bold"
                     />
 
             <TextView
-                    android:layout_margin="@dimen/_8ssp"
+                    android:layout_margin="@dimen/_8sp"
                     android:id="@+id/optionTwo"
                     style="@style/toggleButton"
                     tools:text="Australia"
                     android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30ssp"
+                    android:textSize="@dimen/_30sp"
                     android:textStyle="bold"
                     />
 
             <TextView
-                    android:layout_margin="@dimen/_8ssp"
+                    android:layout_margin="@dimen/_8sp"
                     android:id="@+id/optionThree"
                     style="@style/toggleButton"
                     tools:text="Armenia"
                     android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30ssp"
+                    android:textSize="@dimen/_30sp"
                     android:textStyle="bold"
                     />
 
             <TextView
-                    android:layout_margin="@dimen/_8ssp"
+                    android:layout_margin="@dimen/_8sp"
                     android:id="@+id/optionFour"
                     style="@style/toggleButton"
                     tools:text="Austria"
                     android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30ssp"
+                    android:textSize="@dimen/_30sp"
                     android:textStyle="bold"
                     />
         </LinearLayout>

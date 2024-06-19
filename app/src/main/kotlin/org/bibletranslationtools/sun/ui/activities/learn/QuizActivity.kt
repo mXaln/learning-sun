@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Dialog
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
@@ -11,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.dao.CardDAO
-import org.bibletranslationtools.sun.data.dao.FlashCardDAO
+import org.bibletranslationtools.sun.data.dao.LessonDAO
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ActivityQuizBinding
 import org.bibletranslationtools.sun.databinding.DialogCorrectBinding
@@ -25,7 +26,7 @@ class QuizActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityQuizBinding.inflate(layoutInflater) }
     private val cardDAO by lazy { CardDAO(this) }
-    private val flashCardDAO by lazy { FlashCardDAO(this) }
+    private val flashCardDAO by lazy { LessonDAO(this) }
 
     private val dialogCorrect by lazy { AlertDialog.Builder(this) }
     private val dialogWrong by lazy { AlertDialog.Builder(this) }
@@ -46,7 +47,7 @@ class QuizActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         setNextQuestion()
-        val max = cardDAO.getCardByIsLearned(id, 0).size
+        val max = cardDAO.getIsLearnedCards(id, false).size
         binding.timelineProgress.max = max
     }
 
@@ -55,14 +56,14 @@ class QuizActivity : AppCompatActivity() {
         return if (selectedAnswer == correctAnswer) {
             correctDialog(correctAnswer)
             GlobalScope.launch(Dispatchers.IO) {
-                cardDAO.updateIsLearnedCardById(cardId, 1)
+                cardDAO.updateCardIsLearned(cardId, 1)
             }
             setNextQuestion()
             progress++
             setUpProgressBar()
             true
         } else {
-            wrongDialog(correctAnswer, binding.tvQuestion.text.toString(), selectedAnswer)
+            wrongDialog(correctAnswer, selectedAnswer)
             setNextQuestion()
             false
         }
@@ -75,8 +76,8 @@ class QuizActivity : AppCompatActivity() {
 
     private fun setNextQuestion() {
         scope.launch {
-            val cards = cardDAO.getCardByIsLearned(id, 0) // get a list of cards that are not learned
-            val randomCard = cardDAO.getAllCardByFlashCardId(id) // get all cards
+            val cards = cardDAO.getIsLearnedCards(id, false) // get a list of cards that are not learned
+            val randomCard = cardDAO.getLessonCards(id) // get all cards
 
             if (cards.isEmpty()) {
                 finishQuiz()
@@ -89,18 +90,16 @@ class QuizActivity : AppCompatActivity() {
             val incorrectCards = randomCard.shuffled().take(3) // get 3 random cards from list of all cards
 
             val allCards = (listOf(correctCard) + incorrectCards).shuffled() // shuffle 4 cards
-            val question = correctCard.front
-            correctAnswer = correctCard.back!!
+            correctAnswer = correctCard.symbol
 
             withContext(Dispatchers.Main) {
-                binding.tvQuestion.text = question
-                binding.optionOne.text = allCards[0].back
-                binding.optionTwo.text = allCards[1].back
-                binding.optionThree.text = allCards[2].back
-                binding.optionFour.text = allCards[3].back
+                binding.optionOne.text = allCards[0].symbol
+                binding.optionTwo.text = allCards[1].symbol
+                binding.optionThree.text = allCards[2].symbol
+                binding.optionFour.text = allCards[3].symbol
 
                 Glide.with(baseContext)
-                    .load("https://raw.githubusercontent.com/mXaln/test_images/main/" + correctCard.front + ".jpg")
+                    .load(Uri.parse("file:///android_asset/images/${correctCard.id}.jpg"))
                     .into(binding.itemImage)
 
                 binding.optionOne.setOnClickListener {
@@ -157,12 +156,11 @@ class QuizActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun wrongDialog(answer: String, question: String, userAnswer: String) {
+    private fun wrongDialog(answer: String, userAnswer: String) {
         val dialogBinding = DialogWrongBinding.inflate(layoutInflater)
         dialogWrong.setView(dialogBinding.root)
         dialogWrong.setCancelable(true)
         val builder = dialogWrong.create()
-        dialogBinding.questionTv.text = question
         dialogBinding.explanationTv.text = answer
         dialogBinding.yourExplanationTv.text = userAnswer
         dialogBinding.continueTv.setOnClickListener {
@@ -180,8 +178,7 @@ class QuizActivity : AppCompatActivity() {
                 binding.optionOne,
                 binding.optionTwo,
                 binding.optionThree,
-                binding.optionFour,
-                binding.tvQuestion
+                binding.optionFour
             )
         val duration = 1000L
         val endValue = -binding.optionOne.width.toFloat()

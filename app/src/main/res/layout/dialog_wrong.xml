@@ -41,24 +41,12 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/question_tv"
-            android:text="@string/answer"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/top_cl"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/correct_answer"
             android:textColor="@color/green_light"
             android:textSize="@dimen/_16sp"
             android:textStyle="bold"
             android:id="@+id/correct_answer_tv"
-            app:layout_constraintTop_toBottomOf="@+id/question_tv"
+            app:layout_constraintTop_toBottomOf="@+id/top_cl"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/_10dp" />
     <TextView

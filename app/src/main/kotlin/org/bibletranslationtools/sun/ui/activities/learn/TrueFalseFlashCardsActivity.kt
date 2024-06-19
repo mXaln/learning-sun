@@ -1,6 +1,7 @@
 package org.bibletranslationtools.sun.ui.activities.learn
 
 import android.app.Dialog
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +37,7 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
     private fun setUpProgressBar(): Int {
         val id = intent.getStringExtra("id")
         cardList.clear()
-        cardList.addAll(cardDAO.getCardByIsLearned(id!!, 0))
+        cardList.addAll(cardDAO.getIsLearnedCards(id!!, false))
         binding.timelineProgress.max = cardList.size
         return cardList.size
     }
@@ -44,8 +45,8 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
     private fun setUpQuestion() {
         val id = intent.getStringExtra("id")!!
         cardList.clear()
-        cardList.addAll(cardDAO.getCardByIsLearned(id, 0))
-        val cardListAll = cardDAO.getAllCardByFlashCardId(id)
+        cardList.addAll(cardDAO.getIsLearnedCards(id, false))
+        val cardListAll = cardDAO.getLessonCards(id)
 
         if (cardList.size == 0) {
             finishQuiz()
@@ -59,37 +60,36 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
 
             val random = (0..1).random()
             if (random == 0) {
-                binding.questionTv.text = randomCard.front
-                binding.answerTv.text = randomCard.back
+                binding.answerTv.text = randomCard.symbol
             } else {
-                binding.questionTv.text = randomCard.front
-                binding.answerTv.text = incorrectAnswer[0].back
+                binding.answerTv.text = incorrectAnswer[0].symbol
             }
+
             Glide.with(baseContext)
-                .load("https://raw.githubusercontent.com/mXaln/test_images/main/" + randomCard.front + ".jpg")
+                .load(Uri.parse("file:///android_asset/images/${randomCard.id}.jpg"))
                 .into(binding.itemImage)
 
             binding.trueBtn.setOnClickListener {
                 if (random == 0) {
-                    correctDialog(randomCard.back!!)
-                    cardDAO.updateIsLearnedCardById(randomCard.id, 1)
+                    correctDialog(randomCard.id)
+                    cardDAO.updateCardIsLearned(randomCard.id, 1)
                     setUpQuestion()
                     progress++
                     increaseProgress()
                 } else {
-                    wrongDialog(randomCard.back!!, randomCard.front!!, incorrectAnswer[0].back!!)
+                    wrongDialog(randomCard.symbol, incorrectAnswer[0].symbol)
                     setUpQuestion()
                 }
             }
             binding.falseBtn.setOnClickListener {
                 if (random == 1) {
-                    correctDialog(randomCard.back!!)
-                    cardDAO.updateIsLearnedCardById(randomCard.id, 1)
+                    correctDialog(randomCard.id)
+                    cardDAO.updateCardIsLearned(randomCard.id, 1)
                     setUpQuestion()
                     progress++
                     increaseProgress()
                 } else {
-                    wrongDialog(randomCard.back!!, randomCard.front!!, incorrectAnswer[0].back!!)
+                    wrongDialog(randomCard.symbol, incorrectAnswer[0].symbol)
                     setUpQuestion()
                 }
             }
@@ -135,13 +135,12 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun wrongDialog(answer: String, question: String, userAnswer: String) {
+    private fun wrongDialog(answer: String, userAnswer: String) {
         val dialog = AlertDialog.Builder(this)
         val dialogBinding = DialogWrongBinding.inflate(layoutInflater)
         dialog.setView(dialogBinding.root)
         dialog.setCancelable(true)
         val builder = dialog.create()
-        dialogBinding.questionTv.text = question
         dialogBinding.explanationTv.text = answer
         dialogBinding.yourExplanationTv.text = userAnswer
         dialogBinding.continueTv.setOnClickListener {
