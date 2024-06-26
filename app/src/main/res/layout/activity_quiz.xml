@@ -1,108 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context=".ui.activities.learn.QuizActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="1dp"
+            android:gravity="center"
+            android:text="@string/quiz"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ProgressBar
+        android:id="@+id/timeline_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:max="100"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <FrameLayout
+        android:id="@+id/image_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/timeline_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/item_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            tools:context=".ui.activities.learn.QuizActivity">
+            android:layout_height="260dp"
+            android:src="@drawable/ic_write" />
+    </FrameLayout>
+
+    <GridView
+        android:id="@+id/answers_gv"
+        android:layout_width="@dimen/_300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:horizontalSpacing="@dimen/_20dp"
+        android:numColumns="2"
+        android:verticalSpacing="@dimen/_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_container"
+        app:layout_constraintBottom_toTopOf="@id/button_container"
+        />
 
     <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/answers_gv"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/next_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/toolbar"
-                android:elevation="1dp"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:elevation="1dp"
-                    android:layout_gravity="center"
-                    android:text="@string/learn"/>
-        </androidx.appcompat.widget.Toolbar>
-
-        <ProgressBar
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/timeline_progress"
-                android:elevation="1dp"
-                android:max="100"
-                android:progress="0"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:src="@drawable/ic_write"
-                android:id="@+id/item_image"
-                android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:scaleType="centerCrop"/>
-        </FrameLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="@dimen/_16dp">
-
-            <TextView
-                    android:layout_margin="@dimen/_8sp"
-                    android:id="@+id/optionOne"
-                    style="@style/toggleButton"
-                    tools:text="Argentina"
-                    android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30sp"
-                    android:textStyle="bold"
-                    />
-
-            <TextView
-                    android:layout_margin="@dimen/_8sp"
-                    android:id="@+id/optionTwo"
-                    style="@style/toggleButton"
-                    tools:text="Australia"
-                    android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30sp"
-                    android:textStyle="bold"
-                    />
-
-            <TextView
-                    android:layout_margin="@dimen/_8sp"
-                    android:id="@+id/optionThree"
-                    style="@style/toggleButton"
-                    tools:text="Armenia"
-                    android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30sp"
-                    android:textStyle="bold"
-                    />
-
-            <TextView
-                    android:layout_margin="@dimen/_8sp"
-                    android:id="@+id/optionFour"
-                    style="@style/toggleButton"
-                    tools:text="Austria"
-                    android:fontFamily="@font/sun"
-                    android:textSize="@dimen/_30sp"
-                    android:textStyle="bold"
-                    />
-        </LinearLayout>
+            android:layout_height="@dimen/_60dp"
+            android:text="@string/next"
+            android:textSize="@dimen/_24sp"
+            app:cornerRadius="@dimen/_10dp"
+            android:textColor="@color/black"
+            app:strokeColor="@color/black"
+            app:strokeWidth="@dimen/_1dp"
+            android:layout_marginHorizontal="@dimen/_40dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
     </LinearLayout>
-</ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

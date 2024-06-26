@@ -1,71 +1,73 @@
 package org.bibletranslationtools.sun.ui.activities.learn
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import org.bibletranslationtools.sun.R
-import org.bibletranslationtools.sun.data.dao.CardDAO
-import org.bibletranslationtools.sun.data.dao.LessonDAO
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ActivityQuizBinding
-import org.bibletranslationtools.sun.databinding.DialogCorrectBinding
-import org.bibletranslationtools.sun.databinding.DialogWrongBinding
 import com.saadahmedsoft.popupdialog.PopupDialog
 import com.saadahmedsoft.popupdialog.Styles
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
 import kotlinx.coroutines.*
+import org.bibletranslationtools.sun.adapter.grid.GridCardAdapter
+import org.bibletranslationtools.sun.ui.viewmodels.QuizViewModel
 
 class QuizActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityQuizBinding.inflate(layoutInflater) }
-    private val cardDAO by lazy { CardDAO(this) }
-    private val flashCardDAO by lazy { LessonDAO(this) }
-
-    private val dialogCorrect by lazy { AlertDialog.Builder(this) }
-    private val dialogWrong by lazy { AlertDialog.Builder(this) }
+    private val viewModel: QuizViewModel by viewModels()
+    private val gridAdapter: GridCardAdapter by lazy {
+        GridCardAdapter(this, mutableListOf())
+    }
 
     private var progress = 0
-    private lateinit var correctAnswer: String
+    private lateinit var correctCard: Card
     private val askedCards = arrayListOf<Card>()
     private lateinit var id: String
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
+    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         id = intent.getStringExtra("id") ?: ""
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
         setNextQuestion()
-        val max = cardDAO.getIsLearnedCards(id, false).size
-        binding.timelineProgress.max = max
+
+        ioScope.launch {
+            val max = viewModel.getPassedCards(id, false).size
+            binding.timelineProgress.max = max
+        }
+
+        binding.nextBtn.setOnClickListener {
+            if (viewModel.questionDone.value == true) {
+                setNextQuestion()
+                viewModel.questionDone.value = false
+            }
+        }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun checkAnswer(selectedAnswer: String, cardId: String): Boolean {
-        return if (selectedAnswer == correctAnswer) {
-            correctDialog(correctAnswer)
-            GlobalScope.launch(Dispatchers.IO) {
-                cardDAO.updateCardIsLearned(cardId, 1)
+    private fun checkAnswer(selectedAnswer: String, position: Int) {
+        return if (selectedAnswer == correctCard.symbol) {
+            ioScope.launch(Dispatchers.IO) {
+                correctCard.passed = true
+                viewModel.updateCard(correctCard)
             }
-            setNextQuestion()
+            gridAdapter.selectCorrectCard(position)
             progress++
             setUpProgressBar()
-            true
         } else {
-            wrongDialog(correctAnswer, selectedAnswer)
-            setNextQuestion()
-            false
+            gridAdapter.selectIncorrectCard(position)
         }
     }
 
@@ -75,47 +77,45 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun setNextQuestion() {
+        gridAdapter.resetSelection()
         scope.launch {
-            val cards = cardDAO.getIsLearnedCards(id, false) // get a list of cards that are not learned
-            val randomCard = cardDAO.getLessonCards(id) // get all cards
+            // get all cards
+            val allCards = viewModel.getAllCards(id) as MutableList
+            // get a list of cards that are not learned
+            val notLearnedCards = allCards.filter { !it.passed }
 
-            if (cards.isEmpty()) {
+            if (notLearnedCards.isEmpty()) {
                 finishQuiz()
                 return@launch
             }
 
-            val correctCard = cards.random() // get a random card from a list of cards that are not learned
-            randomCard.remove(correctCard) // remove the correct card from a list of all cards
+            // get a random card from a list of cards that are not learned
+            setRandomCard(notLearnedCards)
 
-            val incorrectCards = randomCard.shuffled().take(3) // get 3 random cards from list of all cards
+            // remove the correct card from a list of all cards
+            allCards.remove(correctCard)
 
-            val allCards = (listOf(correctCard) + incorrectCards).shuffled() // shuffle 4 cards
-            correctAnswer = correctCard.symbol
+            // get 3 random cards from list of all cards
+            val incorrectCards = allCards.shuffled().take(3)
+
+            // shuffle 4 cards
+            val quizCards = (listOf(correctCard) + incorrectCards).shuffled()
 
             withContext(Dispatchers.Main) {
-                binding.optionOne.text = allCards[0].symbol
-                binding.optionTwo.text = allCards[1].symbol
-                binding.optionThree.text = allCards[2].symbol
-                binding.optionFour.text = allCards[3].symbol
+                binding.answersGv.adapter = gridAdapter
+                gridAdapter.clear()
+                gridAdapter.addAll(quizCards)
 
                 Glide.with(baseContext)
                     .load(Uri.parse("file:///android_asset/images/${correctCard.id}.jpg"))
+                    .fitCenter()
                     .into(binding.itemImage)
 
-                binding.optionOne.setOnClickListener {
-                    checkAnswer(binding.optionOne.text.toString(), correctCard.id)
-                }
-
-                binding.optionTwo.setOnClickListener {
-                    checkAnswer(binding.optionTwo.text.toString(), correctCard.id)
-                }
-
-                binding.optionThree.setOnClickListener {
-                    checkAnswer(binding.optionThree.text.toString(), correctCard.id)
-                }
-
-                binding.optionFour.setOnClickListener {
-                    checkAnswer(binding.optionFour.text.toString(), correctCard.id)
+                binding.answersGv.setOnItemClickListener { _, _, position, _ ->
+                    if (viewModel.questionDone.value == false) {
+                        checkAnswer(quizCards[position].symbol, position)
+                        viewModel.questionDone.postValue(true)
+                    }
                 }
 
                 askedCards.add(correctCard)
@@ -123,7 +123,18 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    private fun finishQuiz() { //1 quiz, 2 learn
+    private fun setRandomCard(cards: List<Card>) {
+        if (this::correctCard.isInitialized && cards.size > 1) {
+            val oldCard = correctCard.copy()
+            while (oldCard == correctCard) {
+                correctCard = cards.random()
+            }
+        } else {
+            correctCard = cards.random()
+        }
+    }
+
+    private fun finishQuiz() {
         runOnUiThread {
             PopupDialog.getInstance(this)
                 .setStyle(Styles.SUCCESS)
@@ -143,65 +154,9 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    private fun correctDialog(answer: String) {
-        val dialogBinding = DialogCorrectBinding.inflate(layoutInflater)
-        dialogCorrect.setView(dialogBinding.root)
-        dialogCorrect.setCancelable(true)
-        val builder = dialogCorrect.create()
-        dialogBinding.questionTv.text = answer
-        dialogCorrect.setOnDismissListener {
-            // startAnimations()
-        }
-
-        builder.show()
-    }
-
-    private fun wrongDialog(answer: String, userAnswer: String) {
-        val dialogBinding = DialogWrongBinding.inflate(layoutInflater)
-        dialogWrong.setView(dialogBinding.root)
-        dialogWrong.setCancelable(true)
-        val builder = dialogWrong.create()
-        dialogBinding.explanationTv.text = answer
-        dialogBinding.yourExplanationTv.text = userAnswer
-        dialogBinding.continueTv.setOnClickListener {
-            builder.dismiss()
-        }
-        builder.setOnDismissListener {
-            //startAnimations()
-        }
-        builder.show()
-    }
-
-    private fun startAnimations() {
-        val views =
-            listOf(
-                binding.optionOne,
-                binding.optionTwo,
-                binding.optionThree,
-                binding.optionFour
-            )
-        val duration = 1000L
-        val endValue = -binding.optionOne.width.toFloat()
-
-        views.forEach { view ->
-            val animator = ObjectAnimator.ofFloat(view, "translationX", 0f, endValue)
-            animator.duration = duration
-            animator.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    view.translationX = 0f
-                    if (view == binding.optionFour) {
-                        setNextQuestion()
-                    }
-                }
-            })
-            animator.start()
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
-        dialogCorrect.create().dismiss()
-        dialogWrong.create().dismiss()
+        viewModel.questionDone.postValue(false)
     }
 }

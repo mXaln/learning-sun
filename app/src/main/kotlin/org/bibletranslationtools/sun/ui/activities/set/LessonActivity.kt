@@ -8,25 +8,27 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment
 import com.saadahmedsoft.popupdialog.PopupDialog
 import com.saadahmedsoft.popupdialog.Styles
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
-import org.bibletranslationtools.sun.data.dao.CardDAO
 import org.bibletranslationtools.sun.data.model.Card
-import org.bibletranslationtools.sun.data.model.Status
 import org.bibletranslationtools.sun.databinding.ActivityViewSetBinding
 import org.bibletranslationtools.sun.ui.activities.learn.LearnActivity
 import org.bibletranslationtools.sun.ui.activities.learn.QuizActivity
-import org.bibletranslationtools.sun.ui.activities.learn.TrueFalseFlashCardsActivity
+import org.bibletranslationtools.sun.ui.viewmodels.LessonViewModel
 
-class ViewSetActivity : AppCompatActivity() {
+class LessonActivity : AppCompatActivity() {
     private val binding by lazy { ActivityViewSetBinding.inflate(layoutInflater) }
-    private val cardDAO by lazy { CardDAO(this) }
-    private val cards = arrayListOf<Card>()
+    private val viewModel: LessonViewModel by viewModels()
+    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,29 +41,23 @@ class ViewSetActivity : AppCompatActivity() {
         setupUserDetails()
         setupReviewClickListener()
         setupLearnClickListener()
-        setTrueFalseClickListener()
         setupToolbarNavigation()
-    }
-
-    private fun setTrueFalseClickListener() {
-        binding.trueFalseCl.setOnClickListener {
-            val intent = Intent(this, TrueFalseFlashCardsActivity::class.java)
-            intent.putExtra("id", getIntent().getStringExtra("id"))
-            startActivity(intent)
-        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setupUserDetails() {
-        val id = intent.getStringExtra("id")!!
-        binding.termCountTv.text = getString(
-            R.string.terms_count,
-            cardDAO.countLessonCards(id)
-        )
-        binding.setNameTv.text = getString(
-            R.string.lesson_name,
-            id
-        )
+        viewModel.cards.observe(this) { cards ->
+            intent.getStringExtra("id")?.let { lessonId ->
+                binding.termCountTv.text = getString(
+                    R.string.cards_count,
+                    cards.size
+                )
+                binding.setNameTv.text = getString(
+                    R.string.lesson_name,
+                    lessonId
+                )
+            }
+        }
     }
 
     private fun setupReviewClickListener() {
@@ -73,8 +69,9 @@ class ViewSetActivity : AppCompatActivity() {
     }
 
     private fun setupLearnClickListener() {
-        binding.learnCl.setOnClickListener { v: View? ->
-            if (cardDAO.countLessonCards(intent.getStringExtra("id")!!) < 4) {
+        binding.learnCl.setOnClickListener {
+            val size = viewModel.cards.value?.size ?: 0
+            if (size < 4) {
                 showReviewErrorDialog()
             } else {
                 val intent = Intent(this, QuizActivity::class.java)
@@ -105,12 +102,13 @@ class ViewSetActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun setupCardData() {
-        val id = intent.getStringExtra("id")
-        cards.clear()
-        cards.addAll(cardDAO.getLessonCards(id!!))
-        setUpProgress(cards)
+        intent.getStringExtra("id")?.let {
+            viewModel.loadCards(it)
+        }
+        viewModel.cards.observe(this) {
+            setUpProgress(it)
+        }
     }
 
     private fun setupNavigationListener() {
@@ -124,22 +122,18 @@ class ViewSetActivity : AppCompatActivity() {
         return true
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu) {
             BottomSheetMenuDialogFragment.Builder(this)
                 .setSheet(R.menu.menu_bottom_view_set)
-                .setTitle("Book")
                 .setListener(object : BottomSheetListener {
                     override fun onSheetItemSelected(
                         bottomSheet: BottomSheetMenuDialogFragment,
                         item: MenuItem,
                         obj: Any?
                     ) {
-                        val id = intent.getStringExtra("id")
-                        when (item.itemId) {
-                            else -> handleResetOption(id)
-                        }
+                        val id = intent.getStringExtra("id")!!
+                        handleResetOption(id)
                     }
 
                     override fun onSheetShown(
@@ -162,38 +156,40 @@ class ViewSetActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun handleResetOption(id: String?) {
-        if (cardDAO.resetCard(id!!) > 0L) {
-            Toast.makeText(
-                this@ViewSetActivity,
-                getString(R.string.reset_success),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                this@ViewSetActivity,
-                getString(R.string.reset_error),
-                Toast.LENGTH_SHORT
-            ).show()
+    private fun handleResetOption(id: String) {
+        ioScope.launch {
+            val reset = viewModel.resetCards(id)
+            runOnUiThread {
+                if (reset > 0) {
+                    Toast.makeText(
+                        this@LessonActivity,
+                        getString(R.string.reset_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        this@LessonActivity,
+                        getString(R.string.reset_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setUpProgress(cards: List<Card>) {
-        var notLearned = 0
-        var learning = 0
-        var learned = 0
-        for ((_, _, _, status) in cards) {
-            when (status) {
-                Status.IDLE -> notLearned++
-                Status.LEARNED -> learned++
-                Status.NOT_LEARNED -> learning++
+        var notLearnedCount = 0
+        var learnedCount = 0
+        for ((_, _, _, learned) in cards) {
+            when (learned) {
+                false -> notLearnedCount++
+                else -> learnedCount++
             }
         }
 
-        binding.notLearnTv.text = "Not learned: $notLearned"
-        binding.isLearningTv.text = "Learning: $learning"
-        binding.learnedTv.text = "Learned: $learned"
+        binding.notLearnTv.text = getString(R.string.not_learned_cards, notLearnedCount)
+        binding.learnedTv.text = getString(R.string.learned_cards, learnedCount)
     }
 
     override fun onResume() {

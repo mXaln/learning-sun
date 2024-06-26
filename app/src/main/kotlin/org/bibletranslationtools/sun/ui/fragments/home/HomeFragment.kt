@@ -1,25 +1,22 @@
 package org.bibletranslationtools.sun.ui.fragments.home
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.bibletranslationtools.sun.adapter.flashcard.SetsAdapter
-import org.bibletranslationtools.sun.data.dao.LessonDAO
-import org.bibletranslationtools.sun.data.model.Lesson
+import org.bibletranslationtools.sun.adapter.flashcard.LessonsAdapter
 import org.bibletranslationtools.sun.databinding.FragmentHomeBinding
-import org.bibletranslationtools.sun.ui.activities.search.ViewSearchActivity
+import org.bibletranslationtools.sun.ui.viewmodels.MainViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val flashCards = arrayListOf<Lesson>()
-    private val flashCardDAO by lazy { LessonDAO(requireActivity()) }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,10 +29,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupFlashCards()
+        setupLessons()
         setupVisibility()
         setupSwipeRefreshLayout()
-        setupSearchBar()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             refreshData()
@@ -45,19 +41,23 @@ class HomeFragment : Fragment() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun setupFlashCards() {
-        flashCards.clear()
-        flashCards.addAll(flashCardDAO.getLessons())
+    private fun setupLessons() {
+        viewModel.loadLessons()
         val linearLayoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
         binding.setsRv.layoutManager = linearLayoutManager
-        val setsAdapter = SetsAdapter(requireActivity(), flashCards, false)
+        val setsAdapter = LessonsAdapter(requireActivity())
+
+        viewModel.lessons.observe(viewLifecycleOwner) {
+            setsAdapter.submitList(it)
+        }
+
         binding.setsRv.adapter = setsAdapter
         setsAdapter.notifyDataSetChanged()
     }
 
     private fun setupVisibility() {
-        if (flashCards.isEmpty()) {
+        if (viewModel.lessons.value?.isEmpty() == true) {
             binding.setsCl.visibility = View.GONE
         } else {
             binding.setsCl.visibility = View.VISIBLE
@@ -71,15 +71,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupSearchBar() {
-        binding.searchBar.setOnClickListener {
-            val intent = Intent(requireActivity(), ViewSearchActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     private fun refreshData() {
-        setupFlashCards()
+        setupLessons()
         setupVisibility()
     }
 

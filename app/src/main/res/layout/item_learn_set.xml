@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- https://qiita.com/ntsk/items/dac92596742e18470a55 -->
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,6 +27,21 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent">
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|center"
+                    android:background="@drawable/flash_card_bg"
+                    android:paddingHorizontal="@dimen/_10dp">
+
+                    <ImageView
+                        android:src="@drawable/ic_write"
+                        android:id="@+id/item_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
+
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:orientation="vertical"
@@ -45,22 +59,6 @@
                             android:textColor="@android:color/black"
                             android:fontFamily="@font/sun" />
                 </LinearLayout>
-
-
-                <FrameLayout
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="bottom|center"
-                        android:background="@drawable/flash_card_bg">
-
-                    <ImageView
-                        android:src="@drawable/ic_write"
-                        android:id="@+id/item_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"/>
-                </FrameLayout>
 
             </com.wajahatkarim3.easyflipview.EasyFlipView>
         </androidx.constraintlayout.widget.ConstraintLayout>

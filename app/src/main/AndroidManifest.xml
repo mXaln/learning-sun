@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
@@ -18,13 +17,7 @@
             android:theme="@style/Theme.SUN"
             tools:targetApi="33">
         <activity
-                android:name=".ui.activities.learn.TrueFalseFlashCardsActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.set.ViewSetActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.search.ViewSearchActivity"
+                android:name=".ui.activities.set.LessonActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.learn.QuizActivity"
