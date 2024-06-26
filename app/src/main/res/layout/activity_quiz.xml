@@ -53,16 +53,17 @@
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="@dimen/_260dp"
             android:src="@drawable/ic_write" />
     </FrameLayout>
 
     <GridView
         android:id="@+id/answers_gv"
-        android:layout_width="@dimen/_300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_260dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_20dp"
         android:horizontalSpacing="@dimen/_20dp"
         android:numColumns="2"
         android:verticalSpacing="@dimen/_20dp"
@@ -84,17 +85,14 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/next_btn"
+            android:id="@+id/next_button"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60dp"
-            android:text="@string/next"
-            android:textSize="@dimen/_24sp"
-            app:cornerRadius="@dimen/_10dp"
-            android:textColor="@color/black"
-            app:strokeColor="@color/black"
-            app:strokeWidth="@dimen/_1dp"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_arrow_right"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
             android:layout_marginHorizontal="@dimen/_40dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
+            android:layout_marginBottom="@dimen/_20dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

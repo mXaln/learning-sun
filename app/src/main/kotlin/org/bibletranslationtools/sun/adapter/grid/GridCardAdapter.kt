@@ -30,9 +30,9 @@ class GridCardAdapter(
 
         if (selectedPosition == position) {
             if (selectedCorrect) {
-                binding.root.setBackgroundResource(R.drawable.background_correct)
+                binding.cardFrame.setBackgroundResource(R.drawable.background_correct)
             } else {
-                binding.root.setBackgroundResource(R.drawable.background_incorrect)
+                binding.cardFrame.setBackgroundResource(R.drawable.background_incorrect)
             }
         }
 

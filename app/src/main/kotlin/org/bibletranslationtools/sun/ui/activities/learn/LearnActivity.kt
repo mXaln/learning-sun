@@ -60,29 +60,8 @@ class LearnActivity : AppCompatActivity() {
 
     private fun setupCardsView() {
         with(binding) {
-            var prevPosition = 0
-            var currentPosition = 0
-
             viewPager.adapter = adapter
-            viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    prevPosition = currentPosition
-                    currentPosition = position
-                }
-
-                override fun onPageScrollStateChanged(state: Int) {
-                    if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                        viewModel.cards.value?.let { cards ->
-                            val card = cards[prevPosition]
-                            if (!card.learned) {
-                                card.learned = true
-                                viewModel.saveCard(card)
-                            }
-                        }
-                    }
-                }
-            })
+            viewPager.registerOnPageChangeCallback(callback)
 
             TabLayoutMediator(tabs, viewPager) { _, _ -> }.attach()
 
@@ -96,6 +75,34 @@ class LearnActivity : AppCompatActivity() {
 
     private fun loadCards() {
         viewModel.loadCards()
+    }
+
+    private val callback = object : ViewPager2.OnPageChangeCallback() {
+        var prevPosition = 0
+        var currentPosition = 0
+
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            prevPosition = currentPosition
+            currentPosition = position
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                viewModel.cards.value?.let { cards ->
+                    val card = cards[prevPosition]
+                    if (!card.learned) {
+                        card.learned = true
+                        viewModel.saveCard(card)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.viewPager.unregisterOnPageChangeCallback(callback)
     }
 }
 

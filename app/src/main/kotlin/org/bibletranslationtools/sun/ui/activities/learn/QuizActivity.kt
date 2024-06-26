@@ -49,7 +49,7 @@ class QuizActivity : AppCompatActivity() {
             binding.timelineProgress.max = max
         }
 
-        binding.nextBtn.setOnClickListener {
+        binding.nextButton.setOnClickListener {
             if (viewModel.questionDone.value == true) {
                 setNextQuestion()
                 viewModel.questionDone.value = false
@@ -58,7 +58,7 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun checkAnswer(selectedAnswer: String, position: Int) {
-        return if (selectedAnswer == correctCard.symbol) {
+        if (selectedAnswer == correctCard.symbol) {
             ioScope.launch(Dispatchers.IO) {
                 correctCard.passed = true
                 viewModel.updateCard(correctCard)
@@ -78,6 +78,8 @@ class QuizActivity : AppCompatActivity() {
 
     private fun setNextQuestion() {
         gridAdapter.resetSelection()
+        binding.nextButton.isEnabled = false
+
         scope.launch {
             // get all cards
             val allCards = viewModel.getAllCards(id) as MutableList
@@ -115,6 +117,7 @@ class QuizActivity : AppCompatActivity() {
                     if (viewModel.questionDone.value == false) {
                         checkAnswer(quizCards[position].symbol, position)
                         viewModel.questionDone.postValue(true)
+                        binding.nextButton.isEnabled = true
                     }
                 }
 

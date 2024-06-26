@@ -5,24 +5,27 @@
     android:layout_width="@dimen/_100dp"
     android:layout_height="@dimen/_100dp"
     android:layout_gravity="center"
-    app:cardCornerRadius="@dimen/_5dp"
-    app:cardElevation="@dimen/_5dp"
-    >
+    app:cardCornerRadius="@dimen/_16dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/transparent">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/card_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@drawable/background_card"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/card_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/sun_example"
             android:textSize="@dimen/_80sp"
             android:textColor="@android:color/black"
             android:textAlignment="center"
             android:fontFamily="@font/sun" />
-    </LinearLayout>
+    </FrameLayout>
 
 </androidx.cardview.widget.CardView>
