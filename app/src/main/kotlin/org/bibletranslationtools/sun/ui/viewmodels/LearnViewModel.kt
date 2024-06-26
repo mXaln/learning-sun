@@ -18,9 +18,6 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableCards = MutableLiveData<List<Card>>()
 
     val cards: LiveData<List<Card>> = mutableCards
-    val filteredCards: LiveData<List<Card>> = mutableCards.map { cards ->
-        cards.filter { !it.learned }
-    }
 
     private val lessonIdLiveData = MutableLiveData<String?>()
     val lessonId get() = lessonIdLiveData

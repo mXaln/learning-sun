@@ -44,9 +44,6 @@ android {
         }
     }
 }
-//lokalenow {
-//    listLang = ['vi', 'cn', 'fr', 'de', 'it', 'ja', 'ko', 'pt', 'ru', 'es', 'th', 'tr']
-//}
 
 dependencies {
 
@@ -56,8 +53,8 @@ dependencies {
     implementation 'androidx.compose.ui:ui-android:1.6.8'
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.0'
 
     //room database
     implementation 'androidx.room:room-runtime:2.6.1'
@@ -68,33 +65,20 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
     implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
 
-    //glide
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-
     //circle indicator
     implementation 'me.relex:circleindicator:2.1.6'
 
     //material
     implementation 'com.google.android.material:material:1.12.0'
 
-    //date picker
-    implementation 'com.github.swnishan:materialdatetimepicker:1.0.0'
-
     //swipe to delete
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
-
-    //AvatarImageGenerator
-    implementation 'com.github.amoskorir:avatarimagegenerator:1.5.0'
 
     //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
 
     //relativelayouts
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
-    // Image Loading
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     //Support Library
     implementation 'androidx.appcompat:appcompat:1.7.0'
@@ -103,11 +87,9 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
-    //Card stack view
-    implementation 'com.yuyakaido.android:card-stack-view:2.3.4'
-
     //circle progress bar
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
+
     //easy flip view
     implementation 'com.wajahatkarim:EasyFlipView:3.0.3'
 
@@ -122,12 +104,10 @@ dependencies {
 
     //glide image
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     //simple search view
     implementation 'com.github.Ferfalk:SimpleSearchView:0.2.1'
-
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1"
 

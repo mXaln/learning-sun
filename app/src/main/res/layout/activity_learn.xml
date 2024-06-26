@@ -1,195 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:elevation="1dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.activities.learn.LearnActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".ui.activities.learn.LearnActivity">
 
     <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:elevation="1dp"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            android:layout_width="match_parent"
-            app:title="@string/learn"
-            android:layout_height="wrap_content"/>
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray"
-            android:elevation="0.5dp"
-            android:id="@+id/space"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lesson_name"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:elevation="1dp"
-            android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_10dp"
-            android:id="@+id/lesson_title"/>
-
-    <com.yuyakaido.android.cardstackview.CardStackView
-            android:id="@+id/card_stack_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="4dp"
-            android:visibility="visible"
-            android:layout_marginVertical="@dimen/_10dp"
-            android:clipToPadding="false"
-            android:translationZ="4dp"
-            android:elevation="10dp"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/_30sp"
-            android:layout_marginEnd="@dimen/_30sp">
-    </com.yuyakaido.android.cardstackview.CardStackView>
+        android:id="@+id/toolbar"
+        android:elevation="1dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40dp" />
 
     <LinearLayout
-        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_40dp"
-        android:visibility="visible"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/_10dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/next_btn"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_60dp"
-            android:text="@string/next"
-            android:textSize="@dimen/_24sp"
-            app:cornerRadius="@dimen/_10dp"
-            android:textColor="@color/black"
-            app:strokeColor="@color/black"
-            app:strokeWidth="@dimen/_1dp"
-            android:layout_marginHorizontal="@dimen/_40dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginHorizontal="@dimen/_10dp"
-            android:id="@+id/review_container"
-            android:elevation="1dp" >
-
-        <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:lottie_rawRes="@raw/firework"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/firework_iv"
-                android:layout_marginTop="@dimen/_20sp"
-                android:elevation="1dp"/>
-
-        <TextView
-                android:id="@+id/review_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/review"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:elevation="1dp"
-                android:layout_marginTop="@dimen/_20sp"
-                android:layout_marginStart="@dimen/_20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_party"
-                android:elevation="1dp"
-                android:layout_marginTop="@dimen/_20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/review_iv"/>
-
-        <at.grabner.circleprogress.CircleProgressView
-                android:layout_width="@dimen/_100sp"
-                android:layout_height="@dimen/_100sp"
-                android:layout_marginTop="@dimen/_30sp"
-                app:cpv_autoTextSize="false"
-                app:cpv_textSize="@dimen/_25sp"
-                app:cpv_barColor="@color/green_light"
-                app:cpv_barWidth="17dp"
-                app:cpv_innerContourSize="0dp"
-                app:cpv_maxValue="100"
-                app:cpv_outerContourSize="0dp"
-                app:cpv_rimColor="@color/orange"
-                app:cpv_rimWidth="17dp"
-                app:cpv_seekMode="true"
-                app:cpv_showUnit="true"
-                app:cpv_spinColor="@color/azure_blue"
-                app:cpv_textColor="@color/dark_gray"
-                app:cpv_textScale="1"
-                app:cpv_unit="%"
-                app:cpv_roundToBlock="false"
-                android:elevation="1dp"
-                app:cpv_unitSize="@dimen/_20sp"
-                app:cpv_unitToTextScale="0.8"
-                app:cpv_unitTypeface="fonts/roboto_regular.ttf"
-                app:cpv_unitColor="@color/celestial_blue"
-                app:cpv_unitPosition="bottom"
-                app:cpv_unitScale="1"
-                app:cpv_value="100"
-                android:id="@+id/review_progress"
-                app:layout_constraintTop_toBottomOf="@id/review_tv"
-                app:layout_constraintStart_toStartOf="@id/review_tv"/>
-
-        <TextView
-            android:id="@+id/know_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20dp"
-            android:layout_marginTop="@dimen/_30sp"
-            android:elevation="1dp"
-            android:text="@string/know"
-            android:textColor="@color/green_light"
-            android:textSize="@dimen/_20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/review_progress"
-            app:layout_constraintTop_toTopOf="@id/review_progress" />
+            android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/know_number_tv"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:background="@drawable/learn"
-                android:textColor="@color/white"
+                android:text="@string/learn_symbols"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:elevation="1dp"
-                android:paddingHorizontal="@dimen/_20sp"
-                android:paddingVertical="3sp"
-                app:layout_constraintTop_toTopOf="@id/know_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/_16dp"/>
+                android:textColor="@color/primary"
+                android:layout_marginTop="@dimen/_10dp"
+                android:id="@+id/page_title" />
 
-        <Button
-                android:layout_marginTop="@dimen/_50sp"
-                android:layout_marginHorizontal="@dimen/_50sp"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/start_quiz_btn"
-                android:background="@drawable/button_background"
-                android:textStyle="bold"
+                android:text="@string/lesson_name"
+                android:textSize="@dimen/_16sp"
                 android:elevation="1dp"
-                android:textColor="@color/white"
-                android:text="@string/start_quiz"
-                app:layout_constraintTop_toBottomOf="@id/review_progress"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:layout_marginTop="@dimen/_10dp"
+                android:id="@+id/lesson_title" />
+        </LinearLayout>
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_40dp" >
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/_20dp"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tabs"
+            app:tabBackground="@drawable/selector_dot"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="@dimen/_25dp"
+            app:tabTextColor="@color/transparent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/prev_button"
+                android:layout_width="@dimen/_120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/back"
+                android:layout_marginStart="@dimen/_16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/next_button"
+                android:layout_width="@dimen/_120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/next"
+                android:layout_marginEnd="@dimen/_16dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

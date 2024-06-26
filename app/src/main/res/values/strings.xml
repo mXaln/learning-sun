@@ -10,7 +10,7 @@
     <string name="view_all">View all</string>
     <string name="settings">Your settings</string>
     <string name="card">cards</string>
-    <string name="learn">Learn</string>
+    <string name="learn_symbols">Learn Symbols</string>
     <string name="flashcards_description">Review terms and definitions</string>
     <string name="quiz">Quiz</string>
     <string name="review">You did it great!\n Now it\'s time to test what you have learned.</string>
@@ -78,4 +78,5 @@
     <string name="unknown" translatable="false">example</string>
     <string name="sun_example" translatable="false"></string>
     <string name="next">Next</string>
+    <string name="back">Back</string>
 </resources>

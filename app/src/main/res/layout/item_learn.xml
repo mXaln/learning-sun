@@ -52,7 +52,7 @@
                             android:id="@+id/front_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="@string/culminate"
+                            android:text="@string/sun_example"
                             android:textStyle="bold"
                             android:textSize="@dimen/_180sp"
                             android:gravity="center"
@@ -62,31 +62,5 @@
 
             </com.wajahatkarim3.easyflipview.EasyFlipView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <FrameLayout
-                android:id="@+id/left_overlay"
-                android:layout_width="match_parent"
-                android:background="@drawable/overlay_orange"
-                android:layout_height="match_parent">
-
-        </FrameLayout>
-
-        <FrameLayout
-                android:id="@+id/right_overlay"
-                android:layout_width="match_parent"
-                android:background="@drawable/overlay_green"
-                android:layout_height="match_parent">
-
-        </FrameLayout>
-
-        <FrameLayout
-                android:id="@+id/top_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        <FrameLayout
-                android:id="@+id/bottom_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
 
 </FrameLayout>
