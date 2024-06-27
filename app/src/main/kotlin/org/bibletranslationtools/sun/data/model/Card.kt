@@ -10,8 +10,6 @@ data class Card(
     val id: String,
     @ColumnInfo(name = "symbol")
     val symbol: String,
-    @ColumnInfo(name = "variations")
-    val variations: List<String>,
     @ColumnInfo(name = "learned")
     var learned: Boolean = false,
     @ColumnInfo(name = "passed")
@@ -25,13 +23,10 @@ data class Card(
         val card = other as Card
         return id == card.id &&
                 symbol == card.symbol &&
-                variations == card.variations &&
-                learned == card.learned &&
-                passed == card.passed &&
                 lessonId == card.lessonId
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(id, symbol, variations, learned, passed, lessonId)
+        return Objects.hash(id, symbol, lessonId)
     }
 }

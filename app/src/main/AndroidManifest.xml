@@ -20,11 +20,14 @@
                 android:name=".ui.activities.set.LessonActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.learn.QuizActivity"
+                android:name=".ui.activities.learn.SymbolReviewActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.learn.LearnActivity"
+                android:name=".ui.activities.learn.SymbolLearnActivity"
                 android:exported="false"/>
+        <activity
+            android:name=".ui.activities.test.SentenceTestActivity"
+            android:exported="false"/>
         <activity
                 android:name=".ui.activities.MainActivity"
                 android:exported="true">

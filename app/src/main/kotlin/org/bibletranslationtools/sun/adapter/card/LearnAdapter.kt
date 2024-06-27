@@ -47,7 +47,7 @@ class LearnAdapter : ListAdapter<Card, LearnAdapter.ViewHolder>(callback) {
                 cardViewFlip.setToHorizontalType()
 
                 Glide.with(itemImage.context)
-                    .load(Uri.parse("file:///android_asset/images/${card.id}.jpg"))
+                    .load(Uri.parse("file:///android_asset/images/learn/${card.id}.jpg"))
                     .fitCenter()
                     .into(itemImage)
             }

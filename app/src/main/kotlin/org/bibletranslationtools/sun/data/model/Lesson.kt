@@ -5,9 +5,10 @@ import androidx.room.Entity
 import androidx.room.Ignore
 
 @Entity(tableName = "lessons", primaryKeys = ["id"])
-data class Lesson @JvmOverloads constructor(
+data class Lesson(
     @ColumnInfo(name = "id")
-    val id: String,
+    val id: String
+) {
     @Ignore
     val cards: List<Card> = listOf()
-)
+}

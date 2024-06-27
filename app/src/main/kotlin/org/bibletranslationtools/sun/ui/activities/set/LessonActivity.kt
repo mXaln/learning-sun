@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -21,8 +20,9 @@ import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ActivityViewSetBinding
-import org.bibletranslationtools.sun.ui.activities.learn.LearnActivity
-import org.bibletranslationtools.sun.ui.activities.learn.QuizActivity
+import org.bibletranslationtools.sun.ui.activities.learn.SymbolLearnActivity
+import org.bibletranslationtools.sun.ui.activities.learn.SymbolReviewActivity
+import org.bibletranslationtools.sun.ui.activities.test.SentenceTestActivity
 import org.bibletranslationtools.sun.ui.viewmodels.LessonViewModel
 
 class LessonActivity : AppCompatActivity() {
@@ -30,7 +30,6 @@ class LessonActivity : AppCompatActivity() {
     private val viewModel: LessonViewModel by viewModels()
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -39,12 +38,12 @@ class LessonActivity : AppCompatActivity() {
         setupCardData()
         setupNavigationListener()
         setupUserDetails()
-        setupReviewClickListener()
         setupLearnClickListener()
+        setupReviewClickListener()
+        setupTestClickListener()
         setupToolbarNavigation()
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setupUserDetails() {
         viewModel.cards.observe(this) { cards ->
             intent.getStringExtra("id")?.let { lessonId ->
@@ -60,24 +59,32 @@ class LessonActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupReviewClickListener() {
-        binding.reviewCl.setOnClickListener { v: View? ->
-            val intent = Intent(this, LearnActivity::class.java)
-            intent.putExtra("id", getIntent().getStringExtra("id"))
-            startActivity(intent)
-        }
-    }
-
     private fun setupLearnClickListener() {
         binding.learnCl.setOnClickListener {
             val size = viewModel.cards.value?.size ?: 0
             if (size < 4) {
                 showReviewErrorDialog()
             } else {
-                val intent = Intent(this, QuizActivity::class.java)
+                val intent = Intent(this, SymbolReviewActivity::class.java)
                 intent.putExtra("id", getIntent().getStringExtra("id"))
                 startActivity(intent)
             }
+        }
+    }
+
+    private fun setupReviewClickListener() {
+        binding.reviewCl.setOnClickListener {
+            val intent = Intent(this, SymbolLearnActivity::class.java)
+            intent.putExtra("id", getIntent().getStringExtra("id"))
+            startActivity(intent)
+        }
+    }
+
+    private fun setupTestClickListener() {
+        binding.testCl.setOnClickListener {
+            val intent = Intent(this, SentenceTestActivity::class.java)
+            intent.putExtra("id", getIntent().getStringExtra("id"))
+            startActivity(intent)
         }
     }
 
@@ -130,7 +137,7 @@ class LessonActivity : AppCompatActivity() {
                     override fun onSheetItemSelected(
                         bottomSheet: BottomSheetMenuDialogFragment,
                         item: MenuItem,
-                        obj: Any?
+                        `object`: Any?
                     ) {
                         val id = intent.getStringExtra("id")!!
                         handleResetOption(id)
@@ -138,12 +145,12 @@ class LessonActivity : AppCompatActivity() {
 
                     override fun onSheetShown(
                         bottomSheet: BottomSheetMenuDialogFragment,
-                        obj: Any?
+                        `object`: Any?
                     ) {}
 
                     override fun onSheetDismissed(
                         bottomSheet: BottomSheetMenuDialogFragment,
-                        obj: Any?,
+                        `object`: Any?,
                         dismissEvent: Int
                     ) {}
                 })
@@ -181,7 +188,7 @@ class LessonActivity : AppCompatActivity() {
     private fun setUpProgress(cards: List<Card>) {
         var notLearnedCount = 0
         var learnedCount = 0
-        for ((_, _, _, learned) in cards) {
+        for ((_, _, learned) in cards) {
             when (learned) {
                 false -> notLearnedCount++
                 else -> learnedCount++

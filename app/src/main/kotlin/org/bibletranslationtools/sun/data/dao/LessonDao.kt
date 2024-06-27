@@ -5,9 +5,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
-import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.data.model.Lesson
+import org.bibletranslationtools.sun.data.model.LessonWithCards
 
 @Dao
 interface LessonDao {
@@ -20,12 +21,15 @@ interface LessonDao {
     @Update
     suspend fun update(lesson: Lesson)
 
+    @Transaction
     @Query("SELECT * FROM lessons")
     suspend fun getAll(): List<Lesson>
 
-    @Query("SELECT * FROM lessons JOIN cards ON lessons.id = cards.lesson_id")
-    suspend fun getAllWithCards(): Map<Lesson, List<Card>>
+    @Transaction
+    @Query("SELECT * FROM lessons")
+    suspend fun getAllWithCards(): List<LessonWithCards>
 
+    @Transaction
     @Query("SELECT * FROM lessons WHERE id = :id")
     suspend fun get(id: String): Lesson?
 }

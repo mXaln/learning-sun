@@ -6,53 +6,43 @@
       "cards": [
         {
           "id": "1a",
-          "symbol": "\uE29C",
-          "variations": ["pen", "write"]
+          "symbol": "\uE29C"
         },
         {
           "id": "1b",
-          "symbol": "\uE22A",
-          "variations": ["book", "learn", "read"]
+          "symbol": "\uE22A"
         },
         {
           "id": "1c",
-          "symbol": "\uE247",
-          "variations": ["water", "wet"]
+          "symbol": "\uE247"
         },
         {
           "id": "1d",
-          "symbol": "\uE274",
-          "variations": ["cup", "drink"]
+          "symbol": "\uE274"
         },
         {
           "id": "1e",
-          "symbol": "\uE298",
-          "variations": ["chair", "seat"]
+          "symbol": "\uE298"
         },
         {
           "id": "1f",
-          "symbol": "\uE23E",
-          "variations": ["door"]
+          "symbol": "\uE23E"
         },
         {
           "id": "1g",
-          "symbol": "\uE311",
-          "variations": ["window"]
+          "symbol": "\uE311"
         },
         {
           "id": "1h",
-          "symbol": "\uE11F",
-          "variations": ["person"]
+          "symbol": "\uE11F"
         },
         {
           "id": "1i",
-          "symbol": "\uE071",
-          "variations": ["hand"]
+          "symbol": "\uE071"
         },
         {
           "id": "1j",
-          "symbol": "\uE263",
-          "variations": ["fish"]
+          "symbol": "\uE263"
         }
       ]
     },
@@ -61,53 +51,43 @@
       "cards": [
         {
           "id": "2a",
-          "symbol": "\uE299",
-          "variations": ["ear", "hear"]
+          "symbol": "\uE299"
         },
         {
           "id": "2b",
-          "symbol": "\uE309",
-          "variations": ["nose", "smell"]
+          "symbol": "\uE309"
         },
         {
           "id": "2c",
-          "symbol": "\uE238",
-          "variations": ["eye", "see"]
+          "symbol": "\uE238"
         },
         {
           "id": "2d",
-          "symbol": "\uE03F",
-          "variations": ["mouth", "said", "speak", "confess"]
+          "symbol": "\uE03F"
         },
         {
           "id": "2e",
-          "symbol": "\uE000",
-          "variations": ["man"]
+          "symbol": "\uE000"
         },
         {
           "id": "2f",
-          "symbol": "\uE272",
-          "variations": ["moon", "night"]
+          "symbol": "\uE272"
         },
         {
           "id": "2g",
-          "symbol": "\uE15F",
-          "variations": ["sun", "day"]
+          "symbol": "\uE15F"
         },
         {
           "id": "2h",
-          "symbol": "\uE384",
-          "variations": ["bowl", "dish"]
+          "symbol": "\uE384"
         },
         {
           "id": "2i",
-          "symbol": "\uE23C",
-          "variations": ["road", "path", "way"]
+          "symbol": "\uE23C"
         },
         {
           "id": "2j",
-          "symbol": "\uE315",
-          "variations": ["up"]
+          "symbol": "\uE315"
         }
       ]
     }

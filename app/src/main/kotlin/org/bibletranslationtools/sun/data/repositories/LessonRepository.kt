@@ -2,6 +2,7 @@ package org.bibletranslationtools.sun.data.repositories
 
 import org.bibletranslationtools.sun.data.dao.LessonDao
 import org.bibletranslationtools.sun.data.model.Lesson
+import org.bibletranslationtools.sun.data.model.LessonWithCards
 
 class LessonRepository(private val lessonDao: LessonDao) {
     suspend fun insert(lesson: Lesson) {
@@ -20,10 +21,8 @@ class LessonRepository(private val lessonDao: LessonDao) {
         return lessonDao.getAll()
     }
 
-    suspend fun getAllWithCards(): List<Lesson> {
-        return lessonDao.getAllWithCards().map { (lesson, cards) ->
-            lesson.copy(cards = cards)
-        }
+    suspend fun getAllWithCards(): List<LessonWithCards> {
+        return lessonDao.getAllWithCards()
     }
 
     suspend fun get(id: String): Lesson? {
