@@ -3,7 +3,6 @@ package org.bibletranslationtools.sun.ui.activities.test
 import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +25,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     private val binding by lazy { ActivityTestBinding.inflate(layoutInflater) }
     private val viewModel: TestViewModel by viewModels()
     private val variantsAdapter: TestSymbolAdapter by lazy {
-        TestSymbolAdapter(this)
+        TestSymbolAdapter(listener = this)
     }
     private val answersAdapter: TestSymbolAdapter by lazy {
         TestSymbolAdapter()
@@ -40,6 +39,10 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     private val ioScope = CoroutineScope(Dispatchers.IO)
     private val totalVariants = 4
     private val askedSentences = arrayListOf<SentenceWithSymbols>()
+    private var lastAnswerPosition = -1
+
+    private val variantSymbols = arrayListOf<Symbol>()
+    private val answerSymbols = arrayListOf<Symbol>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +53,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        setNextQuestion()
+        setNextSentence()
 
         ioScope.launch {
             val max = viewModel.getPassedSentences(id, false).size
@@ -58,39 +61,61 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         }
 
         binding.nextButton.setOnClickListener {
-            if (viewModel.questionDone.value == true) {
-                setNextQuestion()
-                viewModel.questionDone.value = false
+            if (viewModel.sentenceDone.value == true) {
+                setNextSentence()
+                viewModel.sentenceDone.value = false
             }
         }
     }
 
-    override fun onSymbolSelected(symbol: Symbol) {
-        println(symbol)
+    override fun onSymbolSelected(symbol: Symbol, position: Int) {
+        if (viewModel.sentenceDone.value == false) {
+            symbol.correct = true
+            variantsAdapter.selectCorrect(position)
+
+            lastAnswerPosition++
+            answerSymbols[lastAnswerPosition] = symbol.copy()
+            answersAdapter.submitList(answerSymbols)
+
+            if (lastAnswerPosition >= answersAdapter.itemCount - 1) {
+                checkAnswer()
+                viewModel.sentenceDone.postValue(true)
+                binding.nextButton.isEnabled = true
+                lastAnswerPosition = -1
+            }
+        }
     }
 
-    private fun checkAnswer(selectedAnswer: String, position: Int) {
-        /*if (selectedAnswer == correctCard.symbol) {
+    private fun checkAnswer() {
+        val correctSymbols = currentSentence.symbols
+
+        val correct = correctSymbols.map { it.id } == answerSymbols.map { it.id }
+
+        if (correct) {
             ioScope.launch(Dispatchers.IO) {
-                correctCard.passed = true
-                viewModel.updateCard(correctCard)
+                currentSentence.sentence.passed = true
+                viewModel.updateSentence(currentSentence.sentence)
             }
-            gridAdapter.selectCorrectCard(position)
             progress++
             setUpProgressBar()
-        } else {
-            gridAdapter.selectIncorrectCard(position)
-        }*/
+        }
+
+        answerSymbols.zip(correctSymbols).withIndex().forEach { (index, pair) ->
+            if (pair.first.name == pair.second.name) {
+                pair.first.correct = true
+                answersAdapter.selectCorrect(index)
+            } else {
+                pair.first.correct = false
+                answersAdapter.selectIncorrect(index)
+            }
+        }
     }
 
     private fun setUpProgressBar() {
         binding.timelineProgress.progress = progress
-        Log.d("progress", progress.toString())
     }
 
-    private fun setNextQuestion() {
-        answersAdapter.resetSelection()
-        variantsAdapter.resetSelection()
+    private fun setNextSentence() {
         binding.nextButton.isEnabled = false
 
         scope.launch {
@@ -119,11 +144,13 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
                 .shuffled()
                 .take(totalVariants - currentSentence.symbols.size)
 
-            val testSymbols = (currentSentence.symbols + incorrectSymbols).shuffled()
-            setVariants(testSymbols)
+            variantSymbols.clear()
+            variantSymbols.addAll((currentSentence.symbols + incorrectSymbols).shuffled())
+            setVariants(variantSymbols)
 
-            val answersSymbols = currentSentence.symbols.map { it.copy(name = "") }
-            setAnswers(answersSymbols)
+            answerSymbols.clear()
+            answerSymbols.addAll(currentSentence.symbols.map { it.copy(name = "") })
+            setAnswers(answerSymbols)
 
             askedSentences.add(currentSentence)
         }
@@ -163,36 +190,26 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
-        viewModel.questionDone.postValue(false)
+        viewModel.sentenceDone.postValue(false)
     }
 
     private fun setVariants(symbols: List<Symbol>) {
-        binding.variantsRv.layoutManager = LinearLayoutManager(
+        binding.variantsList.layoutManager = LinearLayoutManager(
             this@SentenceTestActivity,
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.variantsRv.adapter = variantsAdapter
+        binding.variantsList.adapter = variantsAdapter
         variantsAdapter.submitList(symbols)
-
-        /*binding.variantsRv.setOnItemClickListener { _, _, position, _ ->
-            if (viewModel.questionDone.value == false) {
-                checkAnswer(testSymbols[position].symbol, position)
-                viewModel.questionDone.postValue(true)
-                binding.nextButton.isEnabled = true
-            }
-        }*/
-
-        binding.variantsRv.setOnClickListener {  }
     }
 
     private fun setAnswers(symbols: List<Symbol>) {
-        binding.answersRv.layoutManager = LinearLayoutManager(
+        binding.answersList.layoutManager = LinearLayoutManager(
             this@SentenceTestActivity,
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.answersRv.adapter = answersAdapter
+        binding.answersList.adapter = answersAdapter
         answersAdapter.submitList(symbols)
     }
 }

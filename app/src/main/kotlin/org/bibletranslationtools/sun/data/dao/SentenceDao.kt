@@ -32,4 +32,8 @@ interface SentenceDao {
     @Transaction
     @Query("SELECT * FROM sentences WHERE test_id = :testId AND passed = :passed")
     suspend fun getPassed(testId: String, passed: Boolean): List<Sentence>
+
+    @Transaction
+    @Query("UPDATE sentences SET passed = 0 WHERE test_id = :testId")
+    suspend fun resetAll(testId: String): Int
 }

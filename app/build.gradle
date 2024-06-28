@@ -109,6 +109,6 @@ dependencies {
     //simple search view
     implementation 'com.github.Ferfalk:SimpleSearchView:0.2.1'
 
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1"
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1'
 
 }

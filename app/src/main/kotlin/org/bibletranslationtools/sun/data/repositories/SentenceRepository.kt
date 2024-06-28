@@ -38,4 +38,8 @@ class SentenceRepository(
         return sentenceDao.getPassed(testId, passed)
     }
 
+    suspend fun resetAll(lessonId: String): Int {
+        return sentenceDao.resetAll(lessonId)
+    }
+
 }

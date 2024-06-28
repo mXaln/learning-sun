@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.GridItemBinding
 
@@ -30,22 +29,22 @@ class GridCardAdapter(
 
         if (selectedPosition == position) {
             if (selectedCorrect) {
-                binding.cardFrame.setBackgroundResource(R.drawable.background_correct)
+                binding.cardFrame.isActivated = true
             } else {
-                binding.cardFrame.setBackgroundResource(R.drawable.background_incorrect)
+                binding.cardFrame.isSelected = true
             }
         }
 
         return binding.root
     }
 
-    fun selectCorrectCard(position: Int) {
+    fun selectCorrect(position: Int) {
         selectedPosition = position
         selectedCorrect = true
         notifyDataSetChanged()
     }
 
-    fun selectIncorrectCard(position: Int) {
+    fun selectIncorrect(position: Int) {
         selectedPosition = position
         selectedCorrect = false
         notifyDataSetChanged()

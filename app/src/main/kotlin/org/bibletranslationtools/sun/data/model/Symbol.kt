@@ -2,6 +2,7 @@ package org.bibletranslationtools.sun.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "symbols")
@@ -14,4 +15,9 @@ data class Symbol(
     val name: String,
     @ColumnInfo(name = "sentence_id")
     var sentenceId: String? = null
-)
+) {
+    @Ignore
+    var selected = false
+    @Ignore
+    var correct: Boolean? = null
+}

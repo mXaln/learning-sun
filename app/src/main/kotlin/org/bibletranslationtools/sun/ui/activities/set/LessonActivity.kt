@@ -165,7 +165,7 @@ class LessonActivity : AppCompatActivity() {
 
     private fun handleResetOption(id: String) {
         ioScope.launch {
-            val reset = viewModel.resetCards(id)
+            val reset = viewModel.resetLesson(id)
             runOnUiThread {
                 if (reset > 0) {
                     Toast.makeText(

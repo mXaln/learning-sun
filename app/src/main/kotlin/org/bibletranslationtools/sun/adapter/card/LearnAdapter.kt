@@ -13,12 +13,10 @@ import org.bibletranslationtools.sun.databinding.ItemLearnBinding
 
 class LearnAdapter : ListAdapter<Card, LearnAdapter.ViewHolder>(callback) {
 
-    private lateinit var binding: ItemLearnBinding
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        binding = ItemLearnBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder()
+        val binding = ItemLearnBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,7 +36,9 @@ class LearnAdapter : ListAdapter<Card, LearnAdapter.ViewHolder>(callback) {
         }
     }
 
-    inner class ViewHolder : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(
+        private val binding: ItemLearnBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
             binding.apply {
                 frontTv.text = card.symbol

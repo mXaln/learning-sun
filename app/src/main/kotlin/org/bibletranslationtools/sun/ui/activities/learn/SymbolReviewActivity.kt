@@ -63,11 +63,11 @@ class SymbolReviewActivity : AppCompatActivity() {
                 currentCard.passed = true
                 viewModel.updateCard(currentCard)
             }
-            gridAdapter.selectCorrectCard(position)
+            gridAdapter.selectCorrect(position)
             progress++
             setUpProgressBar()
         } else {
-            gridAdapter.selectIncorrectCard(position)
+            gridAdapter.selectIncorrect(position)
         }
     }
 

@@ -9,24 +9,30 @@ import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.data.AppDatabase
 import org.bibletranslationtools.sun.data.repositories.CardRepository
 import org.bibletranslationtools.sun.data.model.Card
+import org.bibletranslationtools.sun.data.repositories.SentenceRepository
 
 class LessonViewModel(application: Application) : AndroidViewModel(application) {
     val cards: LiveData<List<Card>> get() = mutableCards
     private val mutableCards = MutableLiveData<List<Card>>()
-    private val repository: CardRepository
+    private val cardRepository: CardRepository
+    private val sentenceRepository: SentenceRepository
 
     init {
         val dao = AppDatabase.getDatabase(application).getCardDao()
-        repository = CardRepository(dao)
+        cardRepository = CardRepository(dao)
+        val sentenceDao = AppDatabase.getDatabase(application).getSentenceDao()
+        val symbolDao = AppDatabase.getDatabase(application).getSymbolDao()
+        sentenceRepository = SentenceRepository(sentenceDao, symbolDao)
     }
 
     fun loadCards(lessonId: String) {
         viewModelScope.launch {
-            mutableCards.value = repository.getAll(lessonId)
+            mutableCards.value = cardRepository.getAll(lessonId)
         }
     }
 
-    suspend fun resetCards(lessonId: String): Int {
-        return repository.resetAll(lessonId)
+    suspend fun resetLesson(lessonId: String): Int {
+        return cardRepository.resetAll(lessonId) +
+                sentenceRepository.resetAll(lessonId)
     }
 }

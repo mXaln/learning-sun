@@ -11,7 +11,7 @@ import org.bibletranslationtools.sun.data.repositories.SentenceRepository
 class TestViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: SentenceRepository
 
-    val questionDone = MutableLiveData(false)
+    val sentenceDone = MutableLiveData(false)
 
     init {
         val sentenceDao = AppDatabase.getDatabase(application).getSentenceDao()
@@ -25,5 +25,9 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun getPassedSentences(testId: String, passed: Boolean): List<Sentence> {
         return repository.getPassed(testId, passed)
+    }
+
+    suspend fun updateSentence(sentence: Sentence) {
+        repository.update(sentence)
     }
 }

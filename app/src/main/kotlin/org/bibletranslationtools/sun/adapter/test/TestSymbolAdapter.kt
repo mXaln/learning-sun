@@ -13,23 +13,18 @@ class TestSymbolAdapter(
 ) : ListAdapter<Symbol, TestSymbolAdapter.ViewHolder>(callback) {
 
     interface OnSymbolSelectedListener {
-        fun onSymbolSelected(symbol: Symbol)
+        fun onSymbolSelected(symbol: Symbol, position: Int)
     }
-
-    private lateinit var binding: GridItemBinding
-
-    private var selectedPosition = -1
-    private var selectedCorrect = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        binding = GridItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder()
+        val binding = GridItemBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val symbol = getItem(position)
-        holder.bind(symbol)
+        holder.bind(symbol, position)
     }
 
     companion object {
@@ -44,30 +39,37 @@ class TestSymbolAdapter(
         }
     }
 
-    inner class ViewHolder : RecyclerView.ViewHolder(binding.root) {
-        fun bind(symbol: Symbol) {
+    inner class ViewHolder(
+        private val binding: GridItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(symbol: Symbol, position: Int) {
             binding.apply {
                 cardText.text = symbol.name
 
                 root.setOnClickListener {
-                    listener?.onSymbolSelected(symbol)
+                    if (!symbol.selected) {
+                        symbol.selected = true
+                        listener?.onSymbolSelected(symbol, position)
+                    }
+                }
+
+                when(symbol.correct) {
+                    true -> cardFrame.isActivated = true
+                    false -> cardFrame.isSelected = true
+                    else -> {
+                        cardFrame.isActivated = false
+                        cardFrame.isSelected = false
+                    }
                 }
             }
         }
     }
 
-    fun selectCorrectCard(position: Int) {
-        selectedPosition = position
-        selectedCorrect = true
+    fun selectCorrect(position: Int) {
+        notifyItemChanged(position)
     }
 
-    fun selectIncorrectCard(position: Int) {
-        selectedPosition = position
-        selectedCorrect = false
-    }
-
-    fun resetSelection() {
-        selectedPosition = -1
-        selectedCorrect = false
+    fun selectIncorrect(position: Int) {
+        notifyItemChanged(position)
     }
 }

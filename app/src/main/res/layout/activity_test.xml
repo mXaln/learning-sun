@@ -68,7 +68,7 @@
         app:layout_constraintBottom_toTopOf="@id/variants_container">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/answers_rv"
+            android:id="@+id/answers_list"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_20dp"
@@ -87,7 +87,7 @@
         app:layout_constraintBottom_toTopOf="@id/button_container">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/variants_rv"
+            android:id="@+id/variants_list"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
