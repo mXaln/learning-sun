@@ -113,7 +113,7 @@ class SymbolReviewActivity : AppCompatActivity() {
                 gridAdapter.addAll(reviewCards)
 
                 Glide.with(baseContext)
-                    .load(Uri.parse("file:///android_asset/images/learn/${currentCard.id}.jpg"))
+                    .load(Uri.parse("file:///android_asset/images/learn/${currentCard.image}"))
                     .fitCenter()
                     .into(binding.itemImage)
 

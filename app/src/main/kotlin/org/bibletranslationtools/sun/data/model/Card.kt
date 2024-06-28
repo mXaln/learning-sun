@@ -10,6 +10,8 @@ data class Card(
     val id: String,
     @ColumnInfo(name = "symbol")
     val symbol: String,
+    @ColumnInfo(name = "image")
+    val image: String,
     @ColumnInfo(name = "learned")
     var learned: Boolean = false,
     @ColumnInfo(name = "passed")

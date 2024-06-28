@@ -80,6 +80,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
             lastAnswerPosition++
             answerSymbols[lastAnswerPosition] = symbol.copy()
             answersAdapter.submitList(answerSymbols)
+            answersAdapter.notifyItemChanged(lastAnswerPosition)
 
             if (lastAnswerPosition >= answersAdapter.itemCount - 1) {
                 checkAnswer()

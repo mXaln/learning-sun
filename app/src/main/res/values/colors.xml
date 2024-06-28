@@ -26,4 +26,6 @@
 
     <!--    main-->
     <color name="primary">#49BAFF</color>
+    <color name="primary_dark">#004874</color>
+    <color name="accent">#00C78E</color>
 </resources>

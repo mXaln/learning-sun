@@ -6,43 +6,53 @@
       "cards": [
         {
           "id": "1a",
-          "symbol": "\uE29C"
+          "symbol": "\uE29C",
+          "image": "1.jpg"
         },
         {
           "id": "1b",
-          "symbol": "\uE22A"
+          "symbol": "\uE22A",
+          "image": "2.jpg"
         },
         {
           "id": "1c",
-          "symbol": "\uE247"
+          "symbol": "\uE247",
+          "image": "3.jpg"
         },
         {
           "id": "1d",
-          "symbol": "\uE274"
+          "symbol": "\uE274",
+          "image": "4.jpg"
         },
         {
           "id": "1e",
-          "symbol": "\uE298"
+          "symbol": "\uE298",
+          "image": "5.jpg"
         },
         {
           "id": "1f",
-          "symbol": "\uE23E"
+          "symbol": "\uE23E",
+          "image": "6.jpg"
         },
         {
           "id": "1g",
-          "symbol": "\uE311"
+          "symbol": "\uE311",
+          "image": "7.jpg"
         },
         {
           "id": "1h",
-          "symbol": "\uE11F"
+          "symbol": "\uE11F",
+          "image": "8.jpg"
         },
         {
           "id": "1i",
-          "symbol": "\uE071"
+          "symbol": "\uE071",
+          "image": "9.jpg"
         },
         {
           "id": "1j",
-          "symbol": "\uE263"
+          "symbol": "\uE263",
+          "image": "10.jpg"
         }
       ]
     },
@@ -51,43 +61,53 @@
       "cards": [
         {
           "id": "2a",
-          "symbol": "\uE299"
+          "symbol": "\uE299",
+          "image": "11.jpg"
         },
         {
           "id": "2b",
-          "symbol": "\uE309"
+          "symbol": "\uE309",
+          "image": "12.jpg"
         },
         {
           "id": "2c",
-          "symbol": "\uE238"
+          "symbol": "\uE238",
+          "image": "13.jpg"
         },
         {
           "id": "2d",
-          "symbol": "\uE03F"
+          "symbol": "\uE03F",
+          "image": "14.jpg"
         },
         {
           "id": "2e",
-          "symbol": "\uE000"
+          "symbol": "\uE000",
+          "image": "15.jpg"
         },
         {
           "id": "2f",
-          "symbol": "\uE272"
+          "symbol": "\uE272",
+          "image": "16.jpg"
         },
         {
           "id": "2g",
-          "symbol": "\uE15F"
+          "symbol": "\uE15F",
+          "image": "17.jpg"
         },
         {
           "id": "2h",
-          "symbol": "\uE384"
+          "symbol": "\uE384",
+          "image": "18.jpg"
         },
         {
           "id": "2i",
-          "symbol": "\uE23C"
+          "symbol": "\uE23C",
+          "image": "19.jpg"
         },
         {
           "id": "2j",
-          "symbol": "\uE315"
+          "symbol": "\uE315",
+          "image": "20.jpg"
         }
       ]
     }
