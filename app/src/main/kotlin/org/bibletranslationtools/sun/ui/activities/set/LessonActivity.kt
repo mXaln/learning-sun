@@ -1,6 +1,5 @@
 package org.bibletranslationtools.sun.ui.activities.set
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -18,7 +17,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
-import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ActivityViewSetBinding
 import org.bibletranslationtools.sun.ui.activities.learn.SymbolLearnActivity
 import org.bibletranslationtools.sun.ui.activities.learn.SymbolReviewActivity
@@ -113,9 +111,6 @@ class LessonActivity : AppCompatActivity() {
         intent.getStringExtra("id")?.let {
             viewModel.loadCards(it)
         }
-        viewModel.cards.observe(this) {
-            setUpProgress(it)
-        }
     }
 
     private fun setupNavigationListener() {
@@ -182,21 +177,6 @@ class LessonActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun setUpProgress(cards: List<Card>) {
-        var notLearnedCount = 0
-        var learnedCount = 0
-        for ((_, _, learned) in cards) {
-            when (learned) {
-                false -> notLearnedCount++
-                else -> learnedCount++
-            }
-        }
-
-        binding.notLearnTv.text = getString(R.string.not_learned_cards, notLearnedCount)
-        binding.learnedTv.text = getString(R.string.learned_cards, learnedCount)
     }
 
     override fun onResume() {

@@ -42,6 +42,10 @@ class SymbolReviewActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+
+        binding.lessonTitle.text =
+            getString(R.string.lesson_name, id)
+
         setNextQuestion()
 
         ioScope.launch {

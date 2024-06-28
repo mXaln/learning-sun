@@ -11,10 +11,10 @@
     <string name="settings">Your settings</string>
     <string name="card">cards</string>
     <string name="learn_symbols">Learn Symbols</string>
+    <string name="test_symbols">Test Symbols</string>
     <string name="flashcards_description">Review terms and definitions</string>
-    <string name="quiz">Quiz</string>
     <string name="review">You did it great!\n Now it\'s time to test what you have learned.</string>
-    <string name="test_sentences">Test Sentences</string>
+    <string name="test_sentences">Build Sentences</string>
     <string name="know">Learned cards</string>
     <string name="still_learning">Still learning</string>
     <string name="cards_left">Cards left</string>
