@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.bibletranslationtools.sun.adapter.lesson.LessonsAdapter
+import org.bibletranslationtools.sun.adapter.lesson.LessonListAdapter
 import org.bibletranslationtools.sun.data.model.Setting
 import org.bibletranslationtools.sun.data.model.LessonSuite
 import org.bibletranslationtools.sun.data.model.TestSuite
@@ -121,7 +121,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setupLessons() {
-        val setsAdapter = LessonsAdapter(requireActivity())
+        val setsAdapter = LessonListAdapter(requireActivity())
         viewModel.lessons.observe(viewLifecycleOwner) {
             setsAdapter.submitList(it)
         }

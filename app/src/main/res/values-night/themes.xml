@@ -1,31 +1,19 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SUN" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/celestial_blue</item>
-        <item name="colorPrimaryDark">@color/celestial_blue</item>
-        <item name="colorAccent">@color/celestial_blue</item>
-        <item name="android:windowBackground">@color/white_gray</item>
-        <item name="android:statusBarColor">@color/celestial_blue</item>
-        <!--        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
-        <!--        <item name="android:windowTranslucentStatus" tools:targetApi="m">true</item>-->
-        <!--        <item name="android:windowTranslucentNavigation" tools:targetApi="m">true</item>-->
-        <!--        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="m">true</item>-->
-        <!--        <item name="android:windowContentTransitions" tools:targetApi="m">true</item>-->
-        <!--        <item name="android:windowSharedElementEnterTransition" tools:targetApi="m">@android:transition/move</item>-->
-        <!--        <item name="android:windowSharedElementExitTransition" tools:targetApi="m">@android:transition/move</item>-->
-        <!--        <item name="android:windowSharedElementReenterTransition" tools:targetApi="m">@android:transition/move</item>-->
-        <!--        <item name="android:windowSharedElementReturnTransition" tools:targetApi="m">@android:transition/move</item>-->
+<resources>
+    <style name="Base.Theme.SUN" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/primary</item>
     </style>
 
     <style name="Theme.SUN" parent="Base.Theme.SUN"/>
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
-        <!-- Các thuộc tính tối ở đây -->
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/celestial_blue</item>
         <item name="colorPrimaryDark">@color/celestial_blue</item>
         <item name="colorAccent">@color/celestial_blue</item>
-        <item name="android:windowBackground">@color/white_gray</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor">@color/celestial_blue</item>
     </style>
 

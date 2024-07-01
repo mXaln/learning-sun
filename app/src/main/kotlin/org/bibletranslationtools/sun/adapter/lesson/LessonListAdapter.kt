@@ -12,9 +12,9 @@ import org.bibletranslationtools.sun.data.model.LessonWithCards
 import org.bibletranslationtools.sun.databinding.ItemSetBinding
 import org.bibletranslationtools.sun.ui.activities.set.LessonActivity
 
-class LessonsAdapter(
+class LessonListAdapter(
     private val context: Context
-) : ListAdapter<LessonWithCards, LessonsAdapter.SetsViewHolder>(callback) {
+) : ListAdapter<LessonWithCards, LessonListAdapter.SetsViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetsViewHolder {
         val inflater = LayoutInflater.from(context)

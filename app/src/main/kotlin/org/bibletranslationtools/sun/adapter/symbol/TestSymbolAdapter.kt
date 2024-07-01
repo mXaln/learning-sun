@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.adapter.test
+package org.bibletranslationtools.sun.adapter.symbol
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

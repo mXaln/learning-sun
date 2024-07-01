@@ -11,7 +11,7 @@ import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ItemLearnBinding
 
 
-class LearnAdapter : ListAdapter<Card, LearnAdapter.ViewHolder>(callback) {
+class LearnCardAdapter : ListAdapter<Card, LearnCardAdapter.ViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

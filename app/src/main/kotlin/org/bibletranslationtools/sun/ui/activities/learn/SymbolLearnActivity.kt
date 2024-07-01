@@ -7,12 +7,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityLearnBinding
-import org.bibletranslationtools.sun.adapter.card.LearnAdapter
+import org.bibletranslationtools.sun.adapter.card.LearnCardAdapter
 import org.bibletranslationtools.sun.ui.viewmodels.LearnViewModel
 
 class SymbolLearnActivity : AppCompatActivity() {
     private val binding by lazy { ActivityLearnBinding.inflate(layoutInflater) }
-    private val adapter by lazy { LearnAdapter() }
+    private val adapter by lazy { LearnCardAdapter() }
     private val viewModel: LearnViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,9 +3,9 @@ package org.bibletranslationtools.sun.ui.activities.learn
 import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.model.Card
@@ -14,15 +14,16 @@ import com.saadahmedsoft.popupdialog.PopupDialog
 import com.saadahmedsoft.popupdialog.Styles
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
 import kotlinx.coroutines.*
-import org.bibletranslationtools.sun.adapter.grid.GridCardAdapter
+import org.bibletranslationtools.sun.adapter.card.ReviewCardAdapter
+import org.bibletranslationtools.sun.adapter.card.ItemOffsetDecoration
 import org.bibletranslationtools.sun.ui.viewmodels.ReviewViewModel
 
-class SymbolReviewActivity : AppCompatActivity() {
+class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelectedListener {
 
     private val binding by lazy { ActivityReviewBinding.inflate(layoutInflater) }
     private val viewModel: ReviewViewModel by viewModels()
-    private val gridAdapter: GridCardAdapter by lazy {
-        GridCardAdapter(this, mutableListOf())
+    private val gridAdapter: ReviewCardAdapter by lazy {
+        ReviewCardAdapter(this)
     }
 
     private var progress = 0
@@ -32,6 +33,8 @@ class SymbolReviewActivity : AppCompatActivity() {
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
     private val ioScope = CoroutineScope(Dispatchers.IO)
+
+    private val reviewCards = arrayListOf<Card>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +46,20 @@ class SymbolReviewActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        binding.lessonTitle.text =
-            getString(R.string.lesson_name, id)
+        binding.lessonTitle.text = getString(R.string.lesson_name, id)
+
+        binding.answersList.layoutManager = GridLayoutManager(
+            this@SymbolReviewActivity,
+            2
+        )
+        binding.answersList.addItemDecoration(
+            ItemOffsetDecoration(
+                2,
+                30,
+                false
+            )
+        )
+        binding.answersList.adapter = gridAdapter
 
         setNextQuestion()
 
@@ -61,23 +76,34 @@ class SymbolReviewActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkAnswer(selectedAnswer: String, position: Int) {
-        if (selectedAnswer == currentCard.symbol) {
+    override fun onCardSelected(card: Card, position: Int) {
+        if (viewModel.questionDone.value == false) {
+            checkAnswer(reviewCards[position], position)
+            viewModel.questionDone.postValue(true)
+            binding.nextButton.isEnabled = true
+        }
+    }
+
+    private fun checkAnswer(selectedCard: Card, position: Int) {
+        if (selectedCard.symbol == currentCard.symbol) {
             ioScope.launch(Dispatchers.IO) {
                 currentCard.passed = true
                 viewModel.updateCard(currentCard)
             }
+            currentCard.correct = true
             gridAdapter.selectCorrect(position)
             progress++
             setUpProgressBar()
         } else {
+            currentCard.correct = true
+            selectedCard.correct = false
             gridAdapter.selectIncorrect(position)
+            gridAdapter.selectCorrect(currentCard)
         }
     }
 
     private fun setUpProgressBar() {
         binding.timelineProgress.progress = progress
-        Log.d("progress", progress.toString())
     }
 
     private fun setNextQuestion() {
@@ -85,9 +111,7 @@ class SymbolReviewActivity : AppCompatActivity() {
         binding.nextButton.isEnabled = false
 
         scope.launch {
-            // get all cards
             val allCards = viewModel.getAllCards(id) as MutableList
-            // get a list of cards that are not passed
             val notPassedCards = allCards.filter { !it.passed }
 
             if (notPassedCards.isEmpty()) {
@@ -95,35 +119,21 @@ class SymbolReviewActivity : AppCompatActivity() {
                 return@launch
             }
 
-            // get a random card from a list of cards that are not passed
             setRandomCard(notPassedCards)
-
-            // remove the current card from a list of all cards
             allCards.remove(currentCard)
 
-            // get 3 random cards from list of all cards
             val incorrectCards = allCards.shuffled().take(3)
 
-            // shuffle 4 cards
-            val reviewCards = (listOf(currentCard) + incorrectCards).shuffled()
+            reviewCards.clear()
+            reviewCards.addAll((listOf(currentCard) + incorrectCards).shuffled())
 
             withContext(Dispatchers.Main) {
-                binding.answersGv.adapter = gridAdapter
-                gridAdapter.clear()
-                gridAdapter.addAll(reviewCards)
+                gridAdapter.submitList(reviewCards)
 
                 Glide.with(baseContext)
                     .load(Uri.parse("file:///android_asset/images/learn/${currentCard.image}"))
                     .fitCenter()
                     .into(binding.itemImage)
-
-                binding.answersGv.setOnItemClickListener { _, _, position, _ ->
-                    if (viewModel.questionDone.value == false) {
-                        checkAnswer(reviewCards[position].symbol, position)
-                        viewModel.questionDone.postValue(true)
-                        binding.nextButton.isEnabled = true
-                    }
-                }
 
                 askedCards.add(currentCard)
             }
