@@ -17,10 +17,10 @@
             android:theme="@style/Theme.SUN"
             tools:targetApi="33">
         <activity
-                android:name=".ui.activities.set.LessonActivity"
+                android:name=".ui.activities.lesson.LessonActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.learn.SymbolReviewActivity"
+                android:name=".ui.activities.review.SymbolReviewActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.learn.SymbolLearnActivity"

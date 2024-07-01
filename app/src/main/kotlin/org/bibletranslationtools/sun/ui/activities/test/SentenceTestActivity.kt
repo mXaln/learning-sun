@@ -47,27 +47,43 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        id = intent.getStringExtra("id") ?: ""
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
+        with(binding) {
+            id = intent.getStringExtra("id") ?: ""
 
-        binding.lessonTitle.text =
-            getString(R.string.lesson_name, id)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            toolbar.setNavigationOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
 
-        setNextSentence()
+            lessonTitle.text = getString(R.string.lesson_name, id)
 
-        ioScope.launch {
-            val max = viewModel.getPassedSentences(id, false).size
-            binding.timelineProgress.max = max
-        }
+            answersList.layoutManager = LinearLayoutManager(
+                this@SentenceTestActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            answersList.adapter = answersAdapter
 
-        binding.nextButton.setOnClickListener {
-            if (viewModel.sentenceDone.value == true) {
-                setNextSentence()
-                viewModel.sentenceDone.value = false
+            variantsList.layoutManager = LinearLayoutManager(
+                this@SentenceTestActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            variantsList.adapter = variantsAdapter
+
+            setNextSentence()
+
+            ioScope.launch {
+                val max = viewModel.getPassedSentences(id, false).size
+                timelineProgress.max = max
+            }
+
+            nextButton.setOnClickListener {
+                if (viewModel.sentenceDone.value == true) {
+                    setNextSentence()
+                    viewModel.sentenceDone.value = false
+                }
             }
         }
     }
@@ -94,9 +110,9 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     private fun checkAnswer() {
         val correctSymbols = currentSentence.symbols
 
-        val correct = correctSymbols.map { it.id } == answerSymbols.map { it.id }
+        val isSentenceCorrect = correctSymbols.map { it.id } == answerSymbols.map { it.id }
 
-        if (correct) {
+        if (isSentenceCorrect) {
             ioScope.launch(Dispatchers.IO) {
                 currentSentence.sentence.passed = true
                 viewModel.updateSentence(currentSentence.sentence)
@@ -114,6 +130,13 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
                 answersAdapter.selectIncorrect(index)
             }
         }
+
+        correctSymbols.forEach {
+            it.selected = true
+            it.correct = true
+        }
+        variantsAdapter.submitList(correctSymbols)
+        variantsAdapter.refresh()
     }
 
     private fun setUpProgressBar() {
@@ -149,19 +172,18 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
                 .shuffled()
                 .take(totalVariants - currentSentence.symbols.size)
 
-            variantSymbols.clear()
-            variantSymbols.addAll((currentSentence.symbols + incorrectSymbols).shuffled())
-            setVariants(variantSymbols)
+            val variants = (currentSentence.symbols + incorrectSymbols).shuffled()
+            setVariants(variants)
 
-            answerSymbols.clear()
-            answerSymbols.addAll(currentSentence.symbols.map { it.copy(name = "") })
-            setAnswers(answerSymbols)
+            val answers = currentSentence.symbols.map { it.copy(name = "") }
+            setAnswers(answers)
 
             askedSentences.add(currentSentence)
         }
     }
 
     private fun setRandomSentence(sentences: List<SentenceWithSymbols>) {
+        // Try to select a sentence that has not been asked before
         if (this::currentSentence.isInitialized && sentences.size > 1) {
             val oldSentence = currentSentence.copy()
             while (oldSentence == currentSentence) {
@@ -199,22 +221,16 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private fun setVariants(symbols: List<Symbol>) {
-        binding.variantsList.layoutManager = LinearLayoutManager(
-            this@SentenceTestActivity,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        binding.variantsList.adapter = variantsAdapter
+        variantSymbols.clear()
+        variantSymbols.addAll(symbols)
         variantsAdapter.submitList(symbols)
+        variantsAdapter.refresh()
     }
 
     private fun setAnswers(symbols: List<Symbol>) {
-        binding.answersList.layoutManager = LinearLayoutManager(
-            this@SentenceTestActivity,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        binding.answersList.adapter = answersAdapter
+        answerSymbols.clear()
+        answerSymbols.addAll(symbols)
         answersAdapter.submitList(symbols)
+        answersAdapter.refresh()
     }
 }

@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities.learn
+package org.bibletranslationtools.sun.ui.activities.review
 
 import android.app.Dialog
 import android.net.Uri
@@ -39,39 +39,42 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        id = intent.getStringExtra("id") ?: ""
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
+        with(binding) {
+            id = intent.getStringExtra("id") ?: ""
 
-        binding.lessonTitle.text = getString(R.string.lesson_name, id)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            toolbar.setNavigationOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
 
-        binding.answersList.layoutManager = GridLayoutManager(
-            this@SymbolReviewActivity,
-            2
-        )
-        binding.answersList.addItemDecoration(
-            ItemOffsetDecoration(
-                2,
-                30,
-                false
+            lessonTitle.text = getString(R.string.lesson_name, id)
+
+            answersList.layoutManager = GridLayoutManager(
+                this@SymbolReviewActivity,
+                2
             )
-        )
-        binding.answersList.adapter = gridAdapter
+            answersList.addItemDecoration(
+                ItemOffsetDecoration(
+                    2,
+                    30,
+                    false
+                )
+            )
+            answersList.adapter = gridAdapter
 
-        setNextQuestion()
+            setNextQuestion()
 
-        ioScope.launch {
-            val max = viewModel.getPassedCards(id, false).size
-            binding.timelineProgress.max = max
-        }
+            ioScope.launch {
+                val max = viewModel.getPassedCards(id, false).size
+                timelineProgress.max = max
+            }
 
-        binding.nextButton.setOnClickListener {
-            if (viewModel.questionDone.value == true) {
-                setNextQuestion()
-                viewModel.questionDone.value = false
+            nextButton.setOnClickListener {
+                if (viewModel.questionDone.value == true) {
+                    setNextQuestion()
+                    viewModel.questionDone.value = false
+                }
             }
         }
     }
@@ -107,7 +110,6 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
     }
 
     private fun setNextQuestion() {
-        gridAdapter.resetSelection()
         binding.nextButton.isEnabled = false
 
         scope.launch {
@@ -124,8 +126,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
 
             val incorrectCards = allCards.shuffled().take(3)
 
-            reviewCards.clear()
-            reviewCards.addAll((listOf(currentCard) + incorrectCards).shuffled())
+            setAnswers((listOf(currentCard) + incorrectCards).shuffled())
 
             withContext(Dispatchers.Main) {
                 gridAdapter.submitList(reviewCards)
@@ -169,6 +170,12 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
                     }
                 })
         }
+    }
+
+    private fun setAnswers(cards: List<Card>) {
+        reviewCards.clear()
+        reviewCards.addAll(cards)
+        gridAdapter.refresh()
     }
 
     override fun onDestroy() {

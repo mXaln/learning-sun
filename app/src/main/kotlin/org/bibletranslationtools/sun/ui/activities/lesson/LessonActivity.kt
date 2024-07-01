@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities.set
+package org.bibletranslationtools.sun.ui.activities.lesson
 
 import android.app.Dialog
 import android.content.Intent
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityViewSetBinding
 import org.bibletranslationtools.sun.ui.activities.learn.SymbolLearnActivity
-import org.bibletranslationtools.sun.ui.activities.learn.SymbolReviewActivity
+import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.activities.test.SentenceTestActivity
 import org.bibletranslationtools.sun.ui.viewmodels.LessonViewModel
 

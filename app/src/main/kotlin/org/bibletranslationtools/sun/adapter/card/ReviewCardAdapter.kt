@@ -31,7 +31,8 @@ class ReviewCardAdapter(
     companion object {
         val callback = object : DiffUtil.ItemCallback<Card>() {
             override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.id == newItem.id &&
+                        oldItem.correct == newItem.correct
             }
 
             override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {
@@ -77,7 +78,7 @@ class ReviewCardAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun resetSelection() {
+    fun refresh() {
         notifyDataSetChanged()
     }
 }

@@ -6,12 +6,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activities.set.LessonActivity">
+        tools:context=".ui.activities.lesson.LessonActivity">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.activities.set.LessonActivity"
+            tools:context=".ui.activities.lesson.LessonActivity"
             android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar

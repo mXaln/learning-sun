@@ -1,5 +1,6 @@
 package org.bibletranslationtools.sun.adapter.symbol
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -30,7 +31,9 @@ class TestSymbolAdapter(
     companion object {
         val callback = object : DiffUtil.ItemCallback<Symbol>() {
             override fun areItemsTheSame(oldItem: Symbol, newItem: Symbol): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.id == newItem.id &&
+                        oldItem.correct == newItem.correct &&
+                        oldItem.selected == newItem.selected
             }
 
             override fun areContentsTheSame(oldItem: Symbol, newItem: Symbol): Boolean {
@@ -71,5 +74,10 @@ class TestSymbolAdapter(
 
     fun selectIncorrect(position: Int) {
         notifyItemChanged(position)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun refresh() {
+        notifyDataSetChanged()
     }
 }

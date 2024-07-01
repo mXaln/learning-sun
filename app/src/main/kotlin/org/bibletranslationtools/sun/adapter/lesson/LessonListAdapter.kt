@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.model.LessonWithCards
 import org.bibletranslationtools.sun.databinding.ItemSetBinding
-import org.bibletranslationtools.sun.ui.activities.set.LessonActivity
+import org.bibletranslationtools.sun.ui.activities.lesson.LessonActivity
 
 class LessonListAdapter(
     private val context: Context
