@@ -7,7 +7,7 @@
         </shape>
     </item>
 
-    <item android:top="-20dp" android:right="-20dp" android:left="-20dp" android:bottom="-20dp">
+    <item android:top="-12dp" android:right="-12dp" android:left="-12dp" android:bottom="-12dp">
         <rotate
             android:fromDegrees="-45" android:pivotX="50%" android:pivotY="50%">
             <shape android:shape="line">
@@ -18,7 +18,7 @@
         </rotate>
     </item>
 
-    <item android:top="-20dp" android:right="-20dp" android:left="-20dp" android:bottom="-20dp">
+    <item android:top="-12dp" android:right="-12dp" android:left="-12dp" android:bottom="-12dp">
         <rotate android:fromDegrees="45">
             <shape android:shape="line">
                 <stroke
