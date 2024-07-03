@@ -1,5 +1,6 @@
 package org.bibletranslationtools.sun.ui.fragments.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,6 @@ import org.bibletranslationtools.sun.utils.AssetsProvider
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var lessonsAdapter: LessonListAdapter
 
     private val viewModel: MainViewModel by viewModels()
     private val ioScope = CoroutineScope(Dispatchers.IO)
@@ -40,8 +40,22 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val lessonsAdapter = LessonListAdapter(requireActivity())
+        binding.lessonsList.layoutManager = LinearLayoutManager(
+            requireActivity(),
+            RecyclerView.VERTICAL,
+            false
+        )
+        binding.lessonsList.adapter = lessonsAdapter
+
+        viewModel.lessons.observe(viewLifecycleOwner) {
+            lessonsAdapter.submitList(it)
+            lessonsAdapter.notifyDataSetChanged()
+        }
 
         importLessons().invokeOnCompletion {
             importTests()
@@ -119,18 +133,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupLessons() {
-        lessonsAdapter = LessonListAdapter(requireActivity())
-        binding.lessonsList.layoutManager = LinearLayoutManager(
-            requireActivity(),
-            RecyclerView.VERTICAL,
-            false
-        )
-        binding.lessonsList.adapter = lessonsAdapter
-
-        viewModel.lessons.observe(viewLifecycleOwner) {
-            lessonsAdapter.submitList(it)
-        }
-
         viewModel.loadLessons()
     }
 

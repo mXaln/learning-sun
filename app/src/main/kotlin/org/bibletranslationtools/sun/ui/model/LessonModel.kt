@@ -1,6 +1,5 @@
 package org.bibletranslationtools.sun.ui.model
 
-import androidx.room.Ignore
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.data.model.Sentence
@@ -11,8 +10,8 @@ data class LessonModel(
     val cards: List<Card>,
     val sentences: List<Sentence>
 ) {
-    @Ignore
     var isAvailable = false
+    var isSelected = false
 
     val cardsLearned get() = cards.count { it.learned }
     val cardsLearnedProgress get() = cardsLearned.toDouble() / cards.size * 100
@@ -37,10 +36,11 @@ data class LessonModel(
         val lessonModel = other as LessonModel
         return lesson == lessonModel.lesson &&
                 totalProgress == lessonModel.totalProgress &&
-                isAvailable == lessonModel.isAvailable
+                isAvailable == lessonModel.isAvailable &&
+                isSelected == lessonModel.isSelected
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(lesson, totalProgress, isAvailable)
+        return Objects.hash(lesson, totalProgress, isAvailable, isSelected)
     }
 }

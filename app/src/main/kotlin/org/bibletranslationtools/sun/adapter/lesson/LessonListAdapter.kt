@@ -33,14 +33,13 @@ class LessonListAdapter(
         with(holder.binding) {
             lessonName.text = context.getString(R.string.lesson_name, id)
 
-            val lessonAvailable = lesson.isAvailable
             val cardsLearnedProgress = lesson.cardsLearnedProgress
             val testSymbolsAvailable = cardsLearnedProgress == 100.0
             val cardsPassedProgress = lesson.cardsPassedProgress
             val sentencesAvailable = cardsPassedProgress == 100.0
             val sentencesPassedProgress = lesson.sentencesPassedProgress
 
-            setLessonStatus(lessonAvailable, lesson.totalProgress, holder)
+            setLessonStatus(lesson, holder)
 
             setLearnSymbols(id, cardsLearnedProgress, this)
             setTestSymbols(id, testSymbolsAvailable, cardsPassedProgress, this)
@@ -72,23 +71,22 @@ class LessonListAdapter(
     }
 
     private fun setLessonStatus(
-        available: Boolean,
-        progress: Double,
+        lesson: LessonModel,
         holder: SetsViewHolder
     ) {
         with(holder.binding) {
-            root.isActivated = available
+            root.isActivated = lesson.isAvailable
 
             when {
-                available && progress == 100.0 -> {
+                lesson.isAvailable && lesson.totalProgress == 100.0 -> {
                     lessonStatus.visibility = View.VISIBLE
                     lessonProgress.visibility = View.GONE
                 }
 
-                available && progress < 100.0 -> {
+                lesson.isAvailable && lesson.totalProgress < 100.0 -> {
                     lessonStatus.visibility = View.GONE
                     lessonProgress.visibility = View.VISIBLE
-                    lessonProgress.progress = progress.toInt()
+                    lessonProgress.progress = lesson.totalProgress.toInt()
                 }
 
                 else -> {
@@ -97,22 +95,22 @@ class LessonListAdapter(
                 }
             }
 
+            updateLessonCardSelection(this, lesson.isSelected)
+
             root.setOnClickListener {
-                if (!available) return@setOnClickListener
+                val currentLesson = getItem(holder.bindingAdapterPosition)
 
-                if (rooms.visibility == View.VISIBLE) {
-                    rooms.visibility = View.GONE
-                    lessonStatusContainer.visibility = View.VISIBLE
-                    lessonName.typeface = Typeface.DEFAULT
+                if (!currentLesson.isAvailable) return@setOnClickListener
 
-                    root.isSelected = false
-                } else {
-                    rooms.visibility = View.VISIBLE
-                    lessonStatusContainer.visibility = View.GONE
-                    lessonName.typeface = Typeface.DEFAULT_BOLD
-
-                    root.isSelected = true
+                val prevSelected = currentList.indexOfFirst { it.isSelected }
+                if (prevSelected >= 0 && prevSelected != holder.bindingAdapterPosition) {
+                    currentList[prevSelected].isSelected = false
+                    notifyItemChanged(prevSelected)
                 }
+
+                currentLesson.isSelected = !currentLesson.isSelected
+                updateLessonCardSelection(this, currentLesson.isSelected)
+                notifyItemChanged(holder.bindingAdapterPosition)
             }
         }
     }
@@ -208,6 +206,24 @@ class LessonListAdapter(
                 val intent = Intent(context, SentenceTestActivity::class.java)
                 intent.putExtra("id", lessonId)
                 context.startActivity(intent)
+            }
+        }
+    }
+
+    private fun updateLessonCardSelection(binding: ItemLessonBinding, selected: Boolean) {
+        with(binding) {
+            if (selected) {
+                rooms.visibility = View.VISIBLE
+                lessonStatusContainer.visibility = View.GONE
+                lessonName.typeface = Typeface.DEFAULT_BOLD
+
+                root.isSelected = true
+            } else {
+                rooms.visibility = View.GONE
+                lessonStatusContainer.visibility = View.VISIBLE
+                lessonName.typeface = Typeface.DEFAULT
+
+                root.isSelected = false
             }
         }
     }
