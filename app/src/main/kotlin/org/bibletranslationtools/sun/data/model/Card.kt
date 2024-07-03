@@ -29,10 +29,12 @@ data class Card(
         val card = other as Card
         return id == card.id &&
                 symbol == card.symbol &&
+                learned == card.learned &&
+                passed == card.passed &&
                 lessonId == card.lessonId
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(id, symbol, lessonId)
+        return Objects.hash(id, symbol, learned, passed, lessonId)
     }
 }

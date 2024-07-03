@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities
+package org.bibletranslationtools.sun.ui.activities.home
 
 import android.os.Bundle
 import android.view.View
@@ -6,13 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import org.bibletranslationtools.sun.R
-import org.bibletranslationtools.sun.databinding.ActivityMainBinding
+import org.bibletranslationtools.sun.databinding.ActivityHomeBinding
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
     private val navController by lazy {
         findNavController(this, R.id.nav_host_fragment_activity_main)
     }
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

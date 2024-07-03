@@ -13,13 +13,14 @@ import org.bibletranslationtools.sun.data.repositories.LessonRepository
 import org.bibletranslationtools.sun.data.repositories.SettingsRepository
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.data.model.Lesson
-import org.bibletranslationtools.sun.data.model.LessonWithCards
 import org.bibletranslationtools.sun.data.model.Sentence
 import org.bibletranslationtools.sun.data.model.Setting
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.data.model.Test
 import org.bibletranslationtools.sun.data.repositories.SentenceRepository
 import org.bibletranslationtools.sun.data.repositories.TestRepository
+import org.bibletranslationtools.sun.ui.mapper.LessonMapper
+import org.bibletranslationtools.sun.ui.model.LessonModel
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val cardRepository: CardRepository
@@ -28,8 +29,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val testRepository: TestRepository
     private val sentenceRepository: SentenceRepository
 
-    val lessons: LiveData<List<LessonWithCards>> get() = mutableLessons
-    private val mutableLessons = MutableLiveData<List<LessonWithCards>>()
+    val lessons: LiveData<List<LessonModel>> get() = mutableLessons
+    private val mutableLessons = MutableLiveData<List<LessonModel>>()
 
     init {
         val cardDao = AppDatabase.getDatabase(application).getCardDao()
@@ -53,7 +54,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadLessons(): Job {
         return viewModelScope.launch {
-            mutableLessons.value = lessonRepository.getAllWithCards()
+            val lessons = lessonRepository.getAllWithData().map(LessonMapper::map)
+            lessons.forEachIndexed { index, lesson ->
+                lesson.isAvailable = lessonAvailable(lessons, index)
+            }
+            mutableLessons.value = lessons
         }
     }
 
@@ -91,5 +96,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun insertSetting(setting: Setting) {
         settingsRepository.insert(setting)
+    }
+
+    private fun lessonAvailable(lessons: List<LessonModel>, position: Int): Boolean {
+        if (position == 0) return true
+        val prevLesson = lessons[position - 1]
+        return prevLesson.totalProgress == 100.0
     }
 }

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.data.model.Card
-import org.bibletranslationtools.sun.databinding.GridItemBinding
+import org.bibletranslationtools.sun.databinding.ItemSymbolBinding
 
 class ReviewCardAdapter(
     private val listener: OnCardSelectedListener? = null
@@ -19,7 +19,7 @@ class ReviewCardAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = GridItemBinding.inflate(layoutInflater, parent, false)
+        val binding = ItemSymbolBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -42,7 +42,7 @@ class ReviewCardAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: GridItemBinding
+        private val binding: ItemSymbolBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card, position: Int) {
             with(binding) {

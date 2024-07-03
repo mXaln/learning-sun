@@ -1,6 +1,5 @@
 package org.bibletranslationtools.sun.ui.fragments.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +27,9 @@ import org.bibletranslationtools.sun.utils.AssetsProvider
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var lessonsAdapter: LessonListAdapter
 
+    private val viewModel: MainViewModel by viewModels()
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreateView(
@@ -47,7 +47,6 @@ class HomeFragment : Fragment() {
             importTests()
         }
 
-        setupLessons()
         setupSwipeRefreshLayout()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -119,20 +118,18 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun setupLessons() {
-        val setsAdapter = LessonListAdapter(requireActivity())
-        viewModel.lessons.observe(viewLifecycleOwner) {
-            setsAdapter.submitList(it)
-        }
-        val linearLayoutManager = LinearLayoutManager(
+        lessonsAdapter = LessonListAdapter(requireActivity())
+        binding.lessonsList.layoutManager = LinearLayoutManager(
             requireActivity(),
             RecyclerView.VERTICAL,
             false
         )
-        binding.setsRv.layoutManager = linearLayoutManager
-        binding.setsRv.adapter = setsAdapter
-        setsAdapter.notifyDataSetChanged()
+        binding.lessonsList.adapter = lessonsAdapter
+
+        viewModel.lessons.observe(viewLifecycleOwner) {
+            lessonsAdapter.submitList(it)
+        }
 
         viewModel.loadLessons()
     }

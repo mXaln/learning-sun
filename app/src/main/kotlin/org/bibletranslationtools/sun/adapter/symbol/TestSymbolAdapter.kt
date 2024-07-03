@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.data.model.Symbol
-import org.bibletranslationtools.sun.databinding.GridItemBinding
+import org.bibletranslationtools.sun.databinding.ItemSymbolBinding
 
 class TestSymbolAdapter(
     private val listener: OnSymbolSelectedListener? = null
@@ -19,7 +19,7 @@ class TestSymbolAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = GridItemBinding.inflate(layoutInflater, parent, false)
+        val binding = ItemSymbolBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -43,7 +43,7 @@ class TestSymbolAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: GridItemBinding
+        private val binding: ItemSymbolBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(symbol: Symbol, position: Int) {
             binding.apply {

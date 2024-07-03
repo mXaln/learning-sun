@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content">
 
                 <TextView
-                        android:id="@+id/set_name_tv"
+                        android:id="@+id/lesson_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lesson_name"
@@ -59,9 +59,9 @@
                         android:text="@string/cards_count"
                         android:textColor="@color/gray"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/set_name_tv"
-                        app:layout_constraintTop_toTopOf="@id/set_name_tv"
-                        app:layout_constraintBottom_toBottomOf="@id/set_name_tv"
+                        app:layout_constraintStart_toEndOf="@id/lesson_name"
+                        app:layout_constraintTop_toTopOf="@id/lesson_name"
+                        app:layout_constraintBottom_toBottomOf="@id/lesson_name"
                         android:layout_marginStart="@dimen/_16dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
@@ -202,7 +202,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_build_sentences"
+                        android:src="@drawable/ic_sentences"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"

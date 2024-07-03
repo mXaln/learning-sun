@@ -29,7 +29,7 @@
             android:name=".ui.activities.test.SentenceTestActivity"
             android:exported="false"/>
         <activity
-                android:name=".ui.activities.MainActivity"
+                android:name=".ui.activities.home.HomeActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

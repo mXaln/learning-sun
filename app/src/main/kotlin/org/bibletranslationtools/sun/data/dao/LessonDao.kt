@@ -8,7 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import org.bibletranslationtools.sun.data.model.Lesson
-import org.bibletranslationtools.sun.data.model.LessonWithCards
+import org.bibletranslationtools.sun.data.model.LessonWithData
 
 @Dao
 interface LessonDao {
@@ -27,7 +27,7 @@ interface LessonDao {
 
     @Transaction
     @Query("SELECT * FROM lessons")
-    suspend fun getAllWithCards(): List<LessonWithCards>
+    suspend fun getAllWithData(): List<LessonWithData>
 
     @Transaction
     @Query("SELECT * FROM lessons WHERE id = :id")

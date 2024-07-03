@@ -55,14 +55,14 @@
                     app:layout_constraintTop_toBottomOf="@id/logo_notification_cl">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/sets_rv"
+                        android:id="@+id/lessons_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10dp"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

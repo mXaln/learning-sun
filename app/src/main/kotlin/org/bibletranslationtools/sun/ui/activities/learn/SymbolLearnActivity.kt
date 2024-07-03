@@ -32,12 +32,6 @@ class SymbolLearnActivity : AppCompatActivity() {
 
         setupCardsView()
         setupButtons()
-
-        /*binding.startQuizBtn.setOnClickListener {
-            val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra("id", viewModel.lessonId.value)
-            startActivity(intent)
-        }*/
     }
 
     private fun setupButtons() {
@@ -78,23 +72,13 @@ class SymbolLearnActivity : AppCompatActivity() {
     }
 
     private val callback = object : ViewPager2.OnPageChangeCallback() {
-        var prevPosition = 0
-        var currentPosition = 0
-
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            prevPosition = currentPosition
-            currentPosition = position
-        }
-
-        override fun onPageScrollStateChanged(state: Int) {
-            if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                viewModel.cards.value?.let { cards ->
-                    val card = cards[prevPosition]
-                    if (!card.learned) {
-                        card.learned = true
-                        viewModel.saveCard(card)
-                    }
+            viewModel.cards.value?.let { cards ->
+                val card = cards[position]
+                if (!card.learned) {
+                    card.learned = true
+                    viewModel.saveCard(card)
                 }
             }
         }

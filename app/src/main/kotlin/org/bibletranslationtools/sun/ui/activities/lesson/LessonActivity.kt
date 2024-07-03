@@ -17,14 +17,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
-import org.bibletranslationtools.sun.databinding.ActivityViewSetBinding
+import org.bibletranslationtools.sun.databinding.ActivityLessonBinding
 import org.bibletranslationtools.sun.ui.activities.learn.SymbolLearnActivity
 import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.activities.test.SentenceTestActivity
 import org.bibletranslationtools.sun.ui.viewmodels.LessonViewModel
 
 class LessonActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityViewSetBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityLessonBinding.inflate(layoutInflater) }
     private val viewModel: LessonViewModel by viewModels()
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
@@ -50,7 +50,7 @@ class LessonActivity : AppCompatActivity() {
                     R.string.cards_count,
                     cards.size
                 )
-                binding.setNameTv.text = getString(
+                binding.lessonName.text = getString(
                     R.string.lesson_name,
                     lessonId
                 )
