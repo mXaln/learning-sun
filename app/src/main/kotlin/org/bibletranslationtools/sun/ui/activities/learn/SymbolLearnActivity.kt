@@ -1,5 +1,6 @@
 package org.bibletranslationtools.sun.ui.activities.learn
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityLearnBinding
 import org.bibletranslationtools.sun.adapter.card.LearnCardAdapter
+import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.viewmodels.LearnViewModel
 
 class SymbolLearnActivity : AppCompatActivity() {
@@ -40,6 +42,11 @@ class SymbolLearnActivity : AppCompatActivity() {
                 val currentItem = viewPager.currentItem
                 if (currentItem < viewModel.cards.value!!.size - 1) {
                     viewPager.currentItem = currentItem + 1
+                } else {
+                    val intent = Intent(baseContext, IntermediateActivity::class.java)
+                    intent.putExtra("id", viewModel.lessonId.value)
+                    intent.putExtra("type", TEST_SYMBOLS)
+                    startActivity(intent)
                 }
             }
 
@@ -57,7 +64,9 @@ class SymbolLearnActivity : AppCompatActivity() {
             viewPager.adapter = adapter
             viewPager.registerOnPageChangeCallback(callback)
 
-            TabLayoutMediator(tabs, viewPager) { _, _ -> }.attach()
+            TabLayoutMediator(tabs, viewPager) { tab, _ ->
+                tab.view.isClickable = false
+            }.attach()
 
             viewModel.cards.observe(this@SymbolLearnActivity) { cards ->
                 adapter.submitList(cards)

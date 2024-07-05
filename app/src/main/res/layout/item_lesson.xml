@@ -185,7 +185,7 @@
                 android:id="@+id/sentences_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_sentences"
+                android:text="@string/build_sentences"
                 android:textSize="@dimen/_16sp"
                 android:textColor="@color/selector_lesson_text"
                 android:textStyle="bold"

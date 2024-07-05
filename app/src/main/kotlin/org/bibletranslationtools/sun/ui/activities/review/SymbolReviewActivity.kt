@@ -1,6 +1,7 @@
 package org.bibletranslationtools.sun.ui.activities.review
 
 import android.app.Dialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -16,6 +17,9 @@ import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
 import kotlinx.coroutines.*
 import org.bibletranslationtools.sun.adapter.card.ReviewCardAdapter
 import org.bibletranslationtools.sun.adapter.card.ItemOffsetDecoration
+import org.bibletranslationtools.sun.ui.activities.learn.BUILD_SENTENCES
+import org.bibletranslationtools.sun.ui.activities.learn.IntermediateActivity
+import org.bibletranslationtools.sun.ui.activities.learn.TEST_SYMBOLS
 import org.bibletranslationtools.sun.ui.viewmodels.ReviewViewModel
 
 class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelectedListener {
@@ -153,23 +157,10 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
     }
 
     private fun finishReview() {
-        runOnUiThread {
-            PopupDialog.getInstance(this)
-                .setStyle(Styles.SUCCESS)
-                .setHeading(getString(R.string.finish))
-                .setDescription(getString(R.string.finish_quiz))
-                .setDismissButtonText(getString(R.string.ok))
-                .setNegativeButtonText(getString(R.string.cancel))
-                .setPositiveButtonText(getString(R.string.ok))
-                .setCancelable(true)
-                .showDialog(object : OnDialogButtonClickListener() {
-                    override fun onDismissClicked(dialog: Dialog?) {
-                        super.onDismissClicked(dialog)
-                        dialog?.dismiss()
-                        finish()
-                    }
-                })
-        }
+        val intent = Intent(baseContext, IntermediateActivity::class.java)
+        intent.putExtra("id", id)
+        intent.putExtra("type", BUILD_SENTENCES)
+        startActivity(intent)
     }
 
     private fun setAnswers(cards: List<Card>) {

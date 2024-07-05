@@ -1,6 +1,7 @@
 package org.bibletranslationtools.sun.ui.activities.test
 
 import android.app.Dialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -19,6 +20,8 @@ import org.bibletranslationtools.sun.adapter.symbol.TestSymbolAdapter
 import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.databinding.ActivityTestBinding
+import org.bibletranslationtools.sun.ui.activities.home.HomeActivity
+import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.viewmodels.TestViewModel
 
 class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
@@ -195,23 +198,8 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private fun finishTest() {
-        runOnUiThread {
-            PopupDialog.getInstance(this)
-                .setStyle(Styles.SUCCESS)
-                .setHeading(getString(R.string.finish))
-                .setDescription(getString(R.string.finish_quiz))
-                .setDismissButtonText(getString(R.string.ok))
-                .setNegativeButtonText(getString(R.string.cancel))
-                .setPositiveButtonText(getString(R.string.ok))
-                .setCancelable(true)
-                .showDialog(object : OnDialogButtonClickListener() {
-                    override fun onDismissClicked(dialog: Dialog?) {
-                        super.onDismissClicked(dialog)
-                        dialog?.dismiss()
-                        finish()
-                    }
-                })
-        }
+        val intent = Intent(baseContext, HomeActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

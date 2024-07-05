@@ -26,6 +26,9 @@
                 android:name=".ui.activities.learn.SymbolLearnActivity"
                 android:exported="false"/>
         <activity
+            android:name=".ui.activities.learn.IntermediateActivity"
+            android:exported="false"/>
+        <activity
             android:name=".ui.activities.test.SentenceTestActivity"
             android:exported="false"/>
         <activity
