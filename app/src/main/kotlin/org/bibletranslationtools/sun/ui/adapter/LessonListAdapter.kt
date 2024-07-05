@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.adapter.lesson
+package org.bibletranslationtools.sun.ui.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -11,14 +11,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ItemLessonBinding
-import org.bibletranslationtools.sun.ui.activities.SymbolLearnActivity
-import org.bibletranslationtools.sun.ui.activities.SymbolReviewActivity
-import org.bibletranslationtools.sun.ui.activities.SentenceTestActivity
+import org.bibletranslationtools.sun.ui.activity.SymbolLearnActivity
+import org.bibletranslationtools.sun.ui.activity.SymbolReviewActivity
+import org.bibletranslationtools.sun.ui.activity.SentenceTestActivity
 import org.bibletranslationtools.sun.ui.model.LessonModel
 
 class LessonListAdapter(
-    private val context: Context
+    private val context: Context,
+    private val listener: OnLessonSelectedListener? = null
 ) : ListAdapter<LessonModel, LessonListAdapter.SetsViewHolder>(callback) {
+
+    interface OnLessonSelectedListener {
+        fun onLessonSelected(lesson: LessonModel, position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetsViewHolder {
         val inflater = LayoutInflater.from(context)
@@ -99,20 +104,14 @@ class LessonListAdapter(
 
             root.setOnClickListener {
                 val currentLesson = getItem(holder.bindingAdapterPosition)
-
                 if (!currentLesson.isAvailable) return@setOnClickListener
-
-                val prevSelected = currentList.indexOfFirst { it.isSelected }
-                if (prevSelected >= 0 && prevSelected != holder.bindingAdapterPosition) {
-                    currentList[prevSelected].isSelected = false
-                    notifyItemChanged(prevSelected)
-                }
-
-                currentLesson.isSelected = !currentLesson.isSelected
-                updateLessonCardSelection(this, currentLesson.isSelected)
-                notifyItemChanged(holder.bindingAdapterPosition)
+                listener?.onLessonSelected(currentLesson, holder.bindingAdapterPosition)
             }
         }
+    }
+
+    fun refreshLesson(position: Int) {
+        notifyItemChanged(position)
     }
 
     private fun setLearnSymbols(

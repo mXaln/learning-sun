@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".ui.activities.SymbolReviewActivity">
+    tools:context=".ui.activity.SymbolReviewActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

@@ -1,11 +1,14 @@
-package org.bibletranslationtools.sun.ui.activities
+package org.bibletranslationtools.sun.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import org.bibletranslationtools.sun.databinding.ActivityHomeBinding
+import org.bibletranslationtools.sun.ui.viewmodel.HomeViewModel
 
 class HomeActivity : AppCompatActivity() {
+    private val viewModel: HomeViewModel by viewModels()
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +31,8 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(baseContext, TrackProgressActivity::class.java)
             startActivity(intent)
         }
+
+        viewModel.importStudyData()
     }
 
 }

@@ -1,11 +1,11 @@
-package org.bibletranslationtools.sun.ui.activities
+package org.bibletranslationtools.sun.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import org.bibletranslationtools.sun.databinding.ActivityGlobalTestBinding
+import org.bibletranslationtools.sun.databinding.ActivityTrackProgressBinding
 
-class GlobalTestActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityGlobalTestBinding.inflate(layoutInflater) }
+class TrackProgressActivity : AppCompatActivity() {
+    private val binding by lazy { ActivityTrackProgressBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

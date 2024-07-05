@@ -17,28 +17,28 @@
             android:theme="@style/Theme.SUN"
             tools:targetApi="33">
         <activity
-                android:name=".ui.activities.LessonActivity"
+                android:name=".ui.activity.LessonActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.SymbolReviewActivity"
+                android:name=".ui.activity.SymbolReviewActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.SymbolLearnActivity"
+                android:name=".ui.activity.SymbolLearnActivity"
                 android:exported="false"/>
         <activity
-            android:name=".ui.activities.IntermediateActivity"
+            android:name=".ui.activity.IntermediateActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.activities.SentenceTestActivity"
+            android:name=".ui.activity.SentenceTestActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.activities.TrackProgressActivity"
+            android:name=".ui.activity.TrackProgressActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.activities.GlobalTestActivity"
+            android:name=".ui.activity.GlobalTestActivity"
             android:exported="false"/>
         <activity
-                android:name=".ui.activities.HomeActivity"
+                android:name=".ui.activity.HomeActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

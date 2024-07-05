@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities
+package org.bibletranslationtools.sun.ui.activity
 
 import android.content.Intent
 import android.os.Bundle

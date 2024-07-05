@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities
+package org.bibletranslationtools.sun.ui.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +8,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityLearnBinding
-import org.bibletranslationtools.sun.adapter.card.LearnCardAdapter
-import org.bibletranslationtools.sun.ui.viewmodels.LearnViewModel
+import org.bibletranslationtools.sun.ui.adapter.LearnCardAdapter
+import org.bibletranslationtools.sun.ui.viewmodel.LearnViewModel
 
 class SymbolLearnActivity : AppCompatActivity() {
     private val binding by lazy { ActivityLearnBinding.inflate(layoutInflater) }

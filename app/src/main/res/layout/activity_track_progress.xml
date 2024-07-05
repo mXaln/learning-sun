@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ui.activities.TrackProgressActivity">
+    tools:context=".ui.activity.TrackProgressActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities
+package org.bibletranslationtools.sun.ui.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -12,11 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
-import org.bibletranslationtools.sun.adapter.symbol.TestSymbolAdapter
+import org.bibletranslationtools.sun.ui.adapter.TestSymbolAdapter
 import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.databinding.ActivityTestBinding
-import org.bibletranslationtools.sun.ui.viewmodels.TestViewModel
+import org.bibletranslationtools.sun.ui.viewmodel.TestViewModel
 
 class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
     private val binding by lazy { ActivityTestBinding.inflate(layoutInflater) }
@@ -192,8 +192,20 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private fun finishTest() {
-        val intent = Intent(baseContext, LessonActivity::class.java)
-        startActivity(intent)
+        ioScope.launch {
+            val lessons = viewModel.getAllLessons().map { it.id }
+            val current = lessons.indexOf(id)
+            var next: String? = null
+            if (current < lessons.size - 1) {
+                next = lessons[current + 1]
+            }
+
+            runOnUiThread {
+                val intent = Intent(baseContext, LessonActivity::class.java)
+                intent.putExtra("next", next)
+                startActivity(intent)
+            }
+        }
     }
 
     override fun onDestroy() {

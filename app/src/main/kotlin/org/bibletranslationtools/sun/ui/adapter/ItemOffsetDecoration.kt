@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.adapter.card
+package org.bibletranslationtools.sun.ui.adapter
 
 import android.graphics.Rect
 import android.view.View

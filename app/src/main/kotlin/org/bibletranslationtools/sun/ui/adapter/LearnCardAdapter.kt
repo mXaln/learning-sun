@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.adapter.card
+package org.bibletranslationtools.sun.ui.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater

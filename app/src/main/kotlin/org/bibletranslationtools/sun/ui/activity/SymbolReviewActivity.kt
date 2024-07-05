@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities
+package org.bibletranslationtools.sun.ui.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -11,9 +11,9 @@ import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ActivityReviewBinding
 import kotlinx.coroutines.*
-import org.bibletranslationtools.sun.adapter.card.ReviewCardAdapter
-import org.bibletranslationtools.sun.adapter.card.ItemOffsetDecoration
-import org.bibletranslationtools.sun.ui.viewmodels.ReviewViewModel
+import org.bibletranslationtools.sun.ui.adapter.ReviewCardAdapter
+import org.bibletranslationtools.sun.ui.adapter.ItemOffsetDecoration
+import org.bibletranslationtools.sun.ui.viewmodel.ReviewViewModel
 
 class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelectedListener {
 

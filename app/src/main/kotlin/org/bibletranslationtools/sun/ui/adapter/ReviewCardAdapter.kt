@@ -1,20 +1,20 @@
-package org.bibletranslationtools.sun.adapter.symbol
+package org.bibletranslationtools.sun.ui.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import org.bibletranslationtools.sun.data.model.Symbol
+import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ItemSymbolBinding
 
-class TestSymbolAdapter(
-    private val listener: OnSymbolSelectedListener? = null
-) : ListAdapter<Symbol, TestSymbolAdapter.ViewHolder>(callback) {
+class ReviewCardAdapter(
+    private val listener: OnCardSelectedListener? = null
+) : ListAdapter<Card, ReviewCardAdapter.ViewHolder>(callback) {
 
-    interface OnSymbolSelectedListener {
-        fun onSymbolSelected(symbol: Symbol, position: Int)
+    interface OnCardSelectedListener {
+        fun onCardSelected(card: Card, position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,19 +24,18 @@ class TestSymbolAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val symbol = getItem(position)
-        holder.bind(symbol, position)
+        val card = getItem(position)
+        holder.bind(card, position)
     }
 
     companion object {
-        val callback = object : DiffUtil.ItemCallback<Symbol>() {
-            override fun areItemsTheSame(oldItem: Symbol, newItem: Symbol): Boolean {
+        val callback = object : DiffUtil.ItemCallback<Card>() {
+            override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
                 return oldItem.id == newItem.id &&
-                        oldItem.correct == newItem.correct &&
-                        oldItem.selected == newItem.selected
+                        oldItem.correct == newItem.correct
             }
 
-            override fun areContentsTheSame(oldItem: Symbol, newItem: Symbol): Boolean {
+            override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {
                 return oldItem == newItem
             }
         }
@@ -45,18 +44,15 @@ class TestSymbolAdapter(
     inner class ViewHolder(
         private val binding: ItemSymbolBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(symbol: Symbol, position: Int) {
-            binding.apply {
-                cardText.text = symbol.name
+        fun bind(card: Card, position: Int) {
+            with(binding) {
+                cardText.text = card.symbol
 
                 root.setOnClickListener {
-                    if (!symbol.selected) {
-                        symbol.selected = true
-                        listener?.onSymbolSelected(symbol, position)
-                    }
+                    listener?.onCardSelected(card, position)
                 }
 
-                when(symbol.correct) {
+                when(card.correct) {
                     true -> cardFrame.isActivated = true
                     false -> cardFrame.isSelected = true
                     else -> {
@@ -70,6 +66,11 @@ class TestSymbolAdapter(
 
     fun selectCorrect(position: Int) {
         notifyItemChanged(position)
+    }
+
+    fun selectCorrect(item: Card) {
+        val position = this.currentList.indexOf(item)
+        selectCorrect(position)
     }
 
     fun selectIncorrect(position: Int) {

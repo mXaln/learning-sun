@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.viewmodels
+package org.bibletranslationtools.sun.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

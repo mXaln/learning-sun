@@ -1,21 +1,14 @@
-package org.bibletranslationtools.sun.ui.viewmodels
+package org.bibletranslationtools.sun.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.data.AppDatabase
-import org.bibletranslationtools.sun.data.repositories.CardRepository
-import org.bibletranslationtools.sun.data.repositories.LessonRepository
-import org.bibletranslationtools.sun.data.repositories.SettingsRepository
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.data.model.LessonSuite
@@ -24,23 +17,19 @@ import org.bibletranslationtools.sun.data.model.Setting
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.data.model.Test
 import org.bibletranslationtools.sun.data.model.TestSuite
+import org.bibletranslationtools.sun.data.repositories.CardRepository
+import org.bibletranslationtools.sun.data.repositories.LessonRepository
 import org.bibletranslationtools.sun.data.repositories.SentenceRepository
+import org.bibletranslationtools.sun.data.repositories.SettingsRepository
 import org.bibletranslationtools.sun.data.repositories.TestRepository
-import org.bibletranslationtools.sun.ui.mapper.LessonMapper
-import org.bibletranslationtools.sun.ui.model.LessonModel
 import org.bibletranslationtools.sun.utils.AssetsProvider
 
-class MainViewModel(private val application: Application) : AndroidViewModel(application) {
+class HomeViewModel(private val application: Application) : AndroidViewModel(application) {
     private val cardRepository: CardRepository
     private val lessonRepository: LessonRepository
     private val settingsRepository: SettingsRepository
     private val testRepository: TestRepository
     private val sentenceRepository: SentenceRepository
-
-    val lessons: LiveData<List<LessonModel>> get() = mutableLessons
-    private val mutableLessons = MutableLiveData<List<LessonModel>>()
-
-    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     init {
         val cardDao = AppDatabase.getDatabase(application).getCardDao()
@@ -56,18 +45,8 @@ class MainViewModel(private val application: Application) : AndroidViewModel(app
         sentenceRepository = SentenceRepository(sentenceDao, symbolDao)
     }
 
-    fun loadLessons(): Job {
-        return viewModelScope.launch {
-            val lessons = lessonRepository.getAllWithData().map(LessonMapper::map)
-            lessons.forEachIndexed { index, lesson ->
-                lesson.isAvailable = lessonAvailable(lessons, index)
-            }
-            mutableLessons.value = lessons
-        }
-    }
-
     fun importStudyData(): Job {
-        return ioScope.launch {
+        return viewModelScope.launch {
             importLessons()
             importTests()
         }
@@ -179,11 +158,5 @@ class MainViewModel(private val application: Application) : AndroidViewModel(app
 
     private suspend fun insertSetting(setting: Setting) {
         settingsRepository.insert(setting)
-    }
-
-    private fun lessonAvailable(lessons: List<LessonModel>, position: Int): Boolean {
-        if (position == 0) return true
-        val prevLesson = lessons[position - 1]
-        return prevLesson.totalProgress == 100.0
     }
 }
