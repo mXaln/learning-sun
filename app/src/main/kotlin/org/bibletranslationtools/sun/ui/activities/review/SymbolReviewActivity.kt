@@ -132,7 +132,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
                 gridAdapter.submitList(reviewCards)
 
                 Glide.with(baseContext)
-                    .load(Uri.parse("file:///android_asset/images/learn/${currentCard.image}"))
+                    .load(Uri.parse("file:///android_asset/images/learn/${currentCard.secondary}"))
                     .fitCenter()
                     .into(binding.itemImage)
 

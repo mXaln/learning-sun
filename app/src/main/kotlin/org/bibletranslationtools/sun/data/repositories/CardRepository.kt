@@ -17,6 +17,10 @@ class CardRepository(private val cardDao: CardDao) {
         cardDao.update(card)
     }
 
+    suspend fun get(id: String): Card? {
+        return cardDao.get(id)
+    }
+
     suspend fun getAll(lessonId: String): List<Card> {
         return cardDao.getAll(lessonId)
     }

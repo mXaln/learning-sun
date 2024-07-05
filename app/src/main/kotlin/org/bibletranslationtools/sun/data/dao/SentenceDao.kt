@@ -22,6 +22,10 @@ interface SentenceDao {
     suspend fun update(sentence: Sentence)
 
     @Transaction
+    @Query("SELECT * FROM sentences WHERE id = :id")
+    suspend fun get(id: String): Sentence?
+
+    @Transaction
     @Query("SELECT * FROM sentences WHERE test_id = :testId")
     suspend fun getAll(testId: String): List<Sentence>
 

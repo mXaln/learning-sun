@@ -15,4 +15,8 @@ class TestRepository(private val testDao: TestDao) {
     suspend fun update(test: Test) {
         testDao.update(test)
     }
+
+    suspend fun get(id: String): Test? {
+        return testDao.get(id)
+    }
 }

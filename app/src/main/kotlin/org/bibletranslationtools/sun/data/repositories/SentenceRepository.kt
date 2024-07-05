@@ -26,6 +26,10 @@ class SentenceRepository(
         symbolDao.insert(symbol)
     }
 
+    suspend fun get(id: String): Sentence? {
+        return sentenceDao.get(id)
+    }
+
     suspend fun getAll(testId: String): List<Sentence> {
         return sentenceDao.getAll(testId)
     }
