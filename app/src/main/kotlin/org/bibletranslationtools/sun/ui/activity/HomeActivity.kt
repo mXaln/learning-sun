@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        viewModel.importStudyData()
+        viewModel.importLessons()
     }
 
 }

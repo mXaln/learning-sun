@@ -15,8 +15,8 @@ import org.bibletranslationtools.sun.ui.model.LessonModel
 class LessonViewModel(private val application: Application) : AndroidViewModel(application) {
     private val lessonRepository: LessonRepository
 
-    val activeLessonId: LiveData<String?> get() = mutableActiveLessonId
-    private val mutableActiveLessonId = MutableLiveData<String?>()
+    val activeLessonId: LiveData<Int> get() = mutableActiveLessonId
+    private val mutableActiveLessonId = MutableLiveData<Int>()
 
     val lessons: LiveData<List<LessonModel>> get() = mutableLessons
     private val mutableLessons = MutableLiveData<List<LessonModel>>()
@@ -39,7 +39,7 @@ class LessonViewModel(private val application: Application) : AndroidViewModel(a
         }
     }
 
-    fun setActiveLesson(lessonId: String?) {
+    fun setActiveLesson(lessonId: Int) {
         mutableActiveLessonId.value = lessonId
     }
 

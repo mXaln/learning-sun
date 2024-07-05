@@ -24,7 +24,7 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
 
-        val nextLessonId = intent.getStringExtra("next") ?: "1"
+        val nextLessonId = intent.getIntExtra("next", 1)
 
         binding.lessonsList.layoutManager = LinearLayoutManager(
             this,
@@ -37,7 +37,9 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
             lessonsAdapter.submitList(it)
             lessonsAdapter.notifyDataSetChanged()
 
-            val scrollPosition = it.indexOfFirst { lesson -> lesson.lesson.id == nextLessonId }
+            val scrollPosition = it.indexOfFirst { lesson ->
+                lesson.lesson.id == nextLessonId
+            }
             binding.lessonsList.scrollToPosition(scrollPosition)
         }
 
@@ -46,7 +48,7 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
             startActivity(intent)
         }
 
-        nextLessonId?.let { viewModel.setActiveLesson(it) }
+        viewModel.setActiveLesson(nextLessonId)
     }
 
     override fun onLessonSelected(lesson: LessonModel, position: Int) {

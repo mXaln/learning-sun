@@ -25,12 +25,12 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         repository = SentenceRepository(sentenceDao, symbolDao)
     }
 
-    suspend fun getAllSentences(testId: String): List<SentenceWithSymbols> {
-        return repository.getAllWithSymbols(testId)
+    suspend fun getAllSentences(lessonId: Int): List<SentenceWithSymbols> {
+        return repository.getAllWithSymbols(lessonId)
     }
 
-    suspend fun getPassedSentences(testId: String, passed: Boolean): List<Sentence> {
-        return repository.getPassed(testId, passed)
+    suspend fun getPassedSentences(lessonId: Int, passed: Boolean): List<Sentence> {
+        return repository.getPassed(lessonId, passed)
     }
 
     suspend fun updateSentence(sentence: Sentence) {

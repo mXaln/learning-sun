@@ -17,19 +17,18 @@ class SymbolLearnActivity : AppCompatActivity() {
     private val adapter by lazy { LearnCardAdapter() }
     private val viewModel: LearnViewModel by viewModels()
 
+    private var id = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
 
-        viewModel.setLessonId(intent.getStringExtra("id"))
+        id = intent.getIntExtra("id", 1)
 
-        binding.lessonTitle.text =
-            getString(R.string.lesson_name, viewModel.lessonId.value)
-
-        binding.lessonTally.text =
-            TallyMarkConverter.toText(viewModel.lessonId.value!!.toInt())
+        binding.lessonTitle.text = getString(R.string.lesson_name, id)
+        binding.lessonTally.text = TallyMarkConverter.toText(id)
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -47,7 +46,7 @@ class SymbolLearnActivity : AppCompatActivity() {
                     viewPager.currentItem = currentItem + 1
                 } else {
                     val intent = Intent(baseContext, IntermediateActivity::class.java)
-                    intent.putExtra("id", viewModel.lessonId.value)
+                    intent.putExtra("id", id)
                     intent.putExtra("type", TEST_SYMBOLS)
                     startActivity(intent)
                 }
@@ -80,7 +79,7 @@ class SymbolLearnActivity : AppCompatActivity() {
     }
 
     private fun loadCards() {
-        viewModel.loadCards()
+        viewModel.loadCards(id)
     }
 
     private val callback = object : ViewPager2.OnPageChangeCallback() {

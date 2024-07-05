@@ -15,20 +15,16 @@ import org.bibletranslationtools.sun.data.model.LessonSuite
 import org.bibletranslationtools.sun.data.model.Sentence
 import org.bibletranslationtools.sun.data.model.Setting
 import org.bibletranslationtools.sun.data.model.Symbol
-import org.bibletranslationtools.sun.data.model.Test
-import org.bibletranslationtools.sun.data.model.TestSuite
 import org.bibletranslationtools.sun.data.repositories.CardRepository
 import org.bibletranslationtools.sun.data.repositories.LessonRepository
 import org.bibletranslationtools.sun.data.repositories.SentenceRepository
 import org.bibletranslationtools.sun.data.repositories.SettingsRepository
-import org.bibletranslationtools.sun.data.repositories.TestRepository
 import org.bibletranslationtools.sun.utils.AssetsProvider
 
 class HomeViewModel(private val application: Application) : AndroidViewModel(application) {
     private val cardRepository: CardRepository
     private val lessonRepository: LessonRepository
     private val settingsRepository: SettingsRepository
-    private val testRepository: TestRepository
     private val sentenceRepository: SentenceRepository
 
     init {
@@ -36,109 +32,62 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         cardRepository = CardRepository(cardDao)
         val lessonDao = AppDatabase.getDatabase(application).getLessonDao()
         lessonRepository = LessonRepository(lessonDao)
-        val settingsDao = AppDatabase.getDatabase(application).getSettingDao()
-        settingsRepository = SettingsRepository(settingsDao)
-        val testDao = AppDatabase.getDatabase(application).getTestDao()
-        testRepository = TestRepository(testDao)
         val sentenceDao = AppDatabase.getDatabase(application).getSentenceDao()
         val symbolDao = AppDatabase.getDatabase(application).getSymbolDao()
         sentenceRepository = SentenceRepository(sentenceDao, symbolDao)
+        val settingsDao = AppDatabase.getDatabase(application).getSettingDao()
+        settingsRepository = SettingsRepository(settingsDao)
     }
 
-    fun importStudyData(): Job {
+    fun importLessons(): Job {
         return viewModelScope.launch {
-            importLessons()
-            importTests()
-        }
-    }
+            val mapper = ObjectMapper().registerKotlinModule()
+            val reference = object : TypeReference<LessonSuite>() {}
+            val json = AssetsProvider.readText(application, "lessons.json")
 
-    private suspend fun importLessons() {
-        val mapper = ObjectMapper().registerKotlinModule()
-        val reference = object : TypeReference<LessonSuite>() {}
-        val json = AssetsProvider.readText(application, "lessons.json")
+            val dbVersion = getVersion() ?: 0
 
-        val dbVersion = getLessonsVersion() ?: 0
+            json?.let {
+                val lessonSuite = mapper.readValue(it, reference)
 
-        json?.let {
-            val lessonSuite = mapper.readValue(it, reference)
+                if (lessonSuite.version > dbVersion) {
+                    for (lesson in lessonSuite.lessons) {
+                        insertLesson(lesson)
 
-            if (lessonSuite.version > dbVersion) {
-                for (lesson in lessonSuite.lessons) {
-                    insertLesson(lesson)
-                    for (card in lesson.cards) {
-                        card.lessonId = lesson.id
-                        insertCard(card)
-                    }
-                }
+                        for (card in lesson.cards) {
+                            card.lessonId = lesson.id
+                            insertCard(card)
+                        }
 
-                insertSetting(
-                    Setting("lessonsVersion", lessonSuite.version.toString())
-                )
-            }
-        }
-    }
-
-    private suspend fun importTests() {
-        val mapper = ObjectMapper().registerKotlinModule()
-        val reference = object : TypeReference<TestSuite>() {}
-        val json = AssetsProvider.readText(application, "tests.json")
-
-        val dbVersion = getTestsVersion() ?: 0
-
-        json?.let {
-            val testSuite = mapper.readValue(it, reference)
-
-            if (testSuite.version > dbVersion) {
-                for (test in testSuite.tests) {
-                    insertTest(test)
-                    for (sentence in test.sentences) {
-                        sentence.testId = test.id
-                        insertSentence(sentence)
-                        for (symbol in sentence.symbols) {
-                            symbol.sentenceId = sentence.id
-                            insertSymbol(symbol)
+                        for (sentence in lesson.sentences) {
+                            sentence.lessonId = lesson.id
+                            insertSentence(sentence)
+                            for (symbol in sentence.symbols) {
+                                symbol.sentenceId = sentence.id
+                                insertSymbol(symbol)
+                            }
                         }
                     }
+
+                    insertSetting(
+                        Setting("version", lessonSuite.version.toString())
+                    )
                 }
-
-                insertSetting(Setting("testsVersion", testSuite.version.toString()))
             }
         }
     }
 
-    private fun insertCard(card: Card) {
-        viewModelScope.launch {
-            val cardExists = cardRepository.get(card.id) != null
-            if (!cardExists) {
-                cardRepository.insert(card)
-            }
-        }
+    private suspend fun insertLesson(lesson: Lesson) {
+        lessonRepository.insert(lesson)
     }
 
-    private fun insertLesson(lesson: Lesson) {
-        viewModelScope.launch {
-            val lessonExists = lessonRepository.get(lesson.id) != null
-            if (!lessonExists) {
-                lessonRepository.insert(lesson)
-            }
-        }
-    }
-
-    private fun insertTest(test: Test) {
-        viewModelScope.launch {
-            val testExists = testRepository.get(test.id) != null
-            if (!testExists) {
-                testRepository.insert(test)
-            }
-        }
+    private suspend fun insertCard(card: Card) {
+        cardRepository.insert(card)
     }
 
     private fun insertSentence(sentence: Sentence) {
         viewModelScope.launch {
-            val sentenceExists = sentenceRepository.get(sentence.id) != null
-            if (!sentenceExists) {
-                sentenceRepository.insert(sentence)
-            }
+            sentenceRepository.insert(sentence)
         }
     }
 
@@ -148,12 +97,8 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         }
     }
 
-    private suspend fun getLessonsVersion(): Int? {
-        return settingsRepository.get("lessonsVersion")?.value?.toInt()
-    }
-
-    private suspend fun getTestsVersion(): Int? {
-        return settingsRepository.get("testsVersion")?.value?.toInt()
+    private suspend fun getVersion(): Int? {
+        return settingsRepository.get("version")?.value?.toInt()
     }
 
     private suspend fun insertSetting(setting: Setting) {

@@ -20,7 +20,7 @@ data class Card(
     @ColumnInfo(name = "passed")
     var passed: Boolean = false,
     @ColumnInfo(name = "lesson_id")
-    var lessonId: String? = null,
+    var lessonId: Int? = null,
 ) {
     @Ignore
     var correct: Boolean? = null

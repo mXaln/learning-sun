@@ -21,19 +21,19 @@ class CardRepository(private val cardDao: CardDao) {
         return cardDao.get(id)
     }
 
-    suspend fun getAll(lessonId: String): List<Card> {
+    suspend fun getAll(lessonId: Int): List<Card> {
         return cardDao.getAll(lessonId)
     }
 
-    suspend fun getPassed(lessonId: String, passed: Boolean): List<Card> {
+    suspend fun getPassed(lessonId: Int, passed: Boolean): List<Card> {
         return cardDao.getPassed(lessonId, passed)
     }
 
-    suspend fun getLearned(lessonId: String, learned: Boolean): List<Card> {
+    suspend fun getLearned(lessonId: Int, learned: Boolean): List<Card> {
         return cardDao.getLearned(lessonId, learned)
     }
 
-    suspend fun resetAll(lessonId: String): Int {
+    suspend fun resetAll(lessonId: Int): Int {
         return cardDao.resetAll(lessonId)
     }
 }

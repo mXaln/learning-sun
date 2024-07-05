@@ -12,7 +12,7 @@ import org.bibletranslationtools.sun.data.model.LessonWithData
 
 @Dao
 interface LessonDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(lesson: Lesson)
 
     @Delete
@@ -31,5 +31,5 @@ interface LessonDao {
 
     @Transaction
     @Query("SELECT * FROM lessons WHERE id = :id")
-    suspend fun get(id: String): Lesson?
+    suspend fun get(id: Int): Lesson?
 }

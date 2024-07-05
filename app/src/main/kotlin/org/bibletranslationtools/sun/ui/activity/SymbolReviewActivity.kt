@@ -27,7 +27,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
     private var progress = 0
     private lateinit var currentCard: Card
     private val askedCards = arrayListOf<Card>()
-    private lateinit var id: String
+    private var id = 1
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
     private val ioScope = CoroutineScope(Dispatchers.IO)
@@ -39,7 +39,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         setContentView(binding.root)
 
         with(binding) {
-            id = intent.getStringExtra("id") ?: ""
+            id = intent.getIntExtra("id", 1)
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
@@ -47,7 +47,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
             }
 
             lessonTitle.text = getString(R.string.lesson_name, id)
-            lessonTally.text = TallyMarkConverter.toText(id.toInt())
+            lessonTally.text = TallyMarkConverter.toText(id)
 
             answersList.layoutManager = GridLayoutManager(
                 this@SymbolReviewActivity,
@@ -131,7 +131,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
                 gridAdapter.submitList(reviewCards)
 
                 Glide.with(baseContext)
-                    .load(Uri.parse("file:///android_asset/images/learn/${currentCard.secondary}"))
+                    .load(Uri.parse("file:///android_asset/images/symbols/${currentCard.secondary}"))
                     .fitCenter()
                     .into(binding.itemImage)
 

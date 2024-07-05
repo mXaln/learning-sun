@@ -18,19 +18,14 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
 
     val cards: LiveData<List<Card>> = mutableCards
 
-    private val lessonIdLiveData = MutableLiveData<String?>()
-    val lessonId get() = lessonIdLiveData
-
     init {
         val dao = AppDatabase.getDatabase(application).getCardDao()
         repository = CardRepository(dao)
     }
 
-    fun loadCards(): Job {
+    fun loadCards(lessonId: Int): Job {
         return viewModelScope.launch {
-            lessonId.value?.let {
-                mutableCards.value = repository.getAll(it)
-            }
+            mutableCards.value = repository.getAll(lessonId)
         }
     }
 
@@ -39,10 +34,6 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
             repository.update(card)
             mutableCards.value = mutableCards.value
         }
-    }
-
-    fun setLessonId(lessonId: String?) {
-        lessonIdLiveData.value = lessonId
     }
 
 }

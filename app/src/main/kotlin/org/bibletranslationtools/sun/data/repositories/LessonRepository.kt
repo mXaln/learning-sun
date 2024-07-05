@@ -6,7 +6,7 @@ import org.bibletranslationtools.sun.data.model.LessonWithData
 
 class LessonRepository(private val lessonDao: LessonDao) {
     suspend fun insert(lesson: Lesson) {
-        lessonDao.insert(lesson)
+        return lessonDao.insert(lesson)
     }
 
     suspend fun delete(lesson: Lesson) {
@@ -25,7 +25,7 @@ class LessonRepository(private val lessonDao: LessonDao) {
         return lessonDao.getAllWithData()
     }
 
-    suspend fun get(id: String): Lesson? {
-        return lessonDao.get(id)
+    suspend fun get(name: Int): Lesson? {
+        return lessonDao.get(name)
     }
 }

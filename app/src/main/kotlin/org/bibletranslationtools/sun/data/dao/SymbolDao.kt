@@ -9,7 +9,7 @@ import org.bibletranslationtools.sun.data.model.Symbol
 
 @Dao
 interface SymbolDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(symbol: Symbol)
 
     @Delete

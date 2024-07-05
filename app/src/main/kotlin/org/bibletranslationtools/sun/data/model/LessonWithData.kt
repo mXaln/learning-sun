@@ -14,7 +14,7 @@ data class LessonWithData(
     @Relation(
         entity = Sentence::class,
         parentColumn = "id",
-        entityColumn = "test_id"
+        entityColumn = "lesson_id"
     )
     val sentences: List<Sentence>
 )

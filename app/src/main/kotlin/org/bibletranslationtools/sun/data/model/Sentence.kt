@@ -15,8 +15,8 @@ data class Sentence (
     val incorrect: String,
     @ColumnInfo(name = "passed")
     var passed: Boolean = false,
-    @ColumnInfo(name = "test_id")
-    var testId: String? = null
+    @ColumnInfo(name = "lesson_id")
+    var lessonId: Int? = null
 ) {
     @Ignore
     val symbols: List<Symbol> = listOf()
@@ -29,10 +29,10 @@ data class Sentence (
                 correct == sentence.correct &&
                 incorrect == sentence.incorrect &&
                 passed == sentence.passed &&
-                testId == sentence.testId
+                lessonId == sentence.lessonId
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(id, correct, incorrect, passed, testId)
+        return Objects.hash(id, correct, incorrect, passed, lessonId)
     }
 }

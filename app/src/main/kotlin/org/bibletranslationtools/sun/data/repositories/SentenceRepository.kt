@@ -30,20 +30,16 @@ class SentenceRepository(
         return sentenceDao.get(id)
     }
 
-    suspend fun getAll(testId: String): List<Sentence> {
-        return sentenceDao.getAll(testId)
+    suspend fun getAll(lessonId: Int): List<Sentence> {
+        return sentenceDao.getAll(lessonId)
     }
 
-    suspend fun getAllWithSymbols(testId: String): List<SentenceWithSymbols> {
-        return sentenceDao.getAllWithSymbols(testId)
+    suspend fun getAllWithSymbols(lessonId: Int): List<SentenceWithSymbols> {
+        return sentenceDao.getAllWithSymbols(lessonId)
     }
 
-    suspend fun getPassed(testId: String, passed: Boolean): List<Sentence> {
-        return sentenceDao.getPassed(testId, passed)
-    }
-
-    suspend fun resetAll(lessonId: String): Int {
-        return sentenceDao.resetAll(lessonId)
+    suspend fun getPassed(lessonId: Int, passed: Boolean): List<Sentence> {
+        return sentenceDao.getPassed(lessonId, passed)
     }
 
 }

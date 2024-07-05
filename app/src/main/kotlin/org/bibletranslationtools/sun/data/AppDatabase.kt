@@ -10,13 +10,11 @@ import org.bibletranslationtools.sun.data.dao.LessonDao
 import org.bibletranslationtools.sun.data.dao.SentenceDao
 import org.bibletranslationtools.sun.data.dao.SettingsDao
 import org.bibletranslationtools.sun.data.dao.SymbolDao
-import org.bibletranslationtools.sun.data.dao.TestDao
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.data.model.Sentence
 import org.bibletranslationtools.sun.data.model.Setting
 import org.bibletranslationtools.sun.data.model.Symbol
-import org.bibletranslationtools.sun.data.model.Test
 import kotlin.concurrent.Volatile
 
 @Database(
@@ -24,7 +22,6 @@ import kotlin.concurrent.Volatile
         Card::class,
         Lesson::class,
         Setting::class,
-        Test::class,
         Sentence::class,
         Symbol::class
     ],
@@ -37,7 +34,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getCardDao(): CardDao
     abstract fun getLessonDao(): LessonDao
     abstract fun getSettingDao(): SettingsDao
-    abstract fun getTestDao(): TestDao
     abstract fun getSentenceDao(): SentenceDao
     abstract fun getSymbolDao(): SymbolDao
 

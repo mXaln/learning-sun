@@ -17,11 +17,11 @@ class ReviewViewModel(application: Application) : AndroidViewModel(application) 
         repository = CardRepository(cardDao)
     }
 
-    suspend fun getAllCards(lessonId: String): List<Card> {
+    suspend fun getAllCards(lessonId: Int): List<Card> {
         return repository.getAll(lessonId)
     }
 
-    suspend fun getPassedCards(lessonId: String, passed: Boolean): List<Card> {
+    suspend fun getPassedCards(lessonId: Int, passed: Boolean): List<Card> {
         return repository.getPassed(lessonId, passed)
     }
 

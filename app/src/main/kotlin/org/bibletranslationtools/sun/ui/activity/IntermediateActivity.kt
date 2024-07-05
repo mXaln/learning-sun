@@ -19,7 +19,7 @@ class IntermediateActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
 
-        val id = intent.getStringExtra("id")
+        val id = intent.getIntExtra("id", 1)
         val type = intent.getIntExtra("type", TEST_SYMBOLS)
 
         if (type == TEST_SYMBOLS) {
@@ -41,7 +41,7 @@ class IntermediateActivity : AppCompatActivity() {
         }
 
         binding.lessonTitle.text = getString(R.string.lesson_name, id)
-        binding.lessonTally.text = TallyMarkConverter.toText(id!!.toInt())
+        binding.lessonTally.text = TallyMarkConverter.toText(id)
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()

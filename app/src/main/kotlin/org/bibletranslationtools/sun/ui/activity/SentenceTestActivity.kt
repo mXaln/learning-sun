@@ -31,7 +31,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
 
     private lateinit var currentSentence: SentenceWithSymbols
     private var progress = 0
-    private lateinit var id: String
+    private var id = 1
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
     private val ioScope = CoroutineScope(Dispatchers.IO)
@@ -47,7 +47,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         setContentView(binding.root)
 
         with(binding) {
-            id = intent.getStringExtra("id") ?: ""
+            id = intent.getIntExtra("id", 1)
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
@@ -55,7 +55,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
             }
 
             lessonTitle.text = getString(R.string.lesson_name, id)
-            lessonTally.text = TallyMarkConverter.toText(id.toInt())
+            lessonTally.text = TallyMarkConverter.toText(id)
 
             answersList.layoutManager = LinearLayoutManager(
                 this@SentenceTestActivity,
@@ -157,7 +157,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
             setRandomSentence(notPassedSentences)
 
             Glide.with(baseContext)
-                .load(Uri.parse("file:///android_asset/images/test/${currentSentence.sentence.correct}"))
+                .load(Uri.parse("file:///android_asset/images/sentences/${currentSentence.sentence.correct}"))
                 .fitCenter()
                 .into(binding.itemImage)
 
@@ -197,7 +197,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         ioScope.launch {
             val lessons = viewModel.getAllLessons().map { it.id }
             val current = lessons.indexOf(id)
-            var next: String? = null
+            var next = 1
             if (current < lessons.size - 1) {
                 next = lessons[current + 1]
             }

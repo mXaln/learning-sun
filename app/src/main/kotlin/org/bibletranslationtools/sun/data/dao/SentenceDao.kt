@@ -12,7 +12,7 @@ import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 
 @Dao
 interface SentenceDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(sentence: Sentence)
 
     @Delete
@@ -26,18 +26,14 @@ interface SentenceDao {
     suspend fun get(id: String): Sentence?
 
     @Transaction
-    @Query("SELECT * FROM sentences WHERE test_id = :testId")
-    suspend fun getAll(testId: String): List<Sentence>
+    @Query("SELECT * FROM sentences WHERE lesson_id = :lessonId")
+    suspend fun getAll(lessonId: Int): List<Sentence>
 
     @Transaction
-    @Query("SELECT * FROM sentences WHERE test_id = :testId")
-    suspend fun getAllWithSymbols(testId: String): List<SentenceWithSymbols>
+    @Query("SELECT * FROM sentences WHERE lesson_id = :lessonId")
+    suspend fun getAllWithSymbols(lessonId: Int): List<SentenceWithSymbols>
 
     @Transaction
-    @Query("SELECT * FROM sentences WHERE test_id = :testId AND passed = :passed")
-    suspend fun getPassed(testId: String, passed: Boolean): List<Sentence>
-
-    @Transaction
-    @Query("UPDATE sentences SET passed = 0 WHERE test_id = :testId")
-    suspend fun resetAll(testId: String): Int
+    @Query("SELECT * FROM sentences WHERE lesson_id = :lessonId AND passed = :passed")
+    suspend fun getPassed(lessonId: Int, passed: Boolean): List<Sentence>
 }

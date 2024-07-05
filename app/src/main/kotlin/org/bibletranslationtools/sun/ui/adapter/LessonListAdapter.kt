@@ -38,7 +38,7 @@ class LessonListAdapter(
 
         with(holder.binding) {
             lessonName.text = context.getString(R.string.lesson_name, id)
-            lessonTally.text = TallyMarkConverter.toText(id.toInt())
+            lessonTally.text = TallyMarkConverter.toText(id)
 
             val cardsLearnedProgress = lesson.cardsLearnedProgress
             val testSymbolsAvailable = cardsLearnedProgress == 100.0
@@ -117,7 +117,7 @@ class LessonListAdapter(
     }
 
     private fun setLearnSymbols(
-        lessonId: String,
+        lessonId: Int,
         progress: Double,
         binding: ItemLessonBinding
     ) {
@@ -142,7 +142,7 @@ class LessonListAdapter(
     }
 
     private fun setTestSymbols(
-        lessonId: String,
+        lessonId: Int,
         available: Boolean,
         progress: Double,
         binding: ItemLessonBinding
@@ -177,7 +177,7 @@ class LessonListAdapter(
     }
 
     private fun setBuildSentences(
-        lessonId: String,
+        lessonId: Int,
         available: Boolean,
         progress: Double,
         binding: ItemLessonBinding

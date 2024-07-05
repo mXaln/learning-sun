@@ -8,10 +8,13 @@ import java.util.Objects
 @Entity(tableName = "lessons", primaryKeys = ["id"])
 data class Lesson(
     @ColumnInfo(name = "id")
-    val id: String
+    val id: Int
 ) {
     @Ignore
     val cards: List<Card> = listOf()
+
+    @Ignore
+    val sentences: List<Sentence> = listOf()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
