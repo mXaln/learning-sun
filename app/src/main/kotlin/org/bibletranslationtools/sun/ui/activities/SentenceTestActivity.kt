@@ -1,6 +1,5 @@
-package org.bibletranslationtools.sun.ui.activities.test
+package org.bibletranslationtools.sun.ui.activities
 
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,9 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.saadahmedsoft.popupdialog.PopupDialog
-import com.saadahmedsoft.popupdialog.Styles
-import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,8 +16,6 @@ import org.bibletranslationtools.sun.adapter.symbol.TestSymbolAdapter
 import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.databinding.ActivityTestBinding
-import org.bibletranslationtools.sun.ui.activities.home.HomeActivity
-import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.viewmodels.TestViewModel
 
 class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
@@ -198,7 +192,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private fun finishTest() {
-        val intent = Intent(baseContext, HomeActivity::class.java)
+        val intent = Intent(baseContext, LessonActivity::class.java)
         startActivity(intent)
     }
 

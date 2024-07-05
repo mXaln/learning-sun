@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ui.activities.HomeActivity">
+    tools:context=".ui.activities.GlobalTestActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        app:navigationIcon="@drawable/ic_arrow_back"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40dp">
 
@@ -31,7 +33,7 @@
             android:layout_width="@dimen/_60dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_home" />
+            android:src="@drawable/ic_test" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,13 +45,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
+                android:text="@string/test_symbols"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:elevation="1dp"
                 android:textColor="@color/primary"
                 android:id="@+id/page_title" />
-
         </LinearLayout>
     </LinearLayout>
 
@@ -61,7 +62,7 @@
         android:paddingHorizontal="@dimen/_20dp">
 
         <LinearLayout
-            android:id="@+id/learn_symbols"
+            android:id="@+id/test_knowledge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -71,12 +72,12 @@
                 android:layout_width="148dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_learn"/>
+                android:src="@drawable/ic_test_knowledge"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/learn_symbols"
+                android:text="@string/test_knowledge"
                 android:layout_marginStart="@dimen/_20dp"
                 android:textSize="@dimen/_24sp"
                 android:textColor="@color/dark_gray"
@@ -108,7 +109,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/track_progress"
+            android:id="@+id/build_sentences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -119,12 +120,12 @@
                 android:layout_width="148dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_track_progress"/>
+                android:src="@drawable/ic_sentences"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/track_progress"
+                android:text="@string/build_sentences"
                 android:layout_marginStart="@dimen/_20dp"
                 android:textSize="@dimen/_24sp"
                 android:textColor="@color/dark_gray"

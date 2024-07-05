@@ -1,4 +1,4 @@
-package org.bibletranslationtools.sun.ui.activities.learn
+package org.bibletranslationtools.sun.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityLearnBinding
 import org.bibletranslationtools.sun.adapter.card.LearnCardAdapter
-import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.viewmodels.LearnViewModel
 
 class SymbolLearnActivity : AppCompatActivity() {

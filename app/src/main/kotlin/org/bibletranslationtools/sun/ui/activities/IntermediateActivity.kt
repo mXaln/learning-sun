@@ -1,12 +1,10 @@
-package org.bibletranslationtools.sun.ui.activities.learn
+package org.bibletranslationtools.sun.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityIntermediateBinding
-import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
-import org.bibletranslationtools.sun.ui.activities.test.SentenceTestActivity
 
 const val TEST_SYMBOLS = 0
 const val BUILD_SENTENCES = 1

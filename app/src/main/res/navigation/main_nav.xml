@@ -7,9 +7,9 @@
 
     <fragment
             android:id="@+id/homeFragment"
-            android:name="org.bibletranslationtools.sun.ui.fragments.home.HomeFragment"
+            android:name="org.bibletranslationtools.sun.ui.fragments.LessonsFragment"
             android:label="fragment_home"
-            tools:layout="@layout/fragment_home">
+            tools:layout="@layout/fragment_lessons">
     </fragment>
 
 </navigation>

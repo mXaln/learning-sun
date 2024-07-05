@@ -1,6 +1,5 @@
-package org.bibletranslationtools.sun.ui.activities.review
+package org.bibletranslationtools.sun.ui.activities
 
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,15 +10,9 @@ import com.bumptech.glide.Glide
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ActivityReviewBinding
-import com.saadahmedsoft.popupdialog.PopupDialog
-import com.saadahmedsoft.popupdialog.Styles
-import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
 import kotlinx.coroutines.*
 import org.bibletranslationtools.sun.adapter.card.ReviewCardAdapter
 import org.bibletranslationtools.sun.adapter.card.ItemOffsetDecoration
-import org.bibletranslationtools.sun.ui.activities.learn.BUILD_SENTENCES
-import org.bibletranslationtools.sun.ui.activities.learn.IntermediateActivity
-import org.bibletranslationtools.sun.ui.activities.learn.TEST_SYMBOLS
 import org.bibletranslationtools.sun.ui.viewmodels.ReviewViewModel
 
 class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelectedListener {

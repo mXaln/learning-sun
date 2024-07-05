@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ItemLessonBinding
-import org.bibletranslationtools.sun.ui.activities.learn.SymbolLearnActivity
-import org.bibletranslationtools.sun.ui.activities.review.SymbolReviewActivity
-import org.bibletranslationtools.sun.ui.activities.test.SentenceTestActivity
+import org.bibletranslationtools.sun.ui.activities.SymbolLearnActivity
+import org.bibletranslationtools.sun.ui.activities.SymbolReviewActivity
+import org.bibletranslationtools.sun.ui.activities.SentenceTestActivity
 import org.bibletranslationtools.sun.ui.model.LessonModel
 
 class LessonListAdapter(
