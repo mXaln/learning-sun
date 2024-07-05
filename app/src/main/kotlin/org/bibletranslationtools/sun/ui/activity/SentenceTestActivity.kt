@@ -17,6 +17,7 @@ import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.databinding.ActivityTestBinding
 import org.bibletranslationtools.sun.ui.viewmodel.TestViewModel
+import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
     private val binding by lazy { ActivityTestBinding.inflate(layoutInflater) }
@@ -54,6 +55,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
             }
 
             lessonTitle.text = getString(R.string.lesson_name, id)
+            lessonTally.text = TallyMarkConverter.toText(id.toInt())
 
             answersList.layoutManager = LinearLayoutManager(
                 this@SentenceTestActivity,

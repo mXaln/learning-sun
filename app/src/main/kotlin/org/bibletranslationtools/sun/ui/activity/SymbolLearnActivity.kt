@@ -10,6 +10,7 @@ import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityLearnBinding
 import org.bibletranslationtools.sun.ui.adapter.LearnCardAdapter
 import org.bibletranslationtools.sun.ui.viewmodel.LearnViewModel
+import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class SymbolLearnActivity : AppCompatActivity() {
     private val binding by lazy { ActivityLearnBinding.inflate(layoutInflater) }
@@ -26,6 +27,9 @@ class SymbolLearnActivity : AppCompatActivity() {
 
         binding.lessonTitle.text =
             getString(R.string.lesson_name, viewModel.lessonId.value)
+
+        binding.lessonTally.text =
+            TallyMarkConverter.toText(viewModel.lessonId.value!!.toInt())
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()

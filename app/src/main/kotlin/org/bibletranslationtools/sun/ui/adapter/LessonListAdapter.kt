@@ -15,6 +15,7 @@ import org.bibletranslationtools.sun.ui.activity.SymbolLearnActivity
 import org.bibletranslationtools.sun.ui.activity.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.activity.SentenceTestActivity
 import org.bibletranslationtools.sun.ui.model.LessonModel
+import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class LessonListAdapter(
     private val context: Context,
@@ -37,6 +38,7 @@ class LessonListAdapter(
 
         with(holder.binding) {
             lessonName.text = context.getString(R.string.lesson_name, id)
+            lessonTally.text = TallyMarkConverter.toText(id.toInt())
 
             val cardsLearnedProgress = lesson.cardsLearnedProgress
             val testSymbolsAvailable = cardsLearnedProgress == 100.0

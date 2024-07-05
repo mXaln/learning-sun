@@ -24,6 +24,8 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
 
+        val nextLessonId = intent.getStringExtra("next") ?: "1"
+
         binding.lessonsList.layoutManager = LinearLayoutManager(
             this,
             RecyclerView.VERTICAL,
@@ -34,6 +36,9 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
         viewModel.lessons.observe(this) {
             lessonsAdapter.submitList(it)
             lessonsAdapter.notifyDataSetChanged()
+
+            val scrollPosition = it.indexOfFirst { lesson -> lesson.lesson.id == nextLessonId }
+            binding.lessonsList.scrollToPosition(scrollPosition)
         }
 
         binding.toolbar.setNavigationOnClickListener {
@@ -41,9 +46,7 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
             startActivity(intent)
         }
 
-        intent.getStringExtra("next")?.let { nextLessonId ->
-            viewModel.setActiveLesson(nextLessonId)
-        }
+        nextLessonId?.let { viewModel.setActiveLesson(it) }
     }
 
     override fun onLessonSelected(lesson: LessonModel, position: Int) {

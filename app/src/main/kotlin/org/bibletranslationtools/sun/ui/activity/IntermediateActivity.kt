@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityIntermediateBinding
+import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 const val TEST_SYMBOLS = 0
 const val BUILD_SENTENCES = 1
@@ -39,8 +40,8 @@ class IntermediateActivity : AppCompatActivity() {
             }
         }
 
-        binding.lessonTitle.text =
-            getString(R.string.lesson_name, id)
+        binding.lessonTitle.text = getString(R.string.lesson_name, id)
+        binding.lessonTally.text = TallyMarkConverter.toText(id!!.toInt())
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()

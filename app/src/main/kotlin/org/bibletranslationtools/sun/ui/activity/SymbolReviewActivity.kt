@@ -14,6 +14,7 @@ import kotlinx.coroutines.*
 import org.bibletranslationtools.sun.ui.adapter.ReviewCardAdapter
 import org.bibletranslationtools.sun.ui.adapter.ItemOffsetDecoration
 import org.bibletranslationtools.sun.ui.viewmodel.ReviewViewModel
+import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelectedListener {
 
@@ -46,6 +47,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
             }
 
             lessonTitle.text = getString(R.string.lesson_name, id)
+            lessonTally.text = TallyMarkConverter.toText(id.toInt())
 
             answersList.layoutManager = GridLayoutManager(
                 this@SymbolReviewActivity,

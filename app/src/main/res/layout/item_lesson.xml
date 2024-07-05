@@ -8,19 +8,40 @@
     android:layout_marginTop="@dimen/_10dp"
     android:padding="@dimen/_16dp">
 
-    <TextView
-        android:id="@+id/lesson_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:maxLines="1"
-        android:text="@string/unknown"
-        android:textColor="@color/selector_lesson_text"
-        android:textSize="@dimen/_24sp"
-        android:textStyle="normal"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/rooms"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/lesson_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="@string/lesson_name"
+            android:textColor="@color/selector_lesson_text"
+            android:textSize="@dimen/_24sp"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:id="@+id/lesson_tally"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:maxLines="1"
+            android:layout_marginStart="@dimen/_10dp"
+            android:text="@string/tally_example"
+            android:textColor="@color/selector_lesson_text"
+            android:textSize="@dimen/_24sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/tally"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lesson_status_container"
