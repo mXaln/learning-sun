@@ -20,6 +20,8 @@ data class Sentence (
 ) {
     @Ignore
     val symbols: List<Symbol> = listOf()
+    @Ignore
+    var answered = false
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

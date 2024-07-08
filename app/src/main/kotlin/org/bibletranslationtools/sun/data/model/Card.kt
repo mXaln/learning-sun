@@ -27,6 +27,8 @@ data class Card(
     @Ignore
     var correct: Boolean? = null
     @Ignore
+    var done = false
+    @Ignore
     var partiallyDone = false
 
     override fun equals(other: Any?): Boolean {

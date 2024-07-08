@@ -32,7 +32,8 @@ class SymbolLearnActivity : AppCompatActivity() {
         binding.lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
 
         binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            val intent = Intent(baseContext, LessonListActivity::class.java)
+            startActivity(intent)
         }
 
         setupCardsView()

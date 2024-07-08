@@ -60,7 +60,8 @@ class IntermediateActivity : AppCompatActivity() {
         binding.lessonTally.text = TallyMarkConverter.toText(id)
 
         binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            val intent = Intent(baseContext, LessonListActivity::class.java)
+            startActivity(intent)
         }
     }
 }

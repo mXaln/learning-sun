@@ -44,7 +44,8 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
+                val intent = Intent(baseContext, LessonListActivity::class.java)
+                startActivity(intent)
             }
 
             lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
@@ -110,6 +111,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         if (isSentenceCorrect) {
             lifecycleScope.launch(Dispatchers.IO) {
                 currentSentence.sentence.passed = true
+                currentSentence.sentence.answered = true
                 viewModel.updateSentence(currentSentence.sentence)
             }
         }
@@ -136,7 +138,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         binding.nextButton.isEnabled = false
 
         val allSentences = viewModel.sentences.value.toMutableList()
-        val inProgressSentences = allSentences.filter { !it.sentence.passed }
+        val inProgressSentences = allSentences.filter { !it.sentence.answered }
 
         if (inProgressSentences.isEmpty()) {
             finishTest()

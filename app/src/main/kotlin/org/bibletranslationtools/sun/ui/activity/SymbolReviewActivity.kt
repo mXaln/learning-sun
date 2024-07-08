@@ -38,7 +38,8 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
+                val intent = Intent(baseContext, LessonListActivity::class.java)
+                startActivity(intent)
             }
 
             lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
@@ -93,6 +94,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
                     }
                     else -> {
                         currentCard.passed = true
+                        currentCard.done = true
                         viewModel.updateCard(currentCard)
                     }
                 }
@@ -116,7 +118,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         val inProgressCards = allCards.filter {
             when (viewModel.part.value) {
                 PART_ONE, PART_TWO -> !it.partiallyDone
-                else -> !it.passed
+                else -> !it.done
             }
         }
 
