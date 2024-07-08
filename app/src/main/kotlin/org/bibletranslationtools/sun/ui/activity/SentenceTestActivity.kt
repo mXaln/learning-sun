@@ -5,23 +5,22 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.ui.adapter.TestSymbolAdapter
 import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.databinding.ActivityTestBinding
-import org.bibletranslationtools.sun.ui.viewmodel.TestViewModel
+import org.bibletranslationtools.sun.ui.viewmodel.SentenceTestViewModel
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
     private val binding by lazy { ActivityTestBinding.inflate(layoutInflater) }
-    private val viewModel: TestViewModel by viewModels()
+    private val viewModel: SentenceTestViewModel by viewModels()
     private val variantsAdapter: TestSymbolAdapter by lazy {
         TestSymbolAdapter(listener = this)
     }
@@ -30,13 +29,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private lateinit var currentSentence: SentenceWithSymbols
-    private var progress = 0
-    private var id = 1
-    private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
-    private val ioScope = CoroutineScope(Dispatchers.IO)
     private val totalVariants = 4
-    private val askedSentences = arrayListOf<SentenceWithSymbols>()
     private var lastAnswerPosition = -1
 
     private val variantSymbols = arrayListOf<Symbol>()
@@ -47,15 +40,15 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         setContentView(binding.root)
 
         with(binding) {
-            id = intent.getIntExtra("id", 1)
+            viewModel.lessonId.value = intent.getIntExtra("id", 1)
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()
             }
 
-            lessonTitle.text = getString(R.string.lesson_name, id)
-            lessonTally.text = TallyMarkConverter.toText(id)
+            lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
+            lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
 
             answersList.layoutManager = LinearLayoutManager(
                 this@SentenceTestActivity,
@@ -71,24 +64,27 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
             )
             variantsList.adapter = variantsAdapter
 
-            setNextSentence()
-
-            ioScope.launch {
-                val max = viewModel.getPassedSentences(id, false).size
-                timelineProgress.max = max
+            lifecycleScope.launch {
+                viewModel.sentences.collect {
+                    if (it.isNotEmpty()) {
+                        setNextSentence()
+                    }
+                }
             }
 
             nextButton.setOnClickListener {
-                if (viewModel.sentenceDone.value == true) {
+                if (viewModel.sentenceDone.value) {
                     setNextSentence()
                     viewModel.sentenceDone.value = false
                 }
             }
+
+            viewModel.loadSentences()
         }
     }
 
     override fun onSymbolSelected(symbol: Symbol, position: Int) {
-        if (viewModel.sentenceDone.value == false) {
+        if (!viewModel.sentenceDone.value) {
             symbol.correct = true
             variantsAdapter.selectCorrect(position)
 
@@ -99,7 +95,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
 
             if (lastAnswerPosition >= answersAdapter.itemCount - 1) {
                 checkAnswer()
-                viewModel.sentenceDone.postValue(true)
+                viewModel.sentenceDone.value = true
                 binding.nextButton.isEnabled = true
                 lastAnswerPosition = -1
             }
@@ -112,12 +108,10 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         val isSentenceCorrect = correctSymbols.map { it.id } == answerSymbols.map { it.id }
 
         if (isSentenceCorrect) {
-            ioScope.launch(Dispatchers.IO) {
+            lifecycleScope.launch(Dispatchers.IO) {
                 currentSentence.sentence.passed = true
                 viewModel.updateSentence(currentSentence.sentence)
             }
-            progress++
-            setUpProgressBar()
         }
 
         answerSymbols.zip(correctSymbols).withIndex().forEach { (index, pair) ->
@@ -138,47 +132,39 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
         variantsAdapter.refresh()
     }
 
-    private fun setUpProgressBar() {
-        binding.timelineProgress.progress = progress
-    }
-
     private fun setNextSentence() {
         binding.nextButton.isEnabled = false
 
-        scope.launch {
-            val allSentences = viewModel.getAllSentences(id) as MutableList
-            val notPassedSentences = allSentences.filter { !it.sentence.passed }
+        val allSentences = viewModel.sentences.value.toMutableList()
+        val inProgressSentences = allSentences.filter { !it.sentence.passed }
 
-            if (notPassedSentences.isEmpty()) {
-                finishTest()
-                return@launch
-            }
-
-            setRandomSentence(notPassedSentences)
-
-            Glide.with(baseContext)
-                .load(Uri.parse("file:///android_asset/images/sentences/${currentSentence.sentence.correct}"))
-                .fitCenter()
-                .into(binding.itemImage)
-
-            val incorrectSymbols = allSentences
-                .map { it.symbols }
-                .flatten()
-                .filter { symbol ->
-                    val correctSymbols = currentSentence.symbols
-                    correctSymbols.none { it.name == symbol.name }
-                }
-                .shuffled()
-                .take(totalVariants - currentSentence.symbols.size)
-
-            val variants = (currentSentence.symbols + incorrectSymbols).shuffled()
-            setVariants(variants)
-
-            val answers = currentSentence.symbols.map { it.copy(name = "") }
-            setAnswers(answers)
-
-            askedSentences.add(currentSentence)
+        if (inProgressSentences.isEmpty()) {
+            finishTest()
+            return
         }
+
+        setRandomSentence(inProgressSentences)
+
+        Glide.with(baseContext)
+            .load(Uri.parse("file:///android_asset/images/sentences/${currentSentence.sentence.correct}"))
+            .fitCenter()
+            .into(binding.itemImage)
+
+        val incorrectSymbols = allSentences
+            .map { it.symbols }
+            .flatten()
+            .filter { symbol ->
+                val correctSymbols = currentSentence.symbols
+                correctSymbols.none { it.name == symbol.name }
+            }
+            .shuffled()
+            .take(totalVariants - currentSentence.symbols.size)
+
+        val variants = (currentSentence.symbols + incorrectSymbols).shuffled()
+        setVariants(variants)
+
+        val answers = currentSentence.symbols.map { it.copy(name = "") }
+        setAnswers(answers)
     }
 
     private fun setRandomSentence(sentences: List<SentenceWithSymbols>) {
@@ -194,16 +180,16 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private fun finishTest() {
-        ioScope.launch {
+        lifecycleScope.launch {
             val lessons = viewModel.getAllLessons().map { it.id }
-            val current = lessons.indexOf(id)
+            val current = lessons.indexOf(viewModel.lessonId.value)
             var next = 1
             if (current < lessons.size - 1) {
                 next = lessons[current + 1]
             }
 
             runOnUiThread {
-                val intent = Intent(baseContext, LessonActivity::class.java)
+                val intent = Intent(baseContext, LessonListActivity::class.java)
                 intent.putExtra("next", next)
                 startActivity(intent)
             }
@@ -212,11 +198,15 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
-        viewModel.sentenceDone.postValue(false)
+        viewModel.sentenceDone.value = false
     }
 
     private fun setVariants(symbols: List<Symbol>) {
+        symbols.forEach {
+            it.selected = false
+            it.correct = null
+        }
+
         variantSymbols.clear()
         variantSymbols.addAll(symbols)
         variantsAdapter.submitList(symbols)
@@ -224,6 +214,11 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private fun setAnswers(symbols: List<Symbol>) {
+        symbols.forEach {
+            it.selected = false
+            it.correct = null
+        }
+
         answerSymbols.clear()
         answerSymbols.addAll(symbols)
         answersAdapter.submitList(symbols)

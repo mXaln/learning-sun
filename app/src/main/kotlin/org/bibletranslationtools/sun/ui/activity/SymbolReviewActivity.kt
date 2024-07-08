@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import org.bibletranslationtools.sun.R
@@ -24,14 +25,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         ReviewCardAdapter(this)
     }
 
-    private var progress = 0
     private lateinit var currentCard: Card
-    private val askedCards = arrayListOf<Card>()
-    private var id = 1
-    private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
-    private val ioScope = CoroutineScope(Dispatchers.IO)
-
     private val reviewCards = arrayListOf<Card>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +33,16 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         setContentView(binding.root)
 
         with(binding) {
-            id = intent.getIntExtra("id", 1)
+            viewModel.lessonId.value = intent.getIntExtra("id", 1)
+            viewModel.part.value = intent.getIntExtra("part", 1)
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
                 onBackPressedDispatcher.onBackPressed()
             }
 
-            lessonTitle.text = getString(R.string.lesson_name, id)
-            lessonTally.text = TallyMarkConverter.toText(id)
+            lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
+            lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
 
             answersList.layoutManager = GridLayoutManager(
                 this@SymbolReviewActivity,
@@ -62,40 +57,48 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
             )
             answersList.adapter = gridAdapter
 
-            setNextQuestion()
-
-            ioScope.launch {
-                val max = viewModel.getPassedCards(id, false).size
-                timelineProgress.max = max
+            lifecycleScope.launch {
+                viewModel.cards.collect {
+                    if (it.isNotEmpty()) {
+                        setNextQuestion()
+                    }
+                }
             }
 
             nextButton.setOnClickListener {
-                if (viewModel.questionDone.value == true) {
+                if (viewModel.questionDone.value) {
                     setNextQuestion()
                     viewModel.questionDone.value = false
                 }
             }
+
+            viewModel.loadCards()
         }
     }
 
     override fun onCardSelected(card: Card, position: Int) {
-        if (viewModel.questionDone.value == false) {
+        if (!viewModel.questionDone.value) {
             checkAnswer(reviewCards[position], position)
-            viewModel.questionDone.postValue(true)
+            viewModel.questionDone.value = true
             binding.nextButton.isEnabled = true
         }
     }
 
     private fun checkAnswer(selectedCard: Card, position: Int) {
         if (selectedCard.symbol == currentCard.symbol) {
-            ioScope.launch(Dispatchers.IO) {
-                currentCard.passed = true
-                viewModel.updateCard(currentCard)
+            lifecycleScope.launch(Dispatchers.IO) {
+                when (viewModel.part.value) {
+                    PART_ONE, PART_TWO -> {
+                        currentCard.partiallyDone = true
+                    }
+                    else -> {
+                        currentCard.passed = true
+                        viewModel.updateCard(currentCard)
+                    }
+                }
             }
             currentCard.correct = true
             gridAdapter.selectCorrect(position)
-            progress++
-            setUpProgressBar()
         } else {
             currentCard.correct = true
             selectedCard.correct = false
@@ -104,40 +107,37 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         }
     }
 
-    private fun setUpProgressBar() {
-        binding.timelineProgress.progress = progress
-    }
-
     private fun setNextQuestion() {
         binding.nextButton.isEnabled = false
 
-        scope.launch {
-            val allCards = viewModel.getAllCards(id) as MutableList
-            val notPassedCards = allCards.filter { !it.passed }
+        val allCards = viewModel.cards.value.toMutableList()
+        allCards.forEach { it.correct = null }
 
-            if (notPassedCards.isEmpty()) {
-                finishReview()
-                return@launch
-            }
-
-            setRandomCard(notPassedCards)
-            allCards.remove(currentCard)
-
-            val incorrectCards = allCards.shuffled().take(3)
-
-            setAnswers((listOf(currentCard) + incorrectCards).shuffled())
-
-            withContext(Dispatchers.Main) {
-                gridAdapter.submitList(reviewCards)
-
-                Glide.with(baseContext)
-                    .load(Uri.parse("file:///android_asset/images/symbols/${currentCard.secondary}"))
-                    .fitCenter()
-                    .into(binding.itemImage)
-
-                askedCards.add(currentCard)
+        val inProgressCards = allCards.filter {
+            when (viewModel.part.value) {
+                PART_ONE, PART_TWO -> !it.partiallyDone
+                else -> !it.passed
             }
         }
+
+        if (inProgressCards.isEmpty()) {
+            finishReview()
+            return
+        }
+
+        setRandomCard(inProgressCards)
+        allCards.remove(currentCard)
+
+        val incorrectCards = allCards.shuffled().take(3)
+
+        setAnswers((listOf(currentCard) + incorrectCards).shuffled())
+
+        gridAdapter.submitList(reviewCards)
+
+        Glide.with(baseContext)
+            .load(Uri.parse("file:///android_asset/images/symbols/${currentCard.secondary}"))
+            .fitCenter()
+            .into(binding.itemImage)
     }
 
     private fun setRandomCard(cards: List<Card>) {
@@ -152,9 +152,26 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
     }
 
     private fun finishReview() {
+        val type: Int
+        when (viewModel.part.value) {
+            PART_ONE -> {
+                viewModel.part.value = PART_TWO
+                type = LEARN_SYMBOLS
+            }
+            PART_TWO -> {
+                viewModel.part.value = PART_ALL
+                type = TEST_SYMBOLS
+            }
+            else -> {
+                viewModel.part.value = PART_FINAL
+                type = BUILD_SENTENCES
+            }
+        }
+
         val intent = Intent(baseContext, IntermediateActivity::class.java)
-        intent.putExtra("id", id)
-        intent.putExtra("type", BUILD_SENTENCES)
+        intent.putExtra("id", viewModel.lessonId.value)
+        intent.putExtra("part", viewModel.part.value)
+        intent.putExtra("type", type)
         startActivity(intent)
     }
 
@@ -166,7 +183,6 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
-        viewModel.questionDone.postValue(false)
+        viewModel.questionDone.value = false
     }
 }

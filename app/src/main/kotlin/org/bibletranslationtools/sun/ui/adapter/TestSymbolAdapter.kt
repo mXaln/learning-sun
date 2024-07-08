@@ -32,6 +32,8 @@ class TestSymbolAdapter(
         val callback = object : DiffUtil.ItemCallback<Symbol>() {
             override fun areItemsTheSame(oldItem: Symbol, newItem: Symbol): Boolean {
                 return oldItem.id == newItem.id &&
+                        oldItem.name == newItem.name &&
+                        oldItem.sort == newItem.sort &&
                         oldItem.correct == newItem.correct &&
                         oldItem.selected == newItem.selected
             }

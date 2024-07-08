@@ -2,7 +2,10 @@ package org.bibletranslationtools.sun.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.data.AppDatabase
 import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.data.model.Sentence
@@ -10,11 +13,15 @@ import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.repositories.LessonRepository
 import org.bibletranslationtools.sun.data.repositories.SentenceRepository
 
-class TestViewModel(application: Application) : AndroidViewModel(application) {
+class SentenceTestViewModel(application: Application) : AndroidViewModel(application) {
     private val lessonRepository: LessonRepository
     private val repository: SentenceRepository
 
-    val sentenceDone = MutableLiveData(false)
+    val lessonId = MutableStateFlow(1)
+    val sentenceDone = MutableStateFlow(false)
+
+    private val mutableSentences = MutableStateFlow<List<SentenceWithSymbols>>(listOf())
+    val sentences: StateFlow<List<SentenceWithSymbols>> = mutableSentences
 
     init {
         val lessonDao = AppDatabase.getDatabase(application).getLessonDao()
@@ -25,12 +32,10 @@ class TestViewModel(application: Application) : AndroidViewModel(application) {
         repository = SentenceRepository(sentenceDao, symbolDao)
     }
 
-    suspend fun getAllSentences(lessonId: Int): List<SentenceWithSymbols> {
-        return repository.getAllWithSymbols(lessonId)
-    }
-
-    suspend fun getPassedSentences(lessonId: Int, passed: Boolean): List<Sentence> {
-        return repository.getPassed(lessonId, passed)
+    fun loadSentences() {
+        viewModelScope.launch {
+            mutableSentences.value = repository.getAllWithSymbols(lessonId.value)
+        }
     }
 
     suspend fun updateSentence(sentence: Sentence) {

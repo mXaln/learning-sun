@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityLearnBinding
 import org.bibletranslationtools.sun.ui.adapter.LearnCardAdapter
@@ -17,18 +19,17 @@ class SymbolLearnActivity : AppCompatActivity() {
     private val adapter by lazy { LearnCardAdapter() }
     private val viewModel: LearnViewModel by viewModels()
 
-    private var id = 1
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
 
-        id = intent.getIntExtra("id", 1)
+        viewModel.lessonId.value = intent.getIntExtra("id", 1)
+        viewModel.part.value = intent.getIntExtra("part", 1)
 
-        binding.lessonTitle.text = getString(R.string.lesson_name, id)
-        binding.lessonTally.text = TallyMarkConverter.toText(id)
+        binding.lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
+        binding.lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -42,11 +43,12 @@ class SymbolLearnActivity : AppCompatActivity() {
         with(binding) {
             nextButton.setOnClickListener {
                 val currentItem = viewPager.currentItem
-                if (currentItem < viewModel.cards.value!!.size - 1) {
+                if (currentItem < viewModel.cards.value.size - 1) {
                     viewPager.currentItem = currentItem + 1
                 } else {
                     val intent = Intent(baseContext, IntermediateActivity::class.java)
-                    intent.putExtra("id", id)
+                    intent.putExtra("id", viewModel.lessonId.value)
+                    intent.putExtra("part", viewModel.part.value)
                     intent.putExtra("type", TEST_SYMBOLS)
                     startActivity(intent)
                 }
@@ -70,8 +72,10 @@ class SymbolLearnActivity : AppCompatActivity() {
                 tab.view.isClickable = false
             }.attach()
 
-            viewModel.cards.observe(this@SymbolLearnActivity) { cards ->
-                adapter.submitList(cards)
+            lifecycleScope.launch {
+                viewModel.cards.collect { cards ->
+                    adapter.submitList(cards)
+                }
             }
 
             loadCards()
@@ -79,13 +83,13 @@ class SymbolLearnActivity : AppCompatActivity() {
     }
 
     private fun loadCards() {
-        viewModel.loadCards(id)
+        viewModel.loadCards()
     }
 
     private val callback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            viewModel.cards.value?.let { cards ->
+            viewModel.cards.value.let { cards ->
                 val card = cards[position]
                 if (!card.learned) {
                     card.learned = true

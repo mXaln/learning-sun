@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ItemLessonBinding
+import org.bibletranslationtools.sun.ui.activity.PART_ONE
 import org.bibletranslationtools.sun.ui.activity.SymbolLearnActivity
 import org.bibletranslationtools.sun.ui.activity.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.activity.SentenceTestActivity
@@ -136,6 +137,7 @@ class LessonListAdapter(
             learnSymbols.setOnClickListener {
                 val intent = Intent(context, SymbolLearnActivity::class.java)
                 intent.putExtra("id", lessonId)
+                intent.putExtra("part", PART_ONE)
                 context.startActivity(intent)
             }
         }
@@ -171,6 +173,7 @@ class LessonListAdapter(
 
                 val intent = Intent(context, SymbolReviewActivity::class.java)
                 intent.putExtra("id", lessonId)
+                intent.putExtra("part", 1)
                 context.startActivity(intent)
             }
         }

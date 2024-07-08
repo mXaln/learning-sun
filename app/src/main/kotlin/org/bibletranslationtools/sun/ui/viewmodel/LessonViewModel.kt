@@ -2,24 +2,23 @@ package org.bibletranslationtools.sun.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.data.AppDatabase
 import org.bibletranslationtools.sun.data.repositories.LessonRepository
 import org.bibletranslationtools.sun.ui.mapper.LessonMapper
 import org.bibletranslationtools.sun.ui.model.LessonModel
 
-class LessonViewModel(private val application: Application) : AndroidViewModel(application) {
+class LessonViewModel(application: Application) : AndroidViewModel(application) {
     private val lessonRepository: LessonRepository
 
-    val activeLessonId: LiveData<Int> get() = mutableActiveLessonId
-    private val mutableActiveLessonId = MutableLiveData<Int>()
+    private val activeLessonId = MutableStateFlow(1)
 
-    val lessons: LiveData<List<LessonModel>> get() = mutableLessons
-    private val mutableLessons = MutableLiveData<List<LessonModel>>()
+    val lessons: StateFlow<List<LessonModel>> get() = mutableLessons
+    private val mutableLessons = MutableStateFlow<List<LessonModel>>(listOf())
 
     init {
         val lessonDao = AppDatabase.getDatabase(application).getLessonDao()
@@ -40,7 +39,7 @@ class LessonViewModel(private val application: Application) : AndroidViewModel(a
     }
 
     fun setActiveLesson(lessonId: Int) {
-        mutableActiveLessonId.value = lessonId
+        activeLessonId.value = lessonId
     }
 
     private fun lessonAvailable(lessons: List<LessonModel>, position: Int): Boolean {

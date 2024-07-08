@@ -5,14 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.ui.adapter.LessonListAdapter
 import org.bibletranslationtools.sun.databinding.ActivityLessonBinding
 import org.bibletranslationtools.sun.ui.model.LessonModel
 import org.bibletranslationtools.sun.ui.viewmodel.LessonViewModel
 
-class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedListener {
+const val PART_ONE = 1
+const val PART_TWO = 2
+const val PART_ALL = 3
+const val PART_FINAL = 4
+
+class LessonListActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedListener {
     private val binding by lazy { ActivityLessonBinding.inflate(layoutInflater) }
     private val viewModel: LessonViewModel by viewModels()
     private val lessonsAdapter by lazy { LessonListAdapter(this, this) }
@@ -33,14 +40,16 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
         )
         binding.lessonsList.adapter = lessonsAdapter
 
-        viewModel.lessons.observe(this) {
-            lessonsAdapter.submitList(it)
-            lessonsAdapter.notifyDataSetChanged()
+        lifecycleScope.launch {
+            viewModel.lessons.collect {
+                lessonsAdapter.submitList(it)
+                lessonsAdapter.notifyDataSetChanged()
 
-            val scrollPosition = it.indexOfFirst { lesson ->
-                lesson.lesson.id == nextLessonId
+                val scrollPosition = it.indexOfFirst { lesson ->
+                    lesson.lesson.id == nextLessonId
+                }
+                binding.lessonsList.scrollToPosition(scrollPosition)
             }
-            binding.lessonsList.scrollToPosition(scrollPosition)
         }
 
         binding.toolbar.setNavigationOnClickListener {
@@ -54,9 +63,9 @@ class LessonActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedLi
     override fun onLessonSelected(lesson: LessonModel, position: Int) {
         viewModel.setActiveLesson(lesson.lesson.id)
 
-        viewModel.lessons.value?.indexOfFirst { it.isSelected }?.let { prevPosition ->
+        viewModel.lessons.value.indexOfFirst { it.isSelected }.let { prevPosition ->
             if (prevPosition >= 0 && prevPosition != position) {
-                viewModel.lessons.value?.get(prevPosition)?.let { prevLesson ->
+                viewModel.lessons.value[prevPosition].let { prevLesson ->
                     prevLesson.isSelected = false
                     lessonsAdapter.refreshLesson(prevPosition)
                 }

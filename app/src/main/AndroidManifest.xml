@@ -17,7 +17,7 @@
             android:theme="@style/Theme.SUN"
             tools:targetApi="33">
         <activity
-                android:name=".ui.activity.LessonActivity"
+                android:name=".ui.activity.LessonListActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activity.SymbolReviewActivity"

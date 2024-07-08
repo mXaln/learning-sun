@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import java.util.Objects
 
 @Entity(tableName = "symbols")
 data class Symbol(
@@ -20,4 +21,20 @@ data class Symbol(
     var selected = false
     @Ignore
     var correct: Boolean? = null
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val symbol = other as Symbol
+        return id == symbol.id &&
+                sort == symbol.sort &&
+                name == symbol.name &&
+                sentenceId == symbol.sentenceId &&
+                selected == symbol.selected &&
+                correct == symbol.correct
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(id, sort, name, sentenceId, selected, correct)
+    }
 }

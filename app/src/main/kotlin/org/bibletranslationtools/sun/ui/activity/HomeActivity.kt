@@ -18,7 +18,7 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.title = null
 
         binding.learnSymbols.setOnClickListener {
-            val intent = Intent(baseContext, LessonActivity::class.java)
+            val intent = Intent(baseContext, LessonListActivity::class.java)
             startActivity(intent)
         }
 

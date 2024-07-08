@@ -19,11 +19,15 @@ data class Card(
     var learned: Boolean = false,
     @ColumnInfo(name = "passed")
     var passed: Boolean = false,
+    @ColumnInfo(name = "part")
+    var part: Int = 1,
     @ColumnInfo(name = "lesson_id")
     var lessonId: Int? = null,
 ) {
     @Ignore
     var correct: Boolean? = null
+    @Ignore
+    var partiallyDone = false
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
