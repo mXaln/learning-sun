@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.data.AppDatabase
 import org.bibletranslationtools.sun.data.repositories.CardRepository
 import org.bibletranslationtools.sun.data.model.Card
-import org.bibletranslationtools.sun.ui.activity.PART_ONE
-import org.bibletranslationtools.sun.ui.activity.PART_TWO
+import org.bibletranslationtools.sun.utils.Constants
 
 class ReviewViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: CardRepository
@@ -20,7 +19,7 @@ class ReviewViewModel(application: Application) : AndroidViewModel(application) 
 
     val questionDone = MutableStateFlow(false)
     val lessonId = MutableStateFlow(1)
-    val part = MutableStateFlow(PART_ONE)
+    val part = MutableStateFlow(Constants.PART_ONE)
     val isGlobal = MutableStateFlow(false)
 
     init {
@@ -33,7 +32,7 @@ class ReviewViewModel(application: Application) : AndroidViewModel(application) 
             mutableCards.value = repository.getAllByLesson(lessonId.value)
                 .filter {
                     when (part.value) {
-                        PART_ONE, PART_TWO -> it.part == part.value
+                        Constants.PART_ONE, Constants.PART_TWO -> it.part == part.value
                         else -> true
                     }
                 }

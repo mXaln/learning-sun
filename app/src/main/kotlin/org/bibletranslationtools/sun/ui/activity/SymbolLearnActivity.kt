@@ -12,6 +12,7 @@ import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityLearnBinding
 import org.bibletranslationtools.sun.ui.adapter.LearnCardAdapter
 import org.bibletranslationtools.sun.ui.viewmodel.LearnViewModel
+import org.bibletranslationtools.sun.utils.Constants
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class SymbolLearnActivity : AppCompatActivity() {
@@ -33,6 +34,7 @@ class SymbolLearnActivity : AppCompatActivity() {
 
         binding.toolbar.setNavigationOnClickListener {
             val intent = Intent(baseContext, LessonListActivity::class.java)
+            intent.putExtra("selected", viewModel.lessonId.value)
             startActivity(intent)
         }
 
@@ -50,7 +52,7 @@ class SymbolLearnActivity : AppCompatActivity() {
                     val intent = Intent(baseContext, IntermediateActivity::class.java)
                     intent.putExtra("id", viewModel.lessonId.value)
                     intent.putExtra("part", viewModel.part.value)
-                    intent.putExtra("type", TEST_SYMBOLS)
+                    intent.putExtra("type", Constants.TEST_SYMBOLS)
                     startActivity(intent)
                 }
             }

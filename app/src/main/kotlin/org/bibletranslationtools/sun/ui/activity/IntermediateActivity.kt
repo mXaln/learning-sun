@@ -5,11 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ActivityIntermediateBinding
+import org.bibletranslationtools.sun.utils.Constants
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
-
-const val LEARN_SYMBOLS = 0
-const val TEST_SYMBOLS = 1
-const val BUILD_SENTENCES = 2
 
 class IntermediateActivity : AppCompatActivity() {
     private val binding by lazy { ActivityIntermediateBinding.inflate(layoutInflater) }
@@ -22,10 +19,10 @@ class IntermediateActivity : AppCompatActivity() {
 
         val id = intent.getIntExtra("id", 1)
         val part = intent.getIntExtra("part", 1)
-        val type = intent.getIntExtra("type", LEARN_SYMBOLS)
+        val type = intent.getIntExtra("type", Constants.LEARN_SYMBOLS)
 
         when (type) {
-            LEARN_SYMBOLS -> {
+            Constants.LEARN_SYMBOLS -> {
                 binding.pageTitle.text = getString(R.string.learn_symbols)
                 binding.image.setImageResource(R.drawable.ic_learn_large)
                 binding.startButton.setOnClickListener {
@@ -35,7 +32,7 @@ class IntermediateActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-            TEST_SYMBOLS -> {
+            Constants.TEST_SYMBOLS -> {
                 binding.pageTitle.text = getString(R.string.test_symbols)
                 binding.image.setImageResource(R.drawable.ic_test_large)
                 binding.startButton.setOnClickListener {
@@ -61,6 +58,7 @@ class IntermediateActivity : AppCompatActivity() {
 
         binding.toolbar.setNavigationOnClickListener {
             val intent = Intent(baseContext, LessonListActivity::class.java)
+            intent.putExtra("selected", id)
             startActivity(intent)
         }
     }

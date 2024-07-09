@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.databinding.ItemLessonBinding
-import org.bibletranslationtools.sun.ui.activity.PART_ONE
 import org.bibletranslationtools.sun.ui.activity.SymbolLearnActivity
 import org.bibletranslationtools.sun.ui.activity.SymbolReviewActivity
 import org.bibletranslationtools.sun.ui.activity.BuildSentencesActivity
 import org.bibletranslationtools.sun.ui.model.LessonModel
+import org.bibletranslationtools.sun.utils.Constants
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class LessonListAdapter(
@@ -137,7 +137,7 @@ class LessonListAdapter(
             learnSymbols.setOnClickListener {
                 val intent = Intent(context, SymbolLearnActivity::class.java)
                 intent.putExtra("id", lessonId)
-                intent.putExtra("part", PART_ONE)
+                intent.putExtra("part", Constants.PART_ONE)
                 context.startActivity(intent)
             }
         }

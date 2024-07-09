@@ -16,6 +16,7 @@ import kotlinx.coroutines.*
 import org.bibletranslationtools.sun.ui.adapter.ReviewCardAdapter
 import org.bibletranslationtools.sun.ui.adapter.ItemOffsetDecoration
 import org.bibletranslationtools.sun.ui.viewmodel.ReviewViewModel
+import org.bibletranslationtools.sun.utils.Constants
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelectedListener {
@@ -45,6 +46,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
                 } else {
                     Intent(baseContext, LessonListActivity::class.java)
                 }
+                intent.putExtra("selected", viewModel.lessonId.value)
                 startActivity(intent)
             }
 
@@ -105,7 +107,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         if (selectedCard.symbol == currentCard.symbol) {
             lifecycleScope.launch(Dispatchers.IO) {
                 when (viewModel.part.value) {
-                    PART_ONE, PART_TWO -> {
+                    Constants.PART_ONE, Constants.PART_TWO -> {
                         currentCard.partiallyDone = true
                     }
                     else -> {
@@ -133,7 +135,7 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
 
         val inProgressCards = allCards.filter {
             when (viewModel.part.value) {
-                PART_ONE, PART_TWO -> !it.partiallyDone
+                Constants.PART_ONE, Constants.PART_TWO -> !it.partiallyDone
                 else -> !it.done
             }
         }
@@ -176,17 +178,16 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         } else {
             val type: Int
             when (viewModel.part.value) {
-                PART_ONE -> {
-                    viewModel.part.value = PART_TWO
-                    type = LEARN_SYMBOLS
+                Constants.PART_ONE -> {
+                    viewModel.part.value = Constants.PART_TWO
+                    type = Constants.LEARN_SYMBOLS
                 }
-                PART_TWO -> {
-                    viewModel.part.value = PART_ALL
-                    type = TEST_SYMBOLS
+                Constants.PART_TWO -> {
+                    viewModel.part.value = Constants.PART_NONE
+                    type = Constants.TEST_SYMBOLS
                 }
                 else -> {
-                    viewModel.part.value = PART_FINAL
-                    type = BUILD_SENTENCES
+                    type = Constants.BUILD_SENTENCES
                 }
             }
 

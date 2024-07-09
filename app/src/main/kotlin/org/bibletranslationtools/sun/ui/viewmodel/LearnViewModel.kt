@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.data.AppDatabase
 import org.bibletranslationtools.sun.data.repositories.CardRepository
 import org.bibletranslationtools.sun.data.model.Card
-import org.bibletranslationtools.sun.ui.activity.PART_ONE
+import org.bibletranslationtools.sun.utils.Constants
 
 class LearnViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -20,7 +20,7 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
     val cards: StateFlow<List<Card>> = mutableCards
 
     val lessonId = MutableStateFlow(1)
-    val part = MutableStateFlow(PART_ONE)
+    val part = MutableStateFlow(Constants.PART_ONE)
 
     init {
         val dao = AppDatabase.getDatabase(application).getCardDao()

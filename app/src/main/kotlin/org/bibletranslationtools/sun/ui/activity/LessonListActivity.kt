@@ -14,11 +14,6 @@ import org.bibletranslationtools.sun.databinding.ActivityLessonBinding
 import org.bibletranslationtools.sun.ui.model.LessonModel
 import org.bibletranslationtools.sun.ui.viewmodel.LessonViewModel
 
-const val PART_ONE = 1
-const val PART_TWO = 2
-const val PART_ALL = 3
-const val PART_FINAL = 4
-
 class LessonListActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelectedListener {
     private val binding by lazy { ActivityLessonBinding.inflate(layoutInflater) }
     private val viewModel: LessonViewModel by viewModels()
@@ -31,7 +26,7 @@ class LessonListActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelect
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
 
-        val nextLessonId = intent.getIntExtra("next", 1)
+        val selectedLessonId = intent.getIntExtra("selected", 1)
 
         binding.lessonsList.layoutManager = LinearLayoutManager(
             this,
@@ -44,11 +39,6 @@ class LessonListActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelect
             viewModel.lessons.collect {
                 lessonsAdapter.submitList(it)
                 lessonsAdapter.notifyDataSetChanged()
-
-                val scrollPosition = it.indexOfFirst { lesson ->
-                    lesson.lesson.id == nextLessonId
-                }
-                binding.lessonsList.scrollToPosition(scrollPosition)
             }
         }
 
@@ -57,7 +47,7 @@ class LessonListActivity : AppCompatActivity(), LessonListAdapter.OnLessonSelect
             startActivity(intent)
         }
 
-        viewModel.setActiveLesson(nextLessonId)
+        viewModel.setActiveLesson(selectedLessonId)
     }
 
     override fun onLessonSelected(lesson: LessonModel, position: Int) {

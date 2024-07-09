@@ -342,9 +342,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "3d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "3a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     },
     {
       "id": 4,
@@ -355,9 +382,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "4d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "4a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     },
     {
       "id": 5,
@@ -368,9 +422,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "5d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "5a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     },
     {
       "id": 6,
@@ -381,9 +462,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "6d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "6a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     },
     {
       "id": 7,
@@ -394,9 +502,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "7d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "7a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     },
     {
       "id": 8,
@@ -407,9 +542,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "8d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "8a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     },
     {
       "id": 9,
@@ -420,9 +582,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "9d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "9a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     },
     {
       "id": 10,
@@ -433,9 +622,36 @@
           "primary": "11.jpg",
           "secondary": "11.jpg",
           "part": 1
+        },
+        {
+          "id": "10d",
+          "symbol": "\uE274",
+          "primary": "4.jpg",
+          "secondary": "24.jpg",
+          "part": 2
         }
       ],
-      "sentences": []
+      "sentences": [
+        {
+          "id": "10a",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000"
+            },
+            {
+              "sort": 2,
+              "name": "\uE309"
+            },
+            {
+              "sort": 3,
+              "name": "\uE263"
+            }
+          ],
+          "correct": "7.jpg",
+          "incorrect": "8.jpg"
+        }
+      ]
     }
   ]
 }

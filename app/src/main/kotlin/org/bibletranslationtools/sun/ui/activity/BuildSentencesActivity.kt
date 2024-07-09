@@ -51,6 +51,7 @@ class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSe
                 } else {
                     Intent(baseContext, LessonListActivity::class.java)
                 }
+                intent.putExtra("selected", viewModel.lessonId.value)
                 startActivity(intent)
             }
 
@@ -212,7 +213,7 @@ class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSe
 
                 runOnUiThread {
                     val intent = Intent(baseContext, LessonListActivity::class.java)
-                    intent.putExtra("next", next)
+                    intent.putExtra("selected", next)
                     startActivity(intent)
                 }
             }
