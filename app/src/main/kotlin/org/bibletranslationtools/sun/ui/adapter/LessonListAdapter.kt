@@ -21,19 +21,19 @@ import org.bibletranslationtools.sun.utils.TallyMarkConverter
 class LessonListAdapter(
     private val context: Context,
     private val listener: OnLessonSelectedListener? = null
-) : ListAdapter<LessonModel, LessonListAdapter.SetsViewHolder>(callback) {
+) : ListAdapter<LessonModel, LessonListAdapter.ViewHolder>(callback) {
 
     interface OnLessonSelectedListener {
         fun onLessonSelected(lesson: LessonModel, position: Int)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(context)
         val binding = ItemLessonBinding.inflate(inflater, parent, false)
-        return SetsViewHolder(context, binding)
+        return ViewHolder(context, binding)
     }
 
-    override fun onBindViewHolder(holder: SetsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val lesson = getItem(position)
         val id = lesson.lesson.id
 
@@ -55,7 +55,7 @@ class LessonListAdapter(
         }
     }
 
-    class SetsViewHolder(
+    class ViewHolder(
         val context: Context,
         val binding: ItemLessonBinding
     ) : RecyclerView.ViewHolder(binding.root)
@@ -80,7 +80,7 @@ class LessonListAdapter(
 
     private fun setLessonStatus(
         lesson: LessonModel,
-        holder: SetsViewHolder
+        holder: ViewHolder
     ) {
         with(holder.binding) {
             root.isActivated = lesson.isAvailable
