@@ -3,6 +3,7 @@ package org.bibletranslationtools.sun.ui.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -14,12 +15,12 @@ import org.bibletranslationtools.sun.R
 import org.bibletranslationtools.sun.ui.adapter.TestSymbolAdapter
 import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.model.Symbol
-import org.bibletranslationtools.sun.databinding.ActivityTestBinding
+import org.bibletranslationtools.sun.databinding.ActivitySentencesBinding
 import org.bibletranslationtools.sun.ui.viewmodel.SentenceTestViewModel
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
-class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
-    private val binding by lazy { ActivityTestBinding.inflate(layoutInflater) }
+class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
+    private val binding by lazy { ActivitySentencesBinding.inflate(layoutInflater) }
     private val viewModel: SentenceTestViewModel by viewModels()
     private val variantsAdapter: TestSymbolAdapter by lazy {
         TestSymbolAdapter(listener = this)
@@ -41,25 +42,35 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
 
         with(binding) {
             viewModel.lessonId.value = intent.getIntExtra("id", 1)
+            viewModel.isGlobal.value = intent.getBooleanExtra("global", false)
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
-                val intent = Intent(baseContext, LessonListActivity::class.java)
+                val intent = if (viewModel.isGlobal.value) {
+                    Intent(baseContext, GlobalTestActivity::class.java)
+                } else {
+                    Intent(baseContext, LessonListActivity::class.java)
+                }
                 startActivity(intent)
             }
 
-            lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
-            lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
+            if (!viewModel.isGlobal.value) {
+                lessonNameContainer.visibility = View.VISIBLE
+                lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
+                lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
+            } else {
+                lessonNameContainer.visibility = View.GONE
+            }
 
             answersList.layoutManager = LinearLayoutManager(
-                this@SentenceTestActivity,
+                this@BuildSentencesActivity,
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
             answersList.adapter = answersAdapter
 
             variantsList.layoutManager = LinearLayoutManager(
-                this@SentenceTestActivity,
+                this@BuildSentencesActivity,
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
@@ -80,7 +91,11 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
                 }
             }
 
-            viewModel.loadSentences()
+            if (viewModel.isGlobal.value) {
+                viewModel.loadAllPassedSentences()
+            } else {
+                viewModel.loadSentences()
+            }
         }
     }
 
@@ -159,6 +174,7 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
                 val correctSymbols = currentSentence.symbols
                 correctSymbols.none { it.name == symbol.name }
             }
+            .distinctBy { it.name }
             .shuffled()
             .take(totalVariants - currentSentence.symbols.size)
 
@@ -182,18 +198,23 @@ class SentenceTestActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSele
     }
 
     private fun finishTest() {
-        lifecycleScope.launch {
-            val lessons = viewModel.getAllLessons().map { it.id }
-            val current = lessons.indexOf(viewModel.lessonId.value)
-            var next = 1
-            if (current < lessons.size - 1) {
-                next = lessons[current + 1]
-            }
+        if (viewModel.isGlobal.value) {
+            val intent = Intent(baseContext, GlobalTestActivity::class.java)
+            startActivity(intent)
+        } else {
+            lifecycleScope.launch {
+                val lessons = viewModel.getAllLessons().map { it.id }
+                val current = lessons.indexOf(viewModel.lessonId.value)
+                var next = 1
+                if (current < lessons.size - 1) {
+                    next = lessons[current + 1]
+                }
 
-            runOnUiThread {
-                val intent = Intent(baseContext, LessonListActivity::class.java)
-                intent.putExtra("next", next)
-                startActivity(intent)
+                runOnUiThread {
+                    val intent = Intent(baseContext, LessonListActivity::class.java)
+                    intent.putExtra("next", next)
+                    startActivity(intent)
+                }
             }
         }
     }

@@ -14,7 +14,7 @@ import org.bibletranslationtools.sun.databinding.ItemLessonBinding
 import org.bibletranslationtools.sun.ui.activity.PART_ONE
 import org.bibletranslationtools.sun.ui.activity.SymbolLearnActivity
 import org.bibletranslationtools.sun.ui.activity.SymbolReviewActivity
-import org.bibletranslationtools.sun.ui.activity.SentenceTestActivity
+import org.bibletranslationtools.sun.ui.activity.BuildSentencesActivity
 import org.bibletranslationtools.sun.ui.model.LessonModel
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
@@ -207,7 +207,7 @@ class LessonListAdapter(
             buildSentences.setOnClickListener {
                 if (!available) return@setOnClickListener
 
-                val intent = Intent(context, SentenceTestActivity::class.java)
+                val intent = Intent(context, BuildSentencesActivity::class.java)
                 intent.putExtra("id", lessonId)
                 context.startActivity(intent)
             }

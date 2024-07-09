@@ -21,21 +21,28 @@ class ReviewViewModel(application: Application) : AndroidViewModel(application) 
     val questionDone = MutableStateFlow(false)
     val lessonId = MutableStateFlow(1)
     val part = MutableStateFlow(PART_ONE)
+    val isGlobal = MutableStateFlow(false)
 
     init {
         val cardDao = AppDatabase.getDatabase(application).getCardDao()
         repository = CardRepository(cardDao)
     }
 
-    fun loadCards() {
+    fun loadLessonCards() {
         viewModelScope.launch {
-            mutableCards.value = repository.getAll(lessonId.value)
+            mutableCards.value = repository.getAllByLesson(lessonId.value)
                 .filter {
                     when (part.value) {
                         PART_ONE, PART_TWO -> it.part == part.value
                         else -> true
                     }
                 }
+        }
+    }
+
+    fun loadAllPassedCards() {
+        viewModelScope.launch {
+            mutableCards.value = repository.getAllPassed()
         }
     }
 

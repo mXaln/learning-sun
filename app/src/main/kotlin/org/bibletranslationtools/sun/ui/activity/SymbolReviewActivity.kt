@@ -3,6 +3,7 @@ package org.bibletranslationtools.sun.ui.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -35,15 +36,25 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
         with(binding) {
             viewModel.lessonId.value = intent.getIntExtra("id", 1)
             viewModel.part.value = intent.getIntExtra("part", 1)
+            viewModel.isGlobal.value = intent.getBooleanExtra("global", false)
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener {
-                val intent = Intent(baseContext, LessonListActivity::class.java)
+                val intent = if (viewModel.isGlobal.value) {
+                    Intent(baseContext, GlobalTestActivity::class.java)
+                } else {
+                    Intent(baseContext, LessonListActivity::class.java)
+                }
                 startActivity(intent)
             }
 
-            lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
-            lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
+            if (!viewModel.isGlobal.value) {
+                lessonNameContainer.visibility = View.VISIBLE
+                lessonTitle.text = getString(R.string.lesson_name, viewModel.lessonId.value)
+                lessonTally.text = TallyMarkConverter.toText(viewModel.lessonId.value)
+            } else {
+                lessonNameContainer.visibility = View.GONE
+            }
 
             answersList.layoutManager = GridLayoutManager(
                 this@SymbolReviewActivity,
@@ -73,7 +84,12 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
                 }
             }
 
-            viewModel.loadCards()
+            if (viewModel.isGlobal.value) {
+                viewModel.loadAllPassedCards()
+            } else {
+                viewModel.loadLessonCards()
+            }
+
         }
     }
 
@@ -154,27 +170,32 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
     }
 
     private fun finishReview() {
-        val type: Int
-        when (viewModel.part.value) {
-            PART_ONE -> {
-                viewModel.part.value = PART_TWO
-                type = LEARN_SYMBOLS
+        if (viewModel.isGlobal.value) {
+            val intent = Intent(baseContext, GlobalTestActivity::class.java)
+            startActivity(intent)
+        } else {
+            val type: Int
+            when (viewModel.part.value) {
+                PART_ONE -> {
+                    viewModel.part.value = PART_TWO
+                    type = LEARN_SYMBOLS
+                }
+                PART_TWO -> {
+                    viewModel.part.value = PART_ALL
+                    type = TEST_SYMBOLS
+                }
+                else -> {
+                    viewModel.part.value = PART_FINAL
+                    type = BUILD_SENTENCES
+                }
             }
-            PART_TWO -> {
-                viewModel.part.value = PART_ALL
-                type = TEST_SYMBOLS
-            }
-            else -> {
-                viewModel.part.value = PART_FINAL
-                type = BUILD_SENTENCES
-            }
-        }
 
-        val intent = Intent(baseContext, IntermediateActivity::class.java)
-        intent.putExtra("id", viewModel.lessonId.value)
-        intent.putExtra("part", viewModel.part.value)
-        intent.putExtra("type", type)
-        startActivity(intent)
+            val intent = Intent(baseContext, IntermediateActivity::class.java)
+            intent.putExtra("id", viewModel.lessonId.value)
+            intent.putExtra("part", viewModel.part.value)
+            intent.putExtra("type", type)
+            startActivity(intent)
+        }
     }
 
     private fun setAnswers(cards: List<Card>) {

@@ -49,7 +49,7 @@ class IntermediateActivity : AppCompatActivity() {
                 binding.pageTitle.text = getString(R.string.build_sentences)
                 binding.image.setImageResource(R.drawable.ic_sentences_large)
                 binding.startButton.setOnClickListener {
-                    val intent = Intent(baseContext, SentenceTestActivity::class.java)
+                    val intent = Intent(baseContext, BuildSentencesActivity::class.java)
                     intent.putExtra("id", id)
                     startActivity(intent)
                 }

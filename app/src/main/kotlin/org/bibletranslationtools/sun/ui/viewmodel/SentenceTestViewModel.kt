@@ -19,6 +19,7 @@ class SentenceTestViewModel(application: Application) : AndroidViewModel(applica
 
     val lessonId = MutableStateFlow(1)
     val sentenceDone = MutableStateFlow(false)
+    val isGlobal = MutableStateFlow(false)
 
     private val mutableSentences = MutableStateFlow<List<SentenceWithSymbols>>(listOf())
     val sentences: StateFlow<List<SentenceWithSymbols>> = mutableSentences
@@ -35,6 +36,12 @@ class SentenceTestViewModel(application: Application) : AndroidViewModel(applica
     fun loadSentences() {
         viewModelScope.launch {
             mutableSentences.value = repository.getAllWithSymbols(lessonId.value)
+        }
+    }
+
+    fun loadAllPassedSentences() {
+        viewModelScope.launch {
+            mutableSentences.value = repository.getAllPassedWithSymbols()
         }
     }
 

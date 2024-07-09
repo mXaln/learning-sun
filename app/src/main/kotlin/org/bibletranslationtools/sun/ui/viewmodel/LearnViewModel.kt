@@ -29,7 +29,7 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadCards(): Job {
         return viewModelScope.launch {
-            mutableCards.value = repository.getAll(lessonId.value)
+            mutableCards.value = repository.getAllByLesson(lessonId.value)
                 .filter { it.part == part.value }
         }
     }

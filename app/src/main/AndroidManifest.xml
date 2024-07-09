@@ -29,7 +29,7 @@
             android:name=".ui.activity.IntermediateActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.activity.SentenceTestActivity"
+            android:name=".ui.activity.BuildSentencesActivity"
             android:exported="false"/>
         <activity
             android:name=".ui.activity.TrackProgressActivity"
