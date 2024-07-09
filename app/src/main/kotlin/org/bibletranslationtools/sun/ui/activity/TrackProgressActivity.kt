@@ -66,7 +66,9 @@ class TrackProgressActivity : AppCompatActivity() {
 
     @SuppressLint("DefaultLocale")
     private fun setTestScore() {
-        binding.testProgress.progress = 44
-        binding.testScore.text = String.format("%1d%%", 44)
+        val lessons = viewModel.lessons.value
+        val progress = lessons.sumOf { it.totalProgress }.toInt() / lessons.size
+        binding.testProgress.progress = progress
+        binding.testScore.text = String.format("%1d%%", progress)
     }
 }
