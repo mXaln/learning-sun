@@ -351,27 +351,7 @@
           "part": 2
         }
       ],
-      "sentences": [
-        {
-          "id": "3a",
-          "symbols": [
-            {
-              "sort": 1,
-              "name": "\uE000"
-            },
-            {
-              "sort": 2,
-              "name": "\uE309"
-            },
-            {
-              "sort": 3,
-              "name": "\uE263"
-            }
-          ],
-          "correct": "7.jpg",
-          "incorrect": "8.jpg"
-        }
-      ]
+      "sentences": []
     },
     {
       "id": 4,

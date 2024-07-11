@@ -38,6 +38,10 @@ interface SentenceDao {
     suspend fun getAllPassedWithSymbols(): List<SentenceWithSymbols>
 
     @Transaction
+    @Query("SELECT COUNT(*) FROM sentences WHERE lesson_id = :lessonId")
+    suspend fun getAllCount(lessonId: Int): Int
+
+    @Transaction
     @Query("SELECT COUNT(*) FROM sentences WHERE passed = 1")
     suspend fun getAllPassedCount(): Int
 }

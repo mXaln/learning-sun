@@ -176,25 +176,50 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
             val intent = Intent(baseContext, GlobalTestActivity::class.java)
             startActivity(intent)
         } else {
-            val type: Int
-            when (viewModel.part.value) {
-                Constants.PART_ONE -> {
-                    viewModel.part.value = Constants.PART_TWO
-                    type = Constants.LEARN_SYMBOLS
+            lifecycleScope.launch {
+                val type: Int
+                when (viewModel.part.value) {
+                    Constants.PART_ONE -> {
+                        viewModel.part.value = Constants.PART_TWO
+                        type = Constants.LEARN_SYMBOLS
+                    }
+                    Constants.PART_TWO -> {
+                        viewModel.part.value = Constants.PART_NONE
+                        type = Constants.TEST_SYMBOLS
+                    }
+                    else -> {
+                        type = Constants.BUILD_SENTENCES
+                    }
                 }
-                Constants.PART_TWO -> {
-                    viewModel.part.value = Constants.PART_NONE
-                    type = Constants.TEST_SYMBOLS
-                }
-                else -> {
-                    type = Constants.BUILD_SENTENCES
+
+                if (type == Constants.BUILD_SENTENCES && viewModel.getSentencesCount() == 0) {
+                    goToLessons()
+                } else {
+                    goToNextPart(type)
                 }
             }
+        }
+    }
 
-            val intent = Intent(baseContext, IntermediateActivity::class.java)
-            intent.putExtra("id", viewModel.lessonId.value)
-            intent.putExtra("part", viewModel.part.value)
-            intent.putExtra("type", type)
+    private fun goToNextPart(type: Int) {
+        val intent = Intent(baseContext, IntermediateActivity::class.java)
+        intent.putExtra("id", viewModel.lessonId.value)
+        intent.putExtra("part", viewModel.part.value)
+        intent.putExtra("type", type)
+        startActivity(intent)
+    }
+
+    private suspend fun goToLessons() {
+        val lessons = viewModel.getAllLessons().map { it.id }
+        val current = lessons.indexOf(viewModel.lessonId.value)
+        var next = 1
+        if (current < lessons.size - 1) {
+            next = lessons[current + 1]
+        }
+
+        runOnUiThread {
+            val intent = Intent(baseContext, LessonListActivity::class.java)
+            intent.putExtra("selected", next)
             startActivity(intent)
         }
     }

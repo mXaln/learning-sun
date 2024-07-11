@@ -42,6 +42,10 @@ class SentenceRepository(
         return sentenceDao.getAllPassedWithSymbols()
     }
 
+    suspend fun getAllCount(lessonId: Int): Int {
+        return sentenceDao.getAllCount(lessonId)
+    }
+
     suspend fun getAllPassedCount(): Int {
         return sentenceDao.getAllPassedCount()
     }

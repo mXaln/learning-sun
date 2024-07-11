@@ -46,12 +46,13 @@ class LessonListAdapter(
             val cardsPassedProgress = lesson.cardsPassedProgress
             val sentencesAvailable = cardsPassedProgress == 100.0
             val sentencesPassedProgress = lesson.sentencesPassedProgress
+            val hasSentences = lesson.sentences.isNotEmpty()
 
             setLessonStatus(lesson, holder)
 
             setLearnSymbols(id, cardsLearnedProgress, this)
             setTestSymbols(id, testSymbolsAvailable, cardsPassedProgress, this)
-            setBuildSentences(id, sentencesAvailable, sentencesPassedProgress, this)
+            setBuildSentences(id, sentencesAvailable, sentencesPassedProgress, hasSentences, this)
         }
     }
 
@@ -183,33 +184,39 @@ class LessonListAdapter(
         lessonId: Int,
         available: Boolean,
         progress: Double,
+        hasSentences: Boolean,
         binding: ItemLessonBinding
     ) {
         with(binding) {
-            buildSentences.isActivated = available
+            if (hasSentences) {
+                buildSentences.visibility = View.VISIBLE
+                buildSentences.isActivated = available
 
-            when {
-                available && progress == 100.0 -> {
-                    sentencesStatus.visibility = View.VISIBLE
-                    sentencesProgress.visibility = View.GONE
+                when {
+                    available && progress == 100.0 -> {
+                        sentencesStatus.visibility = View.VISIBLE
+                        sentencesProgress.visibility = View.GONE
+                    }
+                    available && progress < 100.0 -> {
+                        sentencesStatus.visibility = View.GONE
+                        sentencesProgress.visibility = View.VISIBLE
+                        sentencesProgress.progress = progress.toInt()
+                    }
+                    else -> {
+                        sentencesStatus.visibility = View.VISIBLE
+                        sentencesProgress.visibility = View.GONE
+                    }
                 }
-                available && progress < 100.0 -> {
-                    sentencesStatus.visibility = View.GONE
-                    sentencesProgress.visibility = View.VISIBLE
-                    sentencesProgress.progress = progress.toInt()
-                }
-                else -> {
-                    sentencesStatus.visibility = View.VISIBLE
-                    sentencesProgress.visibility = View.GONE
-                }
-            }
 
-            buildSentences.setOnClickListener {
-                if (!available) return@setOnClickListener
+                buildSentences.setOnClickListener {
+                    if (!available) return@setOnClickListener
 
-                val intent = Intent(context, BuildSentencesActivity::class.java)
-                intent.putExtra("id", lessonId)
-                context.startActivity(intent)
+                    val intent = Intent(context, BuildSentencesActivity::class.java)
+                    intent.putExtra("id", lessonId)
+                    context.startActivity(intent)
+                }
+            } else {
+                buildSentences.visibility = View.GONE
             }
         }
     }
