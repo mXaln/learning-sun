@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "lessons": [
     {
       "id": 1,
@@ -145,70 +145,70 @@
           "id": "2a",
           "symbol": "\uE299",
           "primary": "11.jpg",
-          "secondary": "11.jpg",
+          "secondary": "53.jpg",
           "part": 1
         },
         {
           "id": "2b",
           "symbol": "\uE309",
           "primary": "12.jpg",
-          "secondary": "12.jpg",
+          "secondary": "54.jpg",
           "part": 1
         },
         {
           "id": "2c",
           "symbol": "\uE238",
           "primary": "13.jpg",
-          "secondary": "13.jpg",
+          "secondary": "55.jpg",
           "part": 1
         },
         {
           "id": "2d",
           "symbol": "\uE03F",
           "primary": "14.jpg",
-          "secondary": "14.jpg",
+          "secondary": "56.jpg",
           "part": 1
         },
         {
           "id": "2e",
           "symbol": "\uE000",
           "primary": "15.jpg",
-          "secondary": "15.jpg",
+          "secondary": "57.jpg",
           "part": 1
         },
         {
           "id": "2f",
           "symbol": "\uE272",
           "primary": "16.jpg",
-          "secondary": "16.jpg",
+          "secondary": "58.jpg",
           "part": 2
         },
         {
           "id": "2g",
           "symbol": "\uE15F",
           "primary": "17.jpg",
-          "secondary": "17.jpg",
+          "secondary": "59.jpg",
           "part": 2
         },
         {
           "id": "2h",
           "symbol": "\uE384",
           "primary": "18.jpg",
-          "secondary": "18.jpg",
+          "secondary": "60.jpg",
           "part": 2
         },
         {
           "id": "2i",
           "symbol": "\uE23C",
           "primary": "19.jpg",
-          "secondary": "19.jpg",
+          "secondary": "61.jpg",
           "part": 2
         },
         {
           "id": "2j",
           "symbol": "\uE315",
           "primary": "20.jpg",
-          "secondary": "20.jpg",
+          "secondary": "62.jpg",
           "part": 2
         }
       ],
@@ -338,16 +338,79 @@
       "cards": [
         {
           "id": "3a",
-          "symbol": "\uE299",
-          "primary": "11.jpg",
-          "secondary": "11.jpg",
+          "symbol": "\uE28B",
+          "primary": "31.jpg",
+          "secondary": "32.jpg",
+          "part": 1
+        },
+        {
+          "id": "3b",
+          "symbol": "\uE28C",
+          "primary": "33.jpg",
+          "secondary": "34.jpg",
+          "part": 1
+        },
+        {
+          "id": "3c",
+          "symbol": "\uE28D",
+          "primary": "35.jpg",
+          "secondary": "36.jpg",
           "part": 1
         },
         {
           "id": "3d",
-          "symbol": "\uE274",
-          "primary": "4.jpg",
-          "secondary": "24.jpg",
+          "symbol": "\uE28E",
+          "primary": "37.jpg",
+          "secondary": "38.jpg",
+          "part": 1
+        },
+        {
+          "id": "3e",
+          "symbol": "\uE28F",
+          "primary": "39.jpg",
+          "secondary": "40.jpg",
+          "part": 1
+        },
+        {
+          "id": "3f",
+          "symbol": "\uE290",
+          "primary": "41.jpg",
+          "secondary": "42.jpg",
+          "part": 1
+        },
+        {
+          "id": "3g",
+          "symbol": "\uE291",
+          "primary": "43.jpg",
+          "secondary": "44.jpg",
+          "part": 2
+        },
+        {
+          "id": "3h",
+          "symbol": "\uE292",
+          "primary": "45.jpg",
+          "secondary": "46.jpg",
+          "part": 2
+        },
+        {
+          "id": "3i",
+          "symbol": "\uE293",
+          "primary": "47.jpg",
+          "secondary": "48.jpg",
+          "part": 2
+        },
+        {
+          "id": "3j",
+          "symbol": "\uE294",
+          "primary": "49.jpg",
+          "secondary": "50.jpg",
+          "part": 2
+        },
+        {
+          "id": "3k",
+          "symbol": "\uE295",
+          "primary": "51.jpg",
+          "secondary": "52.jpg",
           "part": 2
         }
       ],
