@@ -1,6 +1,6 @@
 ## Learning SUN
 
-It's an app learning SUN by flashcard.
+It's an app learning SUN by flashcards.
 
 ## Support Platform
 
@@ -36,7 +36,6 @@ This project is licensed under the GPL-3.0 license - see the [LICENSE.md](LICENS
 
 * [Android Studio](https://developer.android.com/studio)
 * [Kotlin](https://kotlinlang.org/)
-* [Java](https://www.java.com/en/)
 * [SQLite](https://www.sqlite.org/index.html)
 * [AndroidX](https://developer.android.com/jetpack/androidx)
 * [Material Design](https://material.io/)
@@ -46,5 +45,4 @@ This project is licensed under the GPL-3.0 license - see the [LICENSE.md](LICENS
 
 ## Authors
 
-Nguyen Quang Minh
 Max Allen
