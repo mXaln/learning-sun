@@ -7,15 +7,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.data.AppDatabase
+import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.data.model.Lesson
 import org.bibletranslationtools.sun.data.model.Sentence
 import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
+import org.bibletranslationtools.sun.data.repositories.CardRepository
 import org.bibletranslationtools.sun.data.repositories.LessonRepository
 import org.bibletranslationtools.sun.data.repositories.SentenceRepository
 
 class SentenceTestViewModel(application: Application) : AndroidViewModel(application) {
     private val lessonRepository: LessonRepository
-    private val repository: SentenceRepository
+    private val sentenceRepository: SentenceRepository
+    private val cardsRepository: CardRepository
 
     val lessonId = MutableStateFlow(1)
     val sentenceDone = MutableStateFlow(false)
@@ -24,32 +27,42 @@ class SentenceTestViewModel(application: Application) : AndroidViewModel(applica
     private val mutableSentences = MutableStateFlow<List<SentenceWithSymbols>>(listOf())
     val sentences: StateFlow<List<SentenceWithSymbols>> = mutableSentences
 
+    private val mutableCards = MutableStateFlow<List<Card>>(listOf())
+    val cards: StateFlow<List<Card>> = mutableCards
+
     init {
         val lessonDao = AppDatabase.getDatabase(application).getLessonDao()
         lessonRepository = LessonRepository(lessonDao)
 
         val sentenceDao = AppDatabase.getDatabase(application).getSentenceDao()
         val symbolDao = AppDatabase.getDatabase(application).getSymbolDao()
-        repository = SentenceRepository(sentenceDao, symbolDao)
+        sentenceRepository = SentenceRepository(sentenceDao, symbolDao)
+
+        val cardDao = AppDatabase.getDatabase(application).getCardDao()
+        cardsRepository = CardRepository(cardDao)
     }
 
     fun loadSentences() {
         viewModelScope.launch {
-            mutableSentences.value = repository.getAllWithSymbols(lessonId.value)
+            mutableSentences.value = sentenceRepository.getAllWithSymbols(lessonId.value)
         }
     }
 
     fun loadAllPassedSentences() {
         viewModelScope.launch {
-            mutableSentences.value = repository.getAllPassedWithSymbols()
+            mutableSentences.value = sentenceRepository.getAllPassedWithSymbols()
         }
     }
 
     suspend fun updateSentence(sentence: Sentence) {
-        repository.update(sentence)
+        sentenceRepository.update(sentence)
     }
 
     suspend fun getAllLessons(): List<Lesson> {
         return lessonRepository.getAll()
+    }
+
+    suspend fun getAllCards(): List<Card> {
+        return cardsRepository.getAllByLesson(lessonId.value)
     }
 }

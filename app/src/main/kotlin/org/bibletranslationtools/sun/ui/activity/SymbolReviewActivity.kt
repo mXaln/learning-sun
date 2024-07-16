@@ -14,7 +14,7 @@ import org.bibletranslationtools.sun.data.model.Card
 import org.bibletranslationtools.sun.databinding.ActivityReviewBinding
 import kotlinx.coroutines.*
 import org.bibletranslationtools.sun.ui.adapter.ReviewCardAdapter
-import org.bibletranslationtools.sun.ui.adapter.ItemOffsetDecoration
+import org.bibletranslationtools.sun.ui.adapter.GridItemOffsetDecoration
 import org.bibletranslationtools.sun.ui.viewmodel.ReviewViewModel
 import org.bibletranslationtools.sun.utils.Constants
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
@@ -63,9 +63,9 @@ class SymbolReviewActivity : AppCompatActivity(), ReviewCardAdapter.OnCardSelect
                 2
             )
             answersList.addItemDecoration(
-                ItemOffsetDecoration(
+                GridItemOffsetDecoration(
                     2,
-                    30,
+                    20,
                     false
                 )
             )

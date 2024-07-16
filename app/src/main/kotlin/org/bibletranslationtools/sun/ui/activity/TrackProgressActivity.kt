@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
 import org.bibletranslationtools.sun.databinding.ActivityTrackProgressBinding
-import org.bibletranslationtools.sun.ui.adapter.ItemOffsetDecoration
+import org.bibletranslationtools.sun.ui.adapter.GridItemOffsetDecoration
 import org.bibletranslationtools.sun.ui.adapter.LessonGridAdapter
 import org.bibletranslationtools.sun.ui.viewmodel.TrackProgressViewModel
 
@@ -33,7 +33,7 @@ class TrackProgressActivity : AppCompatActivity() {
         binding.lessons.layoutManager = GridLayoutManager(this, 5)
         binding.lessons.adapter = lessonsAdapter
         binding.lessons.addItemDecoration(
-            ItemOffsetDecoration(5, 30, false)
+            GridItemOffsetDecoration(5, 30, false)
         )
 
         lifecycleScope.launch {

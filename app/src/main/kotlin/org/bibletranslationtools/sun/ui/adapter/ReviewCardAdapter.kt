@@ -25,7 +25,7 @@ class ReviewCardAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = getItem(position)
-        holder.bind(card, position)
+        holder.bind(card)
     }
 
     companion object {
@@ -44,13 +44,9 @@ class ReviewCardAdapter(
     inner class ViewHolder(
         private val binding: ItemSymbolBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(card: Card, position: Int) {
+        fun bind(card: Card) {
             with(binding) {
                 cardText.text = card.symbol
-
-                root.setOnClickListener {
-                    listener?.onCardSelected(card, position)
-                }
 
                 when(card.correct) {
                     true -> cardFrame.isActivated = true
@@ -59,6 +55,11 @@ class ReviewCardAdapter(
                         cardFrame.isActivated = false
                         cardFrame.isSelected = false
                     }
+                }
+
+                root.setOnClickListener {
+                    val selectedCard = getItem(bindingAdapterPosition)
+                    listener?.onCardSelected(selectedCard, bindingAdapterPosition)
                 }
             }
         }

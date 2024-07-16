@@ -50,9 +50,9 @@ class LessonListAdapter(
 
             setLessonStatus(lesson, holder)
 
-            setLearnSymbols(id, cardsLearnedProgress, this)
-            setTestSymbols(id, testSymbolsAvailable, cardsPassedProgress, this)
-            setBuildSentences(id, sentencesAvailable, sentencesPassedProgress, hasSentences, this)
+            setLearnSymbols(cardsLearnedProgress, holder)
+            setTestSymbols(testSymbolsAvailable, cardsPassedProgress, holder)
+            setBuildSentences(sentencesAvailable, sentencesPassedProgress, hasSentences, holder)
         }
     }
 
@@ -106,10 +106,11 @@ class LessonListAdapter(
 
             updateLessonCardSelection(this, lesson.isSelected)
 
-            root.setOnClickListener {
-                val currentLesson = getItem(holder.bindingAdapterPosition)
-                if (!currentLesson.isAvailable) return@setOnClickListener
-                listener?.onLessonSelected(currentLesson, holder.bindingAdapterPosition)
+            if (lesson.isAvailable) {
+                root.setOnClickListener {
+                    val currentLesson = getItem(holder.bindingAdapterPosition)
+                    listener?.onLessonSelected(currentLesson, holder.bindingAdapterPosition)
+                }
             }
         }
     }
@@ -119,11 +120,10 @@ class LessonListAdapter(
     }
 
     private fun setLearnSymbols(
-        lessonId: Int,
         progress: Double,
-        binding: ItemLessonBinding
+        holder: ViewHolder
     ) {
-        with(binding) {
+        with(holder.binding) {
             learnSymbols.isActivated = true
 
             if (progress == 100.0) {
@@ -136,8 +136,9 @@ class LessonListAdapter(
             }
 
             learnSymbols.setOnClickListener {
+                val selectedLesson = getItem(holder.bindingAdapterPosition)
                 val intent = Intent(context, SymbolLearnActivity::class.java)
-                intent.putExtra("id", lessonId)
+                intent.putExtra("id", selectedLesson.lesson.id)
                 intent.putExtra("part", Constants.PART_ONE)
                 context.startActivity(intent)
             }
@@ -145,12 +146,11 @@ class LessonListAdapter(
     }
 
     private fun setTestSymbols(
-        lessonId: Int,
         available: Boolean,
         progress: Double,
-        binding: ItemLessonBinding
+        holder: ViewHolder
     ) {
-        with(binding) {
+        with(holder.binding) {
             testSymbols.isActivated = available
 
             when {
@@ -169,25 +169,26 @@ class LessonListAdapter(
                 }
             }
 
-            testSymbols.setOnClickListener {
-                if (!available) return@setOnClickListener
-
-                val intent = Intent(context, SymbolReviewActivity::class.java)
-                intent.putExtra("id", lessonId)
-                intent.putExtra("part", 1)
-                context.startActivity(intent)
+            if (available) {
+                testSymbols.setOnClickListener {
+                    val selectedLesson = getItem(holder.bindingAdapterPosition)
+                    val intent = Intent(context, SymbolReviewActivity::class.java)
+                    intent.putExtra("id", selectedLesson.lesson.id)
+                    intent.putExtra("part", 1)
+                    context.startActivity(intent)
+                }
             }
+
         }
     }
 
     private fun setBuildSentences(
-        lessonId: Int,
         available: Boolean,
         progress: Double,
         hasSentences: Boolean,
-        binding: ItemLessonBinding
+        holder: ViewHolder
     ) {
-        with(binding) {
+        with(holder.binding) {
             if (hasSentences) {
                 buildSentences.visibility = View.VISIBLE
                 buildSentences.isActivated = available
@@ -208,12 +209,13 @@ class LessonListAdapter(
                     }
                 }
 
-                buildSentences.setOnClickListener {
-                    if (!available) return@setOnClickListener
-
-                    val intent = Intent(context, BuildSentencesActivity::class.java)
-                    intent.putExtra("id", lessonId)
-                    context.startActivity(intent)
+                if (available) {
+                    buildSentences.setOnClickListener {
+                        val selectedLesson = getItem(holder.bindingAdapterPosition)
+                        val intent = Intent(context, BuildSentencesActivity::class.java)
+                        intent.putExtra("id", selectedLesson.lesson.id)
+                        context.startActivity(intent)
+                    }
                 }
             } else {
                 buildSentences.visibility = View.GONE

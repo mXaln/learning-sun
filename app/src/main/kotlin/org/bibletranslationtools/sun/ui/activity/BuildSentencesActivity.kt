@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
@@ -16,25 +17,36 @@ import org.bibletranslationtools.sun.ui.adapter.TestSymbolAdapter
 import org.bibletranslationtools.sun.data.model.SentenceWithSymbols
 import org.bibletranslationtools.sun.data.model.Symbol
 import org.bibletranslationtools.sun.databinding.ActivitySentencesBinding
+import org.bibletranslationtools.sun.ui.adapter.GridItemOffsetDecoration
+import org.bibletranslationtools.sun.ui.adapter.LinearItemOffsetDecoration
 import org.bibletranslationtools.sun.ui.viewmodel.SentenceTestViewModel
+import org.bibletranslationtools.sun.utils.Constants
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
 class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSelectedListener {
     private val binding by lazy { ActivitySentencesBinding.inflate(layoutInflater) }
     private val viewModel: SentenceTestViewModel by viewModels()
-    private val variantsAdapter: TestSymbolAdapter by lazy {
+    private val optionsAdapter: TestSymbolAdapter by lazy {
         TestSymbolAdapter(listener = this)
     }
     private val answersAdapter: TestSymbolAdapter by lazy {
         TestSymbolAdapter()
     }
+    private val correctAdapter: TestSymbolAdapter by lazy {
+        TestSymbolAdapter()
+    }
 
     private lateinit var currentSentence: SentenceWithSymbols
-    private val totalVariants = 4
     private var lastAnswerPosition = -1
 
-    private val variantSymbols = arrayListOf<Symbol>()
+    private val optionSymbols = arrayListOf<Symbol>()
     private val answerSymbols = arrayListOf<Symbol>()
+    private val correctSymbols = arrayListOf<Symbol>()
+
+    companion object {
+        const val OPTIONS_SHORT = 4
+        const val OPTIONS_LONG = 8
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,13 +81,30 @@ class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSe
                 false
             )
             answersList.adapter = answersAdapter
+            answersList.addItemDecoration(
+                LinearItemOffsetDecoration(10)
+            )
 
-            variantsList.layoutManager = LinearLayoutManager(
+            optionsList.layoutManager = GridLayoutManager(
+                this@BuildSentencesActivity,
+                4
+            )
+            optionsList.adapter = optionsAdapter
+            optionsList.addItemDecoration(GridItemOffsetDecoration(
+                spanCount = 4,
+                spacing = 20,
+                includeEdge = false
+            ))
+
+            correctList.layoutManager = LinearLayoutManager(
                 this@BuildSentencesActivity,
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
-            variantsList.adapter = variantsAdapter
+            correctList.adapter = correctAdapter
+            correctList.addItemDecoration(
+                LinearItemOffsetDecoration(10)
+            )
 
             lifecycleScope.launch {
                 viewModel.sentences.collect {
@@ -103,12 +132,16 @@ class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSe
     override fun onSymbolSelected(symbol: Symbol, position: Int) {
         if (!viewModel.sentenceDone.value) {
             symbol.correct = true
-            variantsAdapter.selectCorrect(position)
+            symbol.selected = true
+            optionsAdapter.refreshItem(position)
+
+            val answerSymbol = symbol.copy()
+            answerSymbol.type = Constants.TYPE_ANSWER
 
             lastAnswerPosition++
-            answerSymbols[lastAnswerPosition] = symbol.copy()
+            answerSymbols[lastAnswerPosition] = answerSymbol
             answersAdapter.submitList(answerSymbols)
-            answersAdapter.notifyItemChanged(lastAnswerPosition)
+            answersAdapter.refreshItem(lastAnswerPosition)
 
             if (lastAnswerPosition >= answersAdapter.itemCount - 1) {
                 checkAnswer()
@@ -133,21 +166,14 @@ class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSe
         }
 
         answerSymbols.zip(correctSymbols).withIndex().forEach { (index, pair) ->
-            if (pair.first.name == pair.second.name) {
-                pair.first.correct = true
-                answersAdapter.selectCorrect(index)
-            } else {
-                pair.first.correct = false
-                answersAdapter.selectIncorrect(index)
-            }
+            pair.first.correct = pair.first.name == pair.second.name
+            answersAdapter.refreshItem(index)
         }
 
-        correctSymbols.forEach {
-            it.selected = true
-            it.correct = true
-        }
-        variantsAdapter.submitList(correctSymbols)
-        variantsAdapter.refresh()
+        setCorrectSymbols(correctSymbols)
+
+        binding.correctContainer.visibility = View.VISIBLE
+        binding.optionsContainer.visibility = View.GONE
     }
 
     private fun setNextSentence() {
@@ -168,22 +194,36 @@ class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSe
             .fitCenter()
             .into(binding.itemImage)
 
-        val incorrectSymbols = allSentences
-            .map { it.symbols }
-            .flatten()
-            .filter { symbol ->
-                val correctSymbols = currentSentence.symbols
-                correctSymbols.none { it.name == symbol.name }
-            }
-            .distinctBy { it.name }
-            .shuffled()
-            .take(totalVariants - currentSentence.symbols.size)
+        lifecycleScope.launch {
+            val cards = viewModel.getAllCards()
+            val cardSymbols = cards.map { Symbol(id = 0, name = it.symbol, sort = 0) }
+            val totalOptions =
+                if (currentSentence.symbols.size > OPTIONS_SHORT) OPTIONS_LONG else OPTIONS_SHORT
 
-        val variants = (currentSentence.symbols + incorrectSymbols).shuffled()
-        setVariants(variants)
+            val allSymbols = cardSymbols + allSentences
+                .map { it.symbols }
+                .flatten()
 
-        val answers = currentSentence.symbols.map { it.copy(name = "") }
-        setAnswers(answers)
+            val incorrectSymbols = allSymbols
+                .filter { symbol ->
+                    val correctSymbols = currentSentence.symbols
+                    correctSymbols.none { it.name == symbol.name }
+                }
+                .distinctBy { it.name }
+                .shuffled()
+                .take(totalOptions - currentSentence.symbols.size)
+
+            val options = (currentSentence.symbols + incorrectSymbols).shuffled()
+            setOptions(options)
+
+            val answers = currentSentence.symbols.map { it.copy(name = "") }
+            setAnswers(answers)
+
+            setCorrectSymbols(listOf())
+
+            binding.correctContainer.visibility = View.GONE
+            binding.optionsContainer.visibility = View.VISIBLE
+        }
     }
 
     private fun setRandomSentence(sentences: List<SentenceWithSymbols>) {
@@ -225,27 +265,42 @@ class BuildSentencesActivity : AppCompatActivity(), TestSymbolAdapter.OnSymbolSe
         viewModel.sentenceDone.value = false
     }
 
-    private fun setVariants(symbols: List<Symbol>) {
+    private fun setOptions(symbols: List<Symbol>) {
         symbols.forEach {
             it.selected = false
             it.correct = null
+            it.type = Constants.TYPE_OPTION
         }
 
-        variantSymbols.clear()
-        variantSymbols.addAll(symbols)
-        variantsAdapter.submitList(symbols)
-        variantsAdapter.refresh()
+        optionSymbols.clear()
+        optionSymbols.addAll(symbols)
+        optionsAdapter.submitList(symbols)
+        optionsAdapter.refresh()
     }
 
     private fun setAnswers(symbols: List<Symbol>) {
         symbols.forEach {
-            it.selected = false
+            it.selected = true
             it.correct = null
+            it.type = Constants.TYPE_ANSWER
         }
 
         answerSymbols.clear()
         answerSymbols.addAll(symbols)
         answersAdapter.submitList(symbols)
         answersAdapter.refresh()
+    }
+
+    private fun setCorrectSymbols(symbols: List<Symbol>) {
+        symbols.forEach {
+            it.selected = true
+            it.correct = true
+            it.type = Constants.TYPE_ANSWER
+        }
+
+        correctSymbols.clear()
+        correctSymbols.addAll(symbols)
+        correctAdapter.submitList(symbols)
+        correctAdapter.refresh()
     }
 }

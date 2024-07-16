@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import org.bibletranslationtools.sun.utils.Constants
 import java.util.Objects
 
 @Entity(tableName = "symbols")
@@ -21,6 +22,8 @@ data class Symbol(
     var selected = false
     @Ignore
     var correct: Boolean? = null
+    @Ignore
+    var type: Int = Constants.TYPE_OPTION
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -31,10 +34,11 @@ data class Symbol(
                 name == symbol.name &&
                 sentenceId == symbol.sentenceId &&
                 selected == symbol.selected &&
-                correct == symbol.correct
+                correct == symbol.correct &&
+                type == symbol.type
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(id, sort, name, sentenceId, selected, correct)
+        return Objects.hash(id, sort, name, sentenceId, selected, correct, type)
     }
 }

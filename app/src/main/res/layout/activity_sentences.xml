@@ -93,14 +93,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_20dp"
+        android:layout_marginHorizontal="@dimen/_20dp"
         app:layout_constraintTop_toBottomOf="@id/title_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_260dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_220dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_write" />
     </FrameLayout>
 
@@ -109,10 +112,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/_20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_container"
-        app:layout_constraintBottom_toTopOf="@id/variants_container">
+        app:layout_constraintBottom_toTopOf="@id/options_container_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/answers_list"
@@ -124,21 +128,46 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/variants_container"
+        android:id="@+id/options_container_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/_20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/answers_container"
         app:layout_constraintBottom_toTopOf="@id/button_container">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/variants_list"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            />
+        <LinearLayout
+            android:id="@+id/correct_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/correct_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_gravity="center_horizontal"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/options_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/options_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -147,10 +176,10 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         android:orientation="horizontal"
+        android:layout_marginVertical="@dimen/_20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/variants_container"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/options_container_parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/next_button"
@@ -159,7 +188,7 @@
             app:icon="@drawable/ic_arrow_right"
             app:iconPadding="0dp"
             app:iconGravity="textStart"
-            android:layout_marginHorizontal="@dimen/_40dp"
+            android:layout_marginHorizontal="@dimen/_20dp"
             android:layout_marginBottom="@dimen/_20dp"/>
     </LinearLayout>
 

@@ -73,7 +73,7 @@
     <string name="lesson_name">Lesson %1$d</string>
     <string name="cards_count">%1$d cards</string>
     <string name="unknown" translatable="false">example</string>
-    <string name="sun_example" translatable="false"></string>
+    <string name="sun_example" translatable="false">\uE000\uE000</string>
     <string name="tally_example" translatable="false">5</string>
     <string name="number_example" translatable="false">20</string>
     <string name="next">Next</string>

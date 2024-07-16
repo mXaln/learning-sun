@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ItemOffsetDecoration(
+class GridItemOffsetDecoration(
     private val spanCount: Int,
     private val spacing: Int,
     private val includeEdge: Boolean

@@ -421,16 +421,58 @@
       "cards": [
         {
           "id": "4a",
-          "symbol": "\uE299",
-          "primary": "11.jpg",
-          "secondary": "11.jpg",
+          "symbol": "\uE37E",
+          "primary": "63.png",
+          "secondary": "63.png",
+          "part": 1
+        },
+        {
+          "id": "4b",
+          "symbol": ",",
+          "primary": "64.png",
+          "secondary": "64.png",
+          "part": 1
+        },
+        {
+          "id": "4c",
+          "symbol": "\uEE02",
+          "primary": "65.png",
+          "secondary": "65.png",
           "part": 1
         },
         {
           "id": "4d",
-          "symbol": "\uE274",
-          "primary": "4.jpg",
-          "secondary": "24.jpg",
+          "symbol": "\uE316",
+          "primary": "66.png",
+          "secondary": "66.png",
+          "part": 1
+        },
+        {
+          "id": "4e",
+          "symbol": "“",
+          "primary": "67.png",
+          "secondary": "67.png",
+          "part": 2
+        },
+        {
+          "id": "4f",
+          "symbol": "'",
+          "primary": "68.png",
+          "secondary": "68.png",
+          "part": 2
+        },
+        {
+          "id": "4g",
+          "symbol": "\uE390",
+          "primary": "69.png",
+          "secondary": "69.png",
+          "part": 2
+        },
+        {
+          "id": "4h",
+          "symbol": "\uEA47",
+          "primary": "70.png",
+          "secondary": "70.png",
           "part": 2
         }
       ],
@@ -440,19 +482,288 @@
           "symbols": [
             {
               "sort": 1,
+              "name": "\uE11F\uE11F"
+            },
+            {
+              "sort": 2,
+              "name": "\uE088"
+            },
+            {
+              "sort": 3,
+              "name": "\uE191"
+            },
+            {
+              "sort": 4,
+              "name": "\uE050"
+            },
+            {
+              "sort": 5,
+              "name": "\uE000"
+            },
+            {
+              "sort": 6,
+              "name": "\uE037\uE37E"
+            }
+          ],
+          "correct": "19.jpg",
+          "incorrect": "19.jpg"
+        },
+        {
+          "id": "4b",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE11F\uE11F"
+            },
+            {
+              "sort": 2,
+              "name": "\uE21E"
+            },
+            {
+              "sort": 3,
+              "name": "\uE037"
+            },
+            {
+              "sort": 4,
+              "name": "\uE07E"
+            },
+            {
+              "sort": 5,
+              "name": "\uE071"
+            },
+            {
+              "sort": 6,
+              "name": "\uE113"
+            },
+            {
+              "sort": 7,
+              "name": "\uE000\uE37E"
+            }
+          ],
+          "correct": "20.jpg",
+          "incorrect": "20.jpg"
+        },
+        {
+          "id": "4c",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE037"
+            },
+            {
+              "sort": 2,
+              "name": "\uE088"
+            },
+            {
+              "sort": 3,
+              "name": "\uE000"
+            },
+            {
+              "sort": 4,
+              "name": "\uE11E"
+            },
+            {
+              "sort": 5,
+              "name": "\uE128\uE37E"
+            }
+          ],
+          "correct": "21.jpg",
+          "incorrect": "21.jpg"
+        },
+        {
+          "id": "4d",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE037"
+            },
+            {
+              "sort": 2,
+              "name": "\uE07E"
+            },
+            {
+              "sort": 3,
+              "name": "\uE071\uE071"
+            },
+            {
+              "sort": 4,
+              "name": "\uE240"
+            },
+            {
+              "sort": 5,
+              "name": "\uE000\uE390"
+            },
+            {
+              "sort": 6,
+              "name": "\uE299\uE299"
+            },
+            {
+              "sort": 7,
+              "name": "\uE37E"
+            }
+          ],
+          "correct": "22.jpg",
+          "incorrect": "22.jpg"
+        },
+        {
+          "id": "4e",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE037"
+            },
+            {
+              "sort": 2,
+              "name": "\uE048\uE37E"
+            }
+          ],
+          "correct": "23.jpg",
+          "incorrect": "23.jpg"
+        },
+        {
+          "id": "4f",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE037"
+            },
+            {
+              "sort": 2,
+              "name": "\uE10C"
+            },
+            {
+              "sort": 3,
+              "name": "\uE000\uE390"
+            },
+            {
+              "sort": 4,
+              "name": "\uE045\uE37E"
+            }
+          ],
+          "correct": "24.jpg",
+          "incorrect": "24.jpg"
+        },
+        {
+          "id": "4g",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE037"
+            },
+            {
+              "sort": 2,
+              "name": "\uE238"
+            },
+            {
+              "sort": 3,
+              "name": "\uE315"
+            },
+            {
+              "sort": 4,
+              "name": "\uE380\uE37E"
+            }
+          ],
+          "correct": "25.jpg",
+          "incorrect": "25.jpg"
+        },
+        {
+          "id": "4h",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE037"
+            },
+            {
+              "sort": 2,
+              "name": "\uE047\uE37E"
+            }
+          ],
+          "correct": "26.jpg",
+          "incorrect": "26.jpg"
+        },
+        {
+          "id": "4i",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE037"
+            },
+            {
+              "sort": 2,
+              "name": "\uE03F,"
+            },
+            {
+              "sort": 3,
+              "name": "“\uE18A"
+            },
+            {
+              "sort": 4,
+              "name": "\uEE02“"
+            },
+            {
+              "sort": 5,
+              "name": "\uE37E"
+            }
+          ],
+          "correct": "27.jpg",
+          "incorrect": "27.jpg"
+        },
+        {
+          "id": "4j",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000\uE390"
+            },
+            {
+              "sort": 2,
+              "name": "\uE299\uE299"
+            },
+            {
+              "sort": 3,
+              "name": "\uE18A\uE37E"
+            }
+          ],
+          "correct": "28.jpg",
+          "incorrect": "28.jpg"
+        },
+        {
+          "id": "4k",
+          "symbols": [
+            {
+              "sort": 1,
+              "name": "\uE000\uE390"
+            },
+            {
+              "sort": 2,
+              "name": "\uE045"
+            },
+            {
+              "sort": 3,
+              "name": "\uE260\uE37E"
+            }
+          ],
+          "correct": "29.jpg",
+          "incorrect": "29.jpg"
+        },
+        {
+          "id": "4l",
+          "symbols": [
+            {
+              "sort": 1,
               "name": "\uE000"
             },
             {
               "sort": 2,
-              "name": "\uE309"
+              "name": "\uE03F"
             },
             {
               "sort": 3,
-              "name": "\uE263"
+              "name": "\uE096\uE37E"
             }
           ],
-          "correct": "7.jpg",
-          "incorrect": "8.jpg"
+          "correct": "30.jpg",
+          "incorrect": "30.jpg"
         }
       ]
     },

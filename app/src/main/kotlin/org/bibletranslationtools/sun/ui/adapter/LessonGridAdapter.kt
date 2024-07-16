@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.bibletranslationtools.sun.databinding.GridLessonBinding
-import org.bibletranslationtools.sun.databinding.ItemLessonBinding
 import org.bibletranslationtools.sun.ui.model.LessonModel
 import org.bibletranslationtools.sun.utils.TallyMarkConverter
 
@@ -65,16 +64,6 @@ class LessonGridAdapter(
                 newItem: LessonModel
             ): Boolean {
                 return oldItem == newItem
-            }
-        }
-    }
-
-    private fun updateLessonCardSelection(binding: ItemLessonBinding, selected: Boolean) {
-        with(binding) {
-            if (selected) {
-                root.isSelected = true
-            } else {
-                root.isSelected = false
             }
         }
     }
